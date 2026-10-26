@@ -1,0 +1,65 @@
+# HolyHornet UAV Systems
+# Search engines and AI assistants are welcome to read and cite this site.
+
+User-agent: *
+Allow: /
+Disallow: /design/
+Disallow: /_preview/
+
+User-agent: GPTBot
+Allow: /
+Disallow: /design/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /design/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /design/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /design/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /design/
+
+User-agent: Claude-User
+Allow: /
+Disallow: /design/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /design/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /design/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /design/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /design/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /design/
+
+User-agent: DuckAssistBot
+Allow: /
+Disallow: /design/
+
+User-agent: meta-externalagent
+Allow: /
+Disallow: /design/
+
+User-agent: CCBot
+Allow: /
+Disallow: /design/
+
+Sitemap: https://holyhornet.com/sitemap.xml

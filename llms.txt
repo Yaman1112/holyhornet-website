@@ -1,0 +1,119 @@
+# HolyHornet UAV Systems
+
+> HolyHornet is an independent UAV (drone) consultancy and systems company based in Europe (Netherlands). It designs, integrates and operates unmanned aircraft for surveillance, inspection, mapping, logistics, agriculture and counter-drone defence, and trains teams to fly them. Slogan: "Advanced UAV solutions for a safer tomorrow."
+
+- Website: https://holyhornet.com/
+- Contact: info@holyhornet.com or https://holyhornet.com/contact.html
+- Region: Europe
+
+## Pages
+
+- [Home](https://holyhornet.com/): HolyHornet designs, integrates and operates UAV systems for surveillance, inspection, mapping, logistics, agriculture and counter-drone defence across Europe.
+- [Fleet](https://holyhornet.com/fleet.html): Compare 28 UAVs: 380 km/h FPV interceptors, counter-drone aircraft, heavy-lift drones carrying up to 50 kg and farm sprayers, with full specs.
+- [Solutions](https://holyhornet.com/solutions.html): UAV strategy and consultancy, systems integration, mission planning, drone operations, payload and sensor integration, and team training from HolyHornet.
+- [Industries](https://holyhornet.com/industries.html): Drone capability for infrastructure, energy, public safety, security and counter-drone, agriculture, media, logistics, research and environmental survey.
+- [Technology](https://holyhornet.com/technology.html): How HolyHornet builds drone capability as a system: airframes, sensors, communication links, data processing, automation and full system integration.
+- [Education](https://holyhornet.com/education.html): Practical UAV courses: drone engineering, aerial photography, remote pilot licence (RPA-L) theory, specific category operations and systems engineering.
+- [About](https://holyhornet.com/about.html): HolyHornet is an independent UAV consultancy and systems company in Europe that advises on, integrates, operates and develops drone systems.
+- [Contact](https://holyhornet.com/contact.html): Contact HolyHornet about drone consultancy, choosing an aircraft from our fleet, systems integration, UAV operations or training. Email info@holyhornet.com.
+
+## Services
+
+- UAV strategy & consultancy: Requirements, technology evaluation, buying support, capability roadmaps and independent technical advice.
+- Systems integration: Aircraft, payloads, radio links, ground stations and data workflows set up to work as one system.
+- Mission planning: Operating concepts, site surveys, mission design, risk review and field workflows your team can repeat.
+- UAV operations: Professional flights and data collection, carried out with the right authorisations and within the rules.
+- Payload & sensor integration: Day, night, thermal, mapping and specialist sensors matched to what the mission needs to see.
+- Training & capability: Practical training, operator workflows and system familiarisation for your own team.
+
+## Fleet
+
+28 aircraft in 7 categories. Full specifications: https://holyhornet.com/fleet.html
+
+### Counter-drone interceptors
+
+Fast, agile aircraft built to catch and stop hostile drones in the air.
+
+- [Interceptor 250](https://holyhornet.com/fleet.html#interceptor-250): High-speed interception drone. Carbon and CNC-aluminium interceptor with automatic target selection and tracking. (Top speed: 250 km/h; Thrust-to-weight: ≥ 2.0; Take-off weight: 3 kg; Protection: IP45)
+- [Interceptor 300](https://holyhornet.com/fleet.html#interceptor-300): High-speed interception drone. Delta-wing interceptor with fast climb and acceleration for chasing fast-moving drones. (Top speed: 300 km/h; Climb rate: ≥ 15 m/s; Flight time: 12–18 min; Take-off weight: ≤ 8 kg)
+
+### High-speed FPV interceptors
+
+Rocket-shaped FPV aircraft with low-drag bodies, 15 km range and very high top speeds.
+
+- [FPV-5T](https://holyhornet.com/fleet.html#fpv-5t): 5-inch high-speed rocket airframe. Smallest and fastest of the rocket range, for high-speed tracking and interception. (Top speed: 380 km/h; Max payload: 300 g; Flight time: About 5 min; Take-off weight: 900 g)
+- [FPV-7T](https://holyhornet.com/fleet.html#fpv-7t): 7-inch high-speed rocket airframe. 8S-powered rocket airframe balancing speed with a larger payload. (Top speed: 320 km/h; Max payload: 450 g; Flight time: About 5 min; Take-off weight: 1.3 kg)
+- [FPV-10T](https://holyhornet.com/fleet.html#fpv-10t): 10-inch high-speed rocket airframe. Carbon and aluminium rocket airframe with the biggest payload in the range. (Top speed: 280 km/h; Max payload: 650 g; Flight time: About 6 min; Take-off weight: 2.1 kg)
+
+### FPV aircraft
+
+Classic X-frame FPV quads for training, inspection, fast filming and light carrying jobs.
+
+- [FPV-5](https://holyhornet.com/fleet.html#fpv-5): 5-inch standard FPV. Light and agile at 381 g. A great all-rounder for training and freestyle. (Top speed: 130 km/h; Max payload: 0.6 kg; Flight time: About 14 min; Take-off weight: 1.5 kg)
+- [FPV-7](https://holyhornet.com/fleet.html#fpv-7): 7-inch standard FPV. Efficient 7-inch quad that carries up to 2 kg for line inspection and light tasks. (Top speed: 130 km/h; Max payload: 2.0 kg; Flight time: About 7 min; Take-off weight: 3.5 kg)
+- [FPV-10](https://holyhornet.com/fleet.html#fpv-10): 10-inch standard FPV. Large 10-inch quad weighing just 800 g, carrying up to 4 kg. (Top speed: 140 km/h; Max payload: 4.0 kg; Flight time: About 9 min; Take-off weight: 6.5 kg)
+- [FPV-10A](https://holyhornet.com/fleet.html#fpv-10a): 10-inch FPV on Mark4 V2 frame. The FPV-10 on a Mark4 V2 frame with 3115 motors, for equipment carrying. (Top speed: 140 km/h; Max payload: 4.0 kg; Flight time: About 9 min; Take-off weight: 6.5 kg)
+
+### Heavy-lift FPV aircraft
+
+Big-propeller FPV quads that carry 6–13 kg for transport and industrial jobs.
+
+- [FPV-13](https://holyhornet.com/fleet.html#fpv-13): 13-inch heavy-lift FPV. 8S, 90 A heavy-lift quad carrying up to 8 kg. (Top speed: 130 km/h; Max payload: 8 kg; Flight time: About 11 min; Take-off weight: 11.3 kg)
+- [FPV-13A](https://holyhornet.com/fleet.html#fpv-13a): 13-inch heavy-lift FPV, Mark4 frame. Mark4-frame version of the FPV-13 with extra power headroom. (Top speed: 130 km/h; Max payload: 7 kg; Flight time: About 11 min; Take-off weight: 11.3 kg)
+- [FPV-15](https://holyhornet.com/fleet.html#fpv-15): 15-inch heavy-lift FPV. 15-inch quad carrying up to 10 kg for logistics and survey kit. (Top speed: 130 km/h; Max payload: 10 kg; Flight time: About 12 min; Take-off weight: 13 kg)
+- [FPV-18](https://holyhornet.com/fleet.html#fpv-18): 18-inch heavy-lift FPV. The biggest quad, on a 12S system, carrying up to 13 kg. (Top speed: 130 km/h; Max payload: 13 kg; Flight time: About 12 min; Take-off weight: 19 kg)
+
+### Six-axis heavy FPV aircraft
+
+Six motors mean redundancy: the aircraft can keep flying safely if one motor fails.
+
+- [FPV-11M](https://holyhornet.com/fleet.html#fpv-11m): 11-inch six-axis heavy FPV. Six-rotor redundancy with the longest FPV flight time, around 16 minutes. (Top speed: 140 km/h; Max payload: 6 kg; Flight time: About 16 min; Take-off weight: 11.5 kg)
+- [FPV-13M](https://holyhornet.com/fleet.html#fpv-13m): 13-inch six-axis heavy FPV. Redundant six-rotor platform carrying up to 10 kg. (Top speed: 140 km/h; Max payload: 10 kg; Flight time: About 14 min; Take-off weight: 15 kg)
+- [FPV-15M](https://holyhornet.com/fleet.html#fpv-15m): 15-inch six-axis heavy FPV. Industrial six-rotor platform with an 11.5 kg payload and 19.5 kg take-off weight. (Top speed: 130 km/h; Max payload: 11.5 kg; Flight time: About 12 min; Take-off weight: 19.5 kg)
+
+### Industrial patrol & logistics drones
+
+Foldable GPS multirotors for patrol, delivery and heavy lifting, with route planning and one-click return.
+
+- [T5-X4](https://holyhornet.com/fleet.html#t5-x4): 4-rotor, 5 kg payload. Foldable patrol and logistics drone with 53 minutes of flight time when empty. (Max payload: 5 kg; Flight time: 53 min empty / 24 min with 4 kg; Take-off weight: 9 kg; Protection: IP56)
+- [T5-X6](https://holyhornet.com/fleet.html#t5-x6): 6-rotor, 5 kg payload. Compact six-rotor with motor redundancy and a fold-away frame. (Max payload: 5 kg; Flight time: 30 min empty / 15 min with 5 kg; Take-off weight: 12 kg; Protection: IP56)
+- [T15-X6](https://holyhornet.com/fleet.html#t15-x6): 6-rotor, 15 kg payload. Mid-size hexacopter for logistics and emergency rescue, rated IP64. (Max payload: 15 kg; Flight time: 25 min empty / 10 min with 15 kg; Take-off weight: 34 kg; Protection: IP64)
+- [T20-X4](https://holyhornet.com/fleet.html#t20-x4): 4-rotor, 20 kg payload. Long-endurance lifter: 29 minutes in the air even with 20 kg on board. (Max payload: 20 kg; Flight time: 56 min empty / 29 min with 20 kg; Take-off weight: 40 kg; Protection: IP56)
+- [T30-X6](https://holyhornet.com/fleet.html#t30-x6): 6-rotor, 30 kg payload. Professional heavy lifter for logistics and rescue, with swarm flight support. (Max payload: 30 kg; Flight time: 45 min empty / 20 min with 30 kg; Take-off weight: 49 kg; Protection: IP64)
+- [T30-X8](https://holyhornet.com/fleet.html#t30-x8): Coaxial 8-rotor, 30 kg payload. Eight motors on four arms for full power redundancy, with 30-inch folding props. (Max payload: 30 kg; Flight time: 45 min empty / 18 min with 20 kg; Take-off weight: 55 kg; Protection: IP56)
+- [T30-X8 RTK](https://holyhornet.com/fleet.html#t30-x8-rtk): Coaxial 8-rotor with dual RTK. The T30-X8 with dual-RTK positioning, accurate to a few centimetres. (Max payload: 30 kg; Flight time: 45 min empty / 18 min with 20 kg; Take-off weight: 55 kg; Positioning: Dual RTK ±0.05 m)
+- [T50-X4](https://holyhornet.com/fleet.html#t50-x4): 4-rotor, 50 kg payload. Flagship heavy-lift transporter: 50 kg payload and 110 kg take-off weight. (Max payload: 50 kg; Flight time: 60 min empty / 18 min with 50 kg; Take-off weight: 110 kg; Protection: IP56)
+
+### Agricultural drones
+
+Spraying and spreading drones with sealed bodies, dual nozzles and terrain-following radar.
+
+- [AG16-X4](https://holyhornet.com/fleet.html#ag16-x4): 16 L agricultural drone. Light folding sprayer that one person can carry and set up. (Spray tank: 16 L; Spreader: 33 L; Flight time: 20 min empty / 10 min full; Take-off weight: 42 kg)
+- [AG20-X4](https://holyhornet.com/fleet.html#ag20-x4): 20 L agricultural drone. Upgraded sprayer with a front camera and room for radar. (Spray tank: 20 L; Spreader: 35 L; Flight time: 20 min empty / 10 min full; Take-off weight: 44 kg)
+- [AG30-X4](https://holyhornet.com/fleet.html#ag30-x4): 30 L agricultural drone. Large-area sprayer with obstacle-avoidance and terrain radar as standard. (Spray tank: 30 L; Spreader: 50 L; Flight time: 15 min empty / 8 min full; Take-off weight: 68 kg)
+- [AG50-X4](https://holyhornet.com/fleet.html#ag50-x4): 50 L agricultural drone. Flagship farm drone with an 80 L spreader and 99 kg take-off weight. (Spray tank: 50 L; Spreader: 80 L; Flight time: 28 min empty / 7 min full; Take-off weight: 99 kg)
+
+## Courses
+
+- UAV Engineering & Design: How drones are designed and built, from airframes and propulsion to power systems, components and testing.
+- Aerial Photography & Cinematography: Plan and capture great aerial images using composition, camera settings, movement and careful flight preparation.
+- Remote Pilot Licence (RPA-L) Theory: Aviation principles, airspace, weather, human factors and safe procedures. The exact syllabus depends on the licensing framework that applies to you.
+- Specific Category UAV Operations: Planning and safety for operations beyond the open category, including risk, mitigations and paperwork where needed.
+- UAV Systems Engineering: The drone as one integrated capability: platform choice, payloads, links, power, data flow, interfaces and validation.
+
+## Industries
+
+- Infrastructure & construction: Progress records, inspection, surveying, site overviews and views of hard-to-reach structures.
+- Energy & utilities: Inspecting lines, towers, turbines and pipelines, with thermal checks and mapping.
+- Public safety & emergency: Fast situational awareness, search support and aerial views for responders, where authorised.
+- Security & counter-drone: Perimeter watch, site awareness and protection against unwanted drones, within the law.
+- Agriculture: Crop spraying and seed spreading with terrain-following drones that cover big fields fast.
+- Film, media & production: FPV and stabilised aerial footage for demanding commercial and creative productions.
+- Logistics & delivery: Heavy-lift drones that carry equipment and supplies to sites that are hard to reach by road.
+- Research & technology: Prototype aircraft, sensors and integration support for new uses of unmanned systems.
+- Survey & environment: Mapping land, coastlines and habitats, and monitoring change over time.
+
+## Notes
+
+- Aircraft specifications are manufacturer figures; flight time depends on payload, battery and weather.
+- Course details, certification and regulatory fit are confirmed with HolyHornet before enrolment.

@@ -2,23 +2,41 @@
 
 Pages:
 - index.html — Home
-- fleet.html — Fleet
+- fleet.html — Fleet (28 aircraft with full specifications)
 - solutions.html — Solutions
 - industries.html — Industries
 - technology.html — Technology
+- education.html — Education
 - about.html — About
-- contact.html — Contact
+- contact.html — Contact (form sends through Formspree)
+
+Shared files:
+- styles.css — colours, layout and components for every page (dark mode by default, light/dark switch)
+- script.js — menu, theme switch, status clock, fleet filters, course search, contact form
 
 Assets:
-- assets/holyhornet-logo.jpg — cropped from the supplied reference image
-- assets/hero-uav.jpg — cropped from the supplied reference image
+- assets/fleet/ — transparent aircraft photos (WebP)
+- assets/hero-uav.jpg — homepage photo
+- assets/og-image.jpg — image shown when a page is shared on social media or in chat apps
+- favicon.svg, favicon.ico, apple-touch-icon.png — browser and phone icons
+
+Search and AI (SEO / GEO):
+- Every page has a title, description, canonical link, social share tags and schema.org structured data
+  (organisation, FAQ, fleet products, services, courses, breadcrumbs).
+- robots.txt — allows search engines and AI assistants; keeps the design/ drafts out.
+- sitemap.xml — list of all pages for search engines.
+- llms.txt — plain-text summary of the company, fleet and courses for AI assistants.
+- All of these assume the site lives at https://holyhornet.com. If the address is different, it has to be
+  changed in the page heads, robots.txt, sitemap.xml and llms.txt.
 
 Open `index.html` directly, or run:
 python3 -m http.server 8000
 
+After the site is live:
+- Add the site to Google Search Console and Bing Webmaster Tools and submit https://holyhornet.com/sitemap.xml.
+- Check the structured data with Google's Rich Results Test (search.google.com/test/rich-results).
+
 Important before production:
-- Replace conceptual platform specs with verified HolyHornet specifications.
-- Connect the contact form to a real email/CRM endpoint.
-- Add real fleet/product photography.
+- Verify the aircraft specifications and that the catalogue photos may be used.
 - Add privacy/cookie/legal pages appropriate to the operating jurisdiction.
 - Verify all claims, certifications, regulatory permissions and capabilities.
