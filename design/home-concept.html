@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HolyHornet — UAV Systems</title>
+<meta name="description" content="HolyHornet UAV Systems — advanced UAV solutions for a safer tomorrow.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060708;--bg2:#0b0d0f;--panel:#0f1214;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);
+  --text:#eef0ec;--muted:#8d9493;--dim:#5b6261;--y:#ffd500;--y2:#ffb800;--ok:#3ddc84;--max:1320px;
+  --sans:"Space Grotesk",Inter,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{width:min(calc(100% - 32px),var(--max));margin:0 auto}
+.mono{font-family:var(--mono)}
+.y{color:var(--y)}
+.eyebrow{font:500 11px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--y);display:flex;align-items:center;gap:10px}
+.eyebrow:before{content:"";width:18px;height:1px;background:var(--y)}
+
+/* ---------- status bar + nav ---------- */
+.status{border-bottom:1px solid var(--line);font:400 10px/1 var(--mono);letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.status .wrap{display:flex;gap:28px;height:30px;align-items:center}
+.status .live{color:var(--ok);display:flex;align-items:center;gap:8px}
+.status .live i{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:blink 1.6s infinite}
+.status .push{margin-left:auto}
+@keyframes blink{50%{opacity:.25}}
+header{position:sticky;top:0;z-index:50;background:rgba(6,7,8,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav{height:72px;display:flex;align-items:center;gap:32px}
+.logo{height:46px;width:auto}
+.links{margin-left:auto;display:flex;gap:30px}
+.links a{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#b9bfbd;position:relative;padding:6px 0}
+.links a:after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--y);transition:width .25s}
+.links a:hover{color:var(--text)}.links a:hover:after,.links a.on:after{width:100%}
+.links a.on{color:var(--y)}
+.cta{font:700 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;background:var(--y);color:#0a0a0a;padding:14px 18px;clip-path:polygon(0 0,100% 0,100% 70%,88% 100%,0 100%)}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--line2);color:var(--text);width:42px;height:42px;font-size:18px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:14px;padding:17px 24px;font:700 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;transition:.2s}
+.btn.p{background:var(--y);color:#0a0a0a;clip-path:polygon(0 0,100% 0,100% 72%,90% 100%,0 100%)}
+.btn.p:hover{background:#fff}
+.btn.g{border:1px solid var(--line2);color:var(--text)}
+.btn.g:hover{border-color:var(--y);color:var(--y)}
+.btn .arr{transition:transform .2s}.btn:hover .arr{transform:translateX(4px)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero:before{content:"";position:absolute;inset:0;background:
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/64px 64px,
+  linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/64px 64px;
+  mask-image:radial-gradient(ellipse 70% 80% at 30% 40%,#000 20%,transparent 75%);opacity:.55}
+.hero:after{content:"";position:absolute;width:900px;height:900px;right:-200px;top:-300px;background:radial-gradient(circle,rgba(255,213,0,.13),transparent 60%);pointer-events:none}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center;padding:84px 0 96px}
+.brandline{font:500 12px/1 var(--mono);letter-spacing:.3em;color:var(--muted);margin-bottom:28px;display:flex;gap:14px;align-items:center}
+.brandline b{color:var(--text);font-weight:700}
+.brandline .sl{color:var(--y)}
+h1{font-family:var(--sans);font-weight:700;font-size:clamp(40px,5.3vw,84px);line-height:.92;letter-spacing:-.045em;margin:0 0 28px;text-transform:uppercase}
+h1 .y{display:block;position:relative}
+h1 .y:after{content:"";display:inline-block;width:.42em;height:.11em;background:var(--y);margin-left:.12em;vertical-align:.1em;animation:blink 1.1s steps(1) infinite}
+.sub{font-size:18px;color:#aab1af;max-width:540px;margin:0 0 40px}
+.actions{display:flex;flex-wrap:wrap;gap:14px}
+.trust{display:flex;gap:36px;margin-top:56px;padding-top:26px;border-top:1px solid var(--line)}
+.trust div{font:400 10px/1.5 var(--mono);letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.trust strong{display:block;font:700 26px/1.1 var(--sans);letter-spacing:-.02em;color:var(--text);margin-bottom:6px}
+
+/* feed panel */
+.feed{position:relative;aspect-ratio:1/1;background:#000;border:1px solid var(--line2)}
+.feed img{width:100%;height:100%;object-fit:cover;object-position:55% 50%;filter:contrast(1.06) saturate(.9)}
+.feed:before{content:"";position:absolute;inset:0;z-index:1;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);mix-blend-mode:multiply;pointer-events:none}
+.feed .vig{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.55))}
+.hud{position:absolute;inset:0;z-index:2;font:500 10px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#e9ece8}
+.br{position:absolute;width:26px;height:26px;border-color:var(--y);border-style:solid;border-width:0}
+.br.tl{top:14px;left:14px;border-top-width:2px;border-left-width:2px}
+.br.tr{top:14px;right:14px;border-top-width:2px;border-right-width:2px}
+.br.bl{bottom:14px;left:14px;border-bottom-width:2px;border-left-width:2px}
+.br.brr{bottom:14px;right:14px;border-bottom-width:2px;border-right-width:2px}
+.hud .tlx{position:absolute;top:24px;left:52px;display:flex;gap:10px;align-items:center}
+.rec{width:8px;height:8px;border-radius:50%;background:#ff3b30;animation:blink 1s infinite}
+.hud .trx{position:absolute;top:24px;right:52px;text-align:right;color:var(--y)}
+.hud .blx{position:absolute;bottom:24px;left:52px;display:grid;grid-template-columns:auto auto;gap:4px 16px}
+.hud .blx span{color:var(--muted)}
+.hud .brx{position:absolute;bottom:24px;right:52px;text-align:right}
+.lock{position:absolute;left:56%;top:41%;width:96px;height:96px;transform:translate(-50%,-50%);border:1px solid rgba(255,213,0,.9);animation:lock 3.2s ease-in-out infinite}
+.lock:before,.lock:after{content:"";position:absolute;background:var(--y)}
+.lock:before{left:50%;top:-14px;bottom:-14px;width:1px;transform:translateX(-.5px);mask:linear-gradient(#000 14px,transparent 14px calc(100% - 14px),#000 0)}
+.lock:after{top:50%;left:-14px;right:-14px;height:1px;mask:linear-gradient(90deg,#000 14px,transparent 14px calc(100% - 14px),#000 0)}
+.lock span{position:absolute;top:-20px;left:-1px;background:var(--y);color:#000;padding:2px 6px;font-weight:700;white-space:nowrap}
+@keyframes lock{0%,100%{width:96px;height:96px}50%{width:78px;height:78px}}
+.horizon{position:absolute;left:50%;top:50%;width:46%;height:1px;transform:translateX(-50%);opacity:.35;background:linear-gradient(90deg,transparent,#fff 20%,transparent 40%,transparent 60%,#fff 80%,transparent)}
+.scale{position:absolute;right:22px;top:50%;transform:translateY(-50%);height:44%;width:10px;background:repeating-linear-gradient(0deg,rgba(255,255,255,.5) 0 1px,transparent 1px 10px)}
+.feed-tag{position:absolute;left:-1px;bottom:-34px;font:500 10px/1 var(--mono);letter-spacing:.18em;color:var(--dim)}
+
+/* ---------- ticker ---------- */
+.ticker{border-bottom:1px solid var(--line);background:var(--y);color:#0a0a0a;overflow:hidden}
+.ticker .row{display:flex;gap:56px;white-space:nowrap;padding:16px 0;width:max-content;animation:tick 34s linear infinite;font:700 13px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase}
+.ticker .row span:before{content:"⬢";margin-right:56px;opacity:.55}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- sections ---------- */
+section{position:relative}
+.sec{padding:120px 0;border-bottom:1px solid var(--line)}
+.head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:64px}
+h2{font-weight:700;font-size:clamp(36px,4.4vw,64px);line-height:.95;letter-spacing:-.04em;text-transform:uppercase;margin:20px 0 0}
+.lead{color:#a3aaa8;font-size:17px;max-width:520px;margin:0}
+
+/* capabilities */
+.caps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line)}
+.cap{padding:36px 30px 34px;border-right:1px solid var(--line);position:relative;transition:background .25s;min-height:300px;display:flex;flex-direction:column}
+.cap:last-child{border-right:0}
+.cap:hover{background:var(--panel)}
+.cap:before{content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--y);transition:width .35s}
+.cap:hover:before{width:100%}
+.cap .n{font:500 11px/1 var(--mono);color:var(--dim);letter-spacing:.16em}
+.cap svg{width:44px;height:44px;margin:34px 0 26px;stroke:var(--y);fill:none;stroke-width:1.4}
+.cap h3{font-size:24px;letter-spacing:-.02em;margin:0 0 10px;text-transform:uppercase}
+.cap p{color:var(--muted);margin:0;font-size:15px}
+.cap .more{margin-top:auto;padding-top:26px;font:500 11px/1 var(--mono);letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.cap:hover .more{color:var(--y)}
+
+/* fleet */
+.fleet{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.craft{background:var(--bg2);border:1px solid var(--line);display:flex;flex-direction:column;transition:border-color .25s,transform .25s}
+.craft:hover{border-color:rgba(255,213,0,.55);transform:translateY(-4px)}
+.craft .vis{aspect-ratio:4/3;position:relative;border-bottom:1px solid var(--line);background:
+  radial-gradient(circle at 50% 55%,rgba(255,213,0,.10),transparent 60%),
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/22px 22px,
+  linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/22px 22px;display:grid;place-items:center}
+.craft .vis svg{width:62%;stroke:#d7dbd8;fill:none;stroke-width:1.3}
+.craft .vis .id{position:absolute;top:14px;left:14px;font:500 10px/1 var(--mono);letter-spacing:.16em;color:var(--dim)}
+.craft .vis .cls{position:absolute;top:12px;right:12px;font:700 9px/1 var(--mono);letter-spacing:.16em;color:#0a0a0a;background:var(--y);padding:5px 7px}
+.craft .body{padding:24px 22px 22px;display:flex;flex-direction:column;flex:1}
+.craft h3{margin:0 0 8px;font-size:21px;letter-spacing:-.01em;text-transform:uppercase}
+.craft p{margin:0 0 22px;color:var(--muted);font-size:14px}
+.specs{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.specs div{padding:12px 0 0;font:400 10px/1.5 var(--mono);letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.specs b{display:block;font:500 13px/1.3 var(--mono);color:var(--text);letter-spacing:.04em}
+
+/* systems split */
+.sys{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
+.sys .l{padding:56px;border-right:1px solid var(--line)}
+.sys .l h3{font-size:34px;line-height:1.02;letter-spacing:-.03em;text-transform:uppercase;margin:22px 0 18px}
+.layers{list-style:none;margin:36px 0 40px;padding:0;border-top:1px solid var(--line)}
+.layers li{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);font-size:15px}
+.layers li span{font:500 11px/1 var(--mono);color:var(--y);letter-spacing:.12em}
+.layers li em{font:400 10px/1 var(--mono);font-style:normal;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.sys .r{position:relative;min-height:520px;background:#08090a;overflow:hidden}
+.sys .r svg{position:absolute;inset:0;width:100%;height:100%}
+.radar-sweep{transform-origin:300px 300px;animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:48px 30px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat strong{display:block;font-size:clamp(44px,5vw,72px);line-height:1;letter-spacing:-.05em;font-weight:700}
+.stat strong sup{font-size:.4em;color:var(--y);vertical-align:top;margin-left:4px;letter-spacing:0}
+.stat span{display:block;margin-top:14px;font:400 11px/1.5 var(--mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+
+/* process */
+.proc{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.proc:before{content:"";position:absolute;left:0;right:0;top:23px;height:1px;background:repeating-linear-gradient(90deg,var(--line2) 0 6px,transparent 6px 12px)}
+.st{padding-right:32px;position:relative}
+.st .dot{width:47px;height:47px;display:grid;place-items:center;background:var(--bg);border:1px solid var(--line2);font:700 13px/1 var(--mono);color:var(--y);clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);position:relative}
+.st .dot:before{content:"";position:absolute;inset:0;background:var(--y);opacity:.08}
+.st .k{display:block;margin:28px 0 10px;font:500 11px/1 var(--mono);letter-spacing:.18em;color:var(--dim)}
+.st h3{margin:0 0 10px;font-size:24px;text-transform:uppercase;letter-spacing:-.02em}
+.st p{margin:0;color:var(--muted);font-size:15px}
+
+/* CTA */
+.cta-band{position:relative;overflow:hidden;padding:110px 0;background:var(--bg2)}
+.cta-band .haz{position:absolute;left:0;right:0;height:10px;background:repeating-linear-gradient(-45deg,var(--y) 0 14px,#0a0a0a 14px 28px)}
+.cta-band .haz.t{top:0}.cta-band .haz.b{bottom:0}
+.cta-in{display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:center}
+.cta-in h2{font-size:clamp(40px,5.4vw,80px)}
+.cta-box{border:1px solid var(--line2);padding:32px;background:var(--bg)}
+.cta-box label{display:block;font:500 10px/1 var(--mono);letter-spacing:.18em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+.cta-box .fake{border-bottom:1px solid var(--line2);padding:6px 0 14px;margin-bottom:26px;color:var(--muted);font-size:15px}
+.cta-box .btn{width:100%;justify-content:space-between}
+
+/* footer */
+footer{padding:72px 0 34px}
+.foot{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;padding-bottom:56px;border-bottom:1px solid var(--line)}
+.foot p{color:var(--muted);max-width:340px;font-size:15px;margin:20px 0 0}
+.foot h4{font:500 11px/1 var(--mono);letter-spacing:.18em;color:var(--y);margin:8px 0 20px;text-transform:uppercase}
+.foot a{display:block;color:#b9bfbd;font-size:14px;margin-bottom:12px}.foot a:hover{color:var(--y)}
+.legal{display:flex;justify-content:space-between;padding-top:26px;font:400 10px/1.4 var(--mono);letter-spacing:.16em;color:var(--dim);text-transform:uppercase;gap:20px}
+.huge{font-weight:700;font-size:clamp(56px,15.5vw,236px);line-height:.8;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.12);margin:60px 0 0;white-space:nowrap;user-select:none}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:1100px){
+  .links,.nav .cta{display:none}.burger{display:block}
+  .hero-grid{grid-template-columns:1fr;padding:56px 0 80px}
+  .feed{max-width:620px}
+  .caps,.fleet{grid-template-columns:1fr 1fr}
+  .cap:nth-child(2){border-right:0}.cap:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .stats{grid-template-columns:1fr 1fr}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .sys,.cta-in,.head{grid-template-columns:1fr}.sys .l{border-right:0;border-bottom:1px solid var(--line)}
+  .head{gap:24px}
+  .proc{grid-template-columns:1fr 1fr;gap:48px 0}.proc:before{display:none}
+  .foot{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .status .hide{display:none}
+  .logo{height:36px}
+  .sec{padding:80px 0}
+  .caps,.fleet,.stats,.proc{grid-template-columns:1fr}
+  .cap{border-right:0;border-bottom:1px solid var(--line);min-height:0}.cap:last-child{border-bottom:0}
+  .stat{border-right:0;border-bottom:1px solid var(--line)}.stat:last-child{border-bottom:0}
+  .sys .l{padding:32px 22px}.sys .r{min-height:360px}
+  .trust{gap:22px;flex-wrap:wrap}
+  .hud .blx,.hud .brx{display:none}
+  .foot{grid-template-columns:1fr}
+  .legal{flex-direction:column}
+  .st{padding-right:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="status"><div class="wrap">
+  <span class="live"><i></i>Systems online</span>
+  <span class="hide">Grid ref 52.37N / 4.90E</span>
+  <span class="hide push">Ops desk 24/7</span>
+  <span class="mono" id="utc">--:--:-- UTC</span>
+</div></div>
+
+<header><div class="wrap nav">
+  <a href="../index.html"><img class="logo" src="../assets/holyhornet-logo.jpg" alt="HolyHornet UAV Systems"></a>
+  <nav class="links">
+    <a class="on" href="../index.html">Home</a>
+    <a href="../fleet.html">Fleet</a>
+    <a href="../solutions.html">Solutions</a>
+    <a href="../industries.html">Industries</a>
+    <a href="../technology.html">Technology</a>
+    <a href="../education.html">Education</a>
+    <a href="../about.html">About</a>
+  </nav>
+  <a class="cta" href="../contact.html">Request a quote →</a>
+  <button class="burger" aria-label="Menu">☰</button>
+</div></header>
+
+<main>
+<!-- HERO -->
+<section class="hero"><div class="wrap hero-grid">
+  <div>
+    <div class="brandline"><b>HOLYHORNET</b><span class="sl">/</span>UAV SYSTEMS</div>
+    <h1>Advanced UAV<br>solutions for a <span class="y">safer tomorrow.</span></h1>
+    <p class="sub">We design, integrate and operate high-performance unmanned systems for surveillance, inspection, mapping and demanding real-world operations.</p>
+    <div class="actions">
+      <a class="btn p" href="../solutions.html">Explore solutions <span class="arr">→</span></a>
+      <a class="btn g" href="../contact.html">Request a consultation</a>
+    </div>
+    <div class="trust">
+      <div><strong>04</strong>Platform classes</div>
+      <div><strong>EO/IR</strong>Payload ready</div>
+      <div><strong>24/7</strong>Mission support</div>
+    </div>
+  </div>
+
+  <div class="feed" aria-label="Live UAV feed illustration">
+    <img src="../assets/hero-uav.jpg" alt="HolyHornet UAV in flight over mountains at sunset">
+    <div class="vig"></div>
+    <div class="hud">
+      <i class="br tl"></i><i class="br tr"></i><i class="br bl"></i><i class="br brr"></i>
+      <div class="tlx"><span class="rec"></span>REC · CAM 01 · 4K</div>
+      <div class="trx">HH-LR / 03<br><span style="color:#e9ece8">LINK ▮▮▮▮▯</span></div>
+      <div class="horizon"></div>
+      <div class="scale"></div>
+      <div class="lock"><span>TRK 0417</span></div>
+      <div class="blx">
+        <span>ALT</span><b id="alt">120.4 M</b>
+        <span>SPD</span><b id="spd">14.2 M/S</b>
+        <span>HDG</span><b id="hdg">274°</b>
+      </div>
+      <div class="brx">BATT 82%<br>GPS 18 SAT · RTK FIX</div>
+    </div>
+    <div class="feed-tag">FIG. 01 — LIVE MISSION FEED</div>
+  </div>
+</div></section>
+
+<div class="ticker" aria-hidden="true"><div class="row">
+  <span>Surveillance</span><span>Inspection</span><span>Mapping</span><span>Reconnaissance</span><span>Search &amp; Rescue</span><span>Systems integration</span><span>Training</span>
+  <span>Surveillance</span><span>Inspection</span><span>Mapping</span><span>Reconnaissance</span><span>Search &amp; Rescue</span><span>Systems integration</span><span>Training</span>
+</div></div>
+
+<!-- CAPABILITIES -->
+<section class="sec"><div class="wrap">
+  <div class="head rv">
+    <div><div class="eyebrow">01 / Capabilities</div><h2>Intelligence<br>from above.</h2></div>
+    <p class="lead">HolyHornet turns aerial capability into safer decisions, better data and measurable operational outcomes.</p>
+  </div>
+  <div class="caps rv">
+    <a class="cap" href="../solutions.html"><span class="n">CAP—01</span>
+      <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18"/><circle cx="22" cy="22" r="9"/><circle cx="22" cy="22" r="2" fill="#ffd500"/><path d="M22 0v8M22 36v8M0 22h8M36 22h8"/></svg>
+      <h3>Surveillance</h3><p>Reliable aerial intelligence when situational awareness matters most.</p><span class="more">Learn more →</span></a>
+    <a class="cap" href="../solutions.html"><span class="n">CAP—02</span>
+      <svg viewBox="0 0 44 44"><path d="M22 3l17 10v18L22 41 5 31V13z"/><path d="M22 3v38M5 13l34 18M39 13L5 31" opacity=".45"/></svg>
+      <h3>Inspection</h3><p>Safer, faster access to difficult assets and hazardous environments.</p><span class="more">Learn more →</span></a>
+    <a class="cap" href="../solutions.html"><span class="n">CAP—03</span>
+      <svg viewBox="0 0 44 44"><path d="M3 10l12-5 14 5 12-5v29l-12 5-14-5-12 5z"/><path d="M15 5v29M29 10v29"/><circle cx="22" cy="22" r="3" fill="#ffd500"/></svg>
+      <h3>Mapping</h3><p>High-quality aerial data for better engineering and planning decisions.</p><span class="more">Learn more →</span></a>
+    <a class="cap" href="../solutions.html"><span class="n">CAP—04</span>
+      <svg viewBox="0 0 44 44"><path d="M3 22s7-12 19-12 19 12 19 12-7 12-19 12S3 22 3 22z"/><circle cx="22" cy="22" r="6"/><path d="M22 22l14-14" stroke-dasharray="2 3"/></svg>
+      <h3>Reconnaissance</h3><p>See further, understand more and operate with confidence.</p><span class="more">Learn more →</span></a>
+  </div>
+</div></section>
+
+<!-- FLEET -->
+<section class="sec"><div class="wrap">
+  <div class="head rv">
+    <div><div class="eyebrow">02 / The fleet</div><h2>Platforms built<br>for real missions.</h2></div>
+    <p class="lead">From agile FPV platforms to low-light systems and long-range aircraft, we configure the right platform around the mission.</p>
+  </div>
+  <div class="fleet rv">
+    <a class="craft" href="../fleet.html#fpv"><div class="vis"><span class="id">HH-FPV / 01</span><span class="cls">FPV</span>
+      <svg viewBox="0 0 120 80"><circle cx="22" cy="18" r="14"/><circle cx="98" cy="18" r="14"/><circle cx="22" cy="62" r="14"/><circle cx="98" cy="62" r="14"/><path d="M32 26l18 9M88 26l-18 9M32 54l18-9M88 54l-18-9"/><rect x="48" y="30" width="24" height="20" rx="3"/><circle cx="60" cy="40" r="4"/></svg></div>
+      <div class="body"><h3>Hornet FPV X1</h3><p>Agile platform for immersive capture, inspection and specialist operations.</p>
+      <div class="specs"><div>Power<b>4S–6S</b></div><div>Latency<b>Low</b></div></div></div></a>
+    <a class="craft" href="../fleet.html#night"><div class="vis"><span class="id">HH-NV / 02</span><span class="cls">Night</span>
+      <svg viewBox="0 0 120 80"><path d="M10 20h36M74 20h36"/><path d="M28 20l20 18M92 20L72 38"/><rect x="46" y="30" width="28" height="18" rx="4"/><circle cx="60" cy="58" r="8"/><circle cx="60" cy="58" r="3"/><path d="M28 14v6M92 14v6"/></svg></div>
+      <div class="body"><h3>Night Stinger</h3><p>Low-light and thermal-ready platform for demanding night operations.</p>
+      <div class="specs"><div>Sensor<b>EO / IR</b></div><div>Build<b>Modular</b></div></div></div></a>
+    <a class="craft" href="../fleet.html#longrange"><div class="vis"><span class="id">HH-LR / 03</span><span class="cls">Long range</span>
+      <svg viewBox="0 0 120 80"><path d="M60 8v64"/><path d="M8 34h104l-6 6H14z"/><path d="M40 66h40"/><path d="M54 12h12l2 24H52z"/><path d="M50 72l10-6 10 6"/></svg></div>
+      <div class="body"><h3>Viper LR</h3><p>Endurance-focused system for inspection, mapping and data collection.</p>
+      <div class="specs"><div>Nav<b>RTK</b></div><div>Payload<b>Multi</b></div></div></div></a>
+    <a class="craft" href="../fleet.html#vtol"><div class="vis"><span class="id">HH-VT / 04</span><span class="cls">VTOL</span>
+      <svg viewBox="0 0 120 80"><path d="M6 40h108"/><path d="M50 22h20l4 36H46z"/><path d="M26 30v20M94 30v20"/><circle cx="26" cy="26" r="9"/><circle cx="94" cy="26" r="9"/><circle cx="26" cy="54" r="9"/><circle cx="94" cy="54" r="9"/><path d="M52 66h16"/></svg></div>
+      <div class="body"><h3>Ares VTOL</h3><p>Hybrid architecture for efficient coverage and runway-independent ops.</p>
+      <div class="specs"><div>Lift<b>VTOL</b></div><div>Role<b>Mapping</b></div></div></div></a>
+  </div>
+  <div class="actions" style="margin-top:40px"><a class="btn g" href="../fleet.html">View full fleet <span class="arr">→</span></a></div>
+</div></section>
+
+<!-- SYSTEMS -->
+<section class="sec"><div class="wrap">
+  <div class="head rv">
+    <div><div class="eyebrow">03 / Systems</div><h2>From airframe<br>to actionable data.</h2></div>
+    <p class="lead">The aircraft is only one part of an unmanned system. We treat sensors, comms, operators, software, data and environment as one architecture.</p>
+  </div>
+  <div class="sys rv">
+    <div class="l">
+      <div class="eyebrow">Systems engineering</div>
+      <h3>Technology<br>without the noise.</h3>
+      <p class="lead">Platform-agnostic when the mission demands it. Product-driven when existing solutions are not enough.</p>
+      <ul class="layers">
+        <li><span>L1</span>Airframe &amp; propulsion<em>Platform</em></li>
+        <li><span>L2</span>Sensors &amp; payloads<em>EO / IR / LiDAR</em></li>
+        <li><span>L3</span>Command, control &amp; comms<em>C2 link</em></li>
+        <li><span>L4</span>Data pipeline &amp; analytics<em>Output</em></li>
+      </ul>
+      <a class="btn p" href="../technology.html">Technology <span class="arr">→</span></a>
+    </div>
+    <div class="r" aria-hidden="true">
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="sw" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(300 300) scale(260)"><stop offset="0" stop-color="#ffd500" stop-opacity=".0"/><stop offset="1" stop-color="#ffd500" stop-opacity=".28"/></radialGradient>
+        </defs>
+        <g fill="none" stroke="rgba(255,255,255,.12)">
+          <circle cx="300" cy="300" r="70"/><circle cx="300" cy="300" r="140"/><circle cx="300" cy="300" r="210"/><circle cx="300" cy="300" r="260" stroke="rgba(255,213,0,.35)"/>
+          <path d="M300 30v540M30 300h540"/><path d="M116 116l368 368M484 116L116 484" stroke-dasharray="3 6"/>
+        </g>
+        <g class="radar-sweep"><path d="M300 300L300 40A260 260 0 0 1 484 116Z" fill="url(#sw)"/><path d="M300 300L300 40" stroke="#ffd500" stroke-width="1.5"/></g>
+        <g font-family="JetBrains Mono,monospace" font-size="11" letter-spacing="2" fill="#8d9493">
+          <circle cx="388" cy="196" r="5" fill="#ffd500"/><text x="400" y="192" fill="#eef0ec">HH-LR/03</text><text x="400" y="207">ALT 120M</text>
+          <circle cx="210" cy="380" r="4" fill="#3ddc84"/><text x="222" y="384">GCS-ALPHA</text>
+          <circle cx="430" cy="410" r="4" fill="none" stroke="#ffd500"/><text x="442" y="414">WP-04</text>
+          <path d="M210 380L388 196L430 410" fill="none" stroke="rgba(255,213,0,.5)" stroke-dasharray="4 5"/>
+          <text x="40" y="44">SECTOR 7 / OVERWATCH</text><text x="40" y="572">RANGE 0–12 KM</text>
+          <text x="480" y="572">N ▲</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div></section>
+
+<!-- STATS -->
+<section><div class="wrap stats rv">
+  <div class="stat"><strong>360<sup>°</sup></strong><span>Mission lifecycle — discover to operate</span></div>
+  <div class="stat"><strong>04<sup>+</sup></strong><span>Airframe classes configured to task</span></div>
+  <div class="stat"><strong>1<sup>×</sup></strong><span>Integrated architecture, end to end</span></div>
+  <div class="stat"><strong>24<sup>/7</sup></strong><span>Operational support desk</span></div>
+</div></section>
+
+<!-- PROCESS -->
+<section class="sec"><div class="wrap">
+  <div class="head rv">
+    <div><div class="eyebrow">04 / Method</div><h2>Mission-first,<br>every time.</h2></div>
+    <p class="lead">A structured path from the first conversation to a capability that keeps improving in the field.</p>
+  </div>
+  <div class="proc rv">
+    <div class="st"><div class="dot">01</div><span class="k">DISCOVER</span><h3>Understand</h3><p>Define the mission, environment, users and constraints.</p></div>
+    <div class="st"><div class="dot">02</div><span class="k">DESIGN</span><h3>Architect</h3><p>Select platforms, payloads and workflows around the outcome.</p></div>
+    <div class="st"><div class="dot">03</div><span class="k">DEPLOY</span><h3>Integrate</h3><p>Bring the system together and validate it in the real world.</p></div>
+    <div class="st"><div class="dot">04</div><span class="k">IMPROVE</span><h3>Operate</h3><p>Measure performance and continuously refine the capability.</p></div>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<section class="cta-band"><i class="haz t"></i><div class="wrap cta-in">
+  <div class="rv"><div class="eyebrow">05 / Get airborne</div><h2>Ready when<br>the mission <span class="y">is.</span></h2>
+    <p class="lead" style="margin-top:24px">Tell us about your operation. We'll come back with a platform, payload and workflow recommendation.</p></div>
+  <div class="cta-box rv">
+    <label>Mission type</label><div class="fake">Surveillance · Inspection · Mapping · Other</div>
+    <label>Organisation</label><div class="fake">Your company or agency</div>
+    <a class="btn p" href="../contact.html">Start a brief <span class="arr">→</span></a>
+  </div>
+</div><i class="haz b"></i></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="foot">
+    <div><img class="logo" src="../assets/holyhornet-logo.jpg" alt="HolyHornet UAV Systems"><p>Advanced UAV solutions for a safer tomorrow. Independent. Technical. Mission-focused.</p></div>
+    <div><h4>Platforms</h4><a href="../fleet.html#fpv">Hornet FPV X1</a><a href="../fleet.html#night">Night Stinger</a><a href="../fleet.html#longrange">Viper LR</a><a href="../fleet.html#vtol">Ares VTOL</a></div>
+    <div><h4>Company</h4><a href="../solutions.html">Solutions</a><a href="../industries.html">Industries</a><a href="../technology.html">Technology</a><a href="../education.html">Education</a><a href="../about.html">About</a></div>
+    <div><h4>Contact</h4><a href="../contact.html">Request a quote</a><a href="mailto:hello@holyhornet.com">hello@holyhornet.com</a></div>
+  </div>
+  <div class="huge" aria-hidden="true">HOLYHORNET</div>
+  <div class="legal"><span>© 2026 HolyHornet / UAV Systems &amp; Consultancy</span><span>Built for the mission</span></div>
+</div></footer>
+
+<script>
+(function(){
+  var u=document.getElementById('utc');
+  function clock(){var d=new Date();u.textContent=d.toISOString().substr(11,8)+' UTC'}
+  clock();setInterval(clock,1000);
+  var alt=document.getElementById('alt'),spd=document.getElementById('spd'),hdg=document.getElementById('hdg'),t=0;
+  setInterval(function(){t+=.15;
+    alt.textContent=(120+Math.sin(t)*2.3).toFixed(1)+' M';
+    spd.textContent=(14+Math.sin(t*1.7)*.8).toFixed(1)+' M/S';
+    hdg.textContent=Math.round(274+Math.sin(t*.6)*4)+'°';
+  },400);
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+})();
+</script>
+</body>
+</html>
