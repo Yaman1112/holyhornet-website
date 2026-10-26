@@ -18,7 +18,11 @@ Assets:
 - assets/fleet/ — transparent aircraft photos (WebP)
 - assets/hero-uav.jpg — homepage photo
 - assets/og-image.jpg — image shown when a page is shared on social media or in chat apps
-- favicon.svg, favicon.ico, apple-touch-icon.png — browser and phone icons
+- assets/logo-mark-full.png — master Holy Hornet logo mark, transparent, full resolution
+- assets/logo-mark.png — header/footer size of the mark
+- assets/logo.png — full logo with "HOLY HORNET / UAV SYSTEMS" text, for dark backgrounds
+- assets/logo-light-bg.png — full logo with dark text, for white or light backgrounds
+- favicon.ico, favicon-32.png, apple-touch-icon.png, icon-192.png, icon-512.png, site.webmanifest — browser and phone icons
 
 Search and AI (SEO / GEO):
 - Every page has a title, description, canonical link, social share tags and schema.org structured data

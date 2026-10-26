@@ -51,15 +51,16 @@ p{margin:0;text-wrap:pretty}
 /* ---------- header ---------- */
 header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;gap:20px;height:76px}
-.mark{display:flex;align-items:center;gap:12px;text-decoration:none}
-.mark svg{width:34px;height:34px;flex:none}
-.mark b{font:500 24px/1 var(--serif);letter-spacing:-.01em}
-.mark small{display:block;font:700 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--honey-ink);margin-top:4px}
+.mark{display:flex;align-items:center;gap:12px;text-decoration:none;flex:none;white-space:nowrap}
+.mark img{height:44px;width:auto;flex:none}
+:root[data-theme="light"] .mark img{filter:drop-shadow(0 0 .5px rgba(39,48,43,.55))}
+.mark b{display:block;font:700 21px/1 "Barlow","Bahnschrift",var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.mark small{display:block;font:600 11px/1 "Barlow","Bahnschrift",var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--honey-ink);margin-top:5px}
 .nav{margin-left:auto;display:flex;align-items:center;gap:2px}
 .nav a{text-decoration:none;font-size:16px;color:var(--soft);padding:10px 11px;border-radius:999px}
 .nav a:hover{color:var(--ink);background:var(--alt)}
 .nav a[aria-current]{color:var(--ink);font-weight:600}
-.nav .btn{margin-left:8px;color:#2a1d00;padding:0 20px}
+.nav .btn{margin-left:8px;color:#2a1d00;padding:0 20px;white-space:nowrap}
 .nav .btn:hover{background:#f3b538;color:#2a1d00}
 .theme{flex:none;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0}
 .theme:hover{border-color:var(--ink)}
@@ -148,13 +149,15 @@ footer{padding:56px 0 40px;margin-top:100px;border-top:1px solid var(--line);fon
 .legal{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-size:14px}
 
 /* ---------- responsive ---------- */
-@media (max-width:980px){
+@media (max-width:1100px){
   .toggle{display:block;margin-left:auto}
   .theme{order:3}
   .nav{display:none;position:absolute;left:0;right:0;top:76px;flex-direction:column;align-items:stretch;gap:2px;padding:12px 16px 20px;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
   .nav.open{display:flex}
   .nav a{padding:12px 14px;font-size:17px}
   .nav .btn{margin:8px 0 0}
+}
+@media (max-width:980px){
   .tiles,.steps{grid-template-columns:1fr 1fr}
   .band,.quote{grid-template-columns:1fr;gap:28px}
   .foot{grid-template-columns:1fr 1fr}
@@ -162,7 +165,12 @@ footer{padding:56px 0 40px;margin-top:100px;border-top:1px solid var(--line);fon
 @media (max-width:620px){
   body{font-size:17px}
   .bar{gap:10px}
-  .mark b{font-size:21px}
+  .mark{gap:8px}
+  .mark img{height:32px}
+  .mark b{font-size:16px;letter-spacing:.08em}
+  .mark small{font-size:9px;letter-spacing:.2em;margin-top:4px}
+  .toggle{padding:0 13px}
+  .theme{width:42px;height:42px}
   .status .hide{display:none}
   .intro{padding:44px 0 36px}
   .sec{padding:72px 0}
@@ -172,5 +180,14 @@ footer{padding:56px 0 40px;margin-top:100px;border-top:1px solid var(--line);fon
   .quote{padding:32px 24px}
   .actions .btn{flex:1 1 100%}
   .foot{grid-template-columns:1fr}
+}
+@media (max-width:350px){
+  .bar{gap:6px}
+  .mark{gap:6px}
+  .mark img{height:26px}
+  .mark b{font-size:13px;letter-spacing:.05em}
+  .mark small{display:none}
+  .toggle{padding:0 10px;font-size:15px}
+  .theme{width:40px;height:40px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
