@@ -18,7 +18,6 @@ python3 -m http.server 8000
 
 Important before production:
 - Replace conceptual platform specs with verified HolyHornet specifications.
-- Replace hello@holyhornet.com with the real contact email.
 - Connect the contact form to a real email/CRM endpoint.
 - Add real fleet/product photography.
 - Add privacy/cookie/legal pages appropriate to the operating jurisdiction.

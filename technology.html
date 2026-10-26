@@ -1,25 +1,94 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HolyHornet Technology — UAV Systems</title><meta name="description" content="HolyHornet UAV Systems & Consultancy — UAV strategy, integration, operations and mission-specific systems."><link rel="stylesheet" href="styles.css"></head><body><div class="topline"></div>
-<header><div class="wrap nav">
-<a href="index.html"><img class="logo" src="assets/holyhornet-logo.jpg" alt="HolyHornet UAV Systems"></a>
-<nav class="navlinks">
-<a class="active" href="index.html">Home</a>
-<a class="" href="fleet.html">Fleet</a>
-<a class="" href="solutions.html">Solutions</a>
-<a class="" href="industries.html">Industries</a>
-<a class="" href="technology.html">Technology</a>
-<a class="" href="education.html">Education</a>
-<a class="" href="about.html">About</a>
-<a class="" href="contact.html">Contact</a>
-</nav>
-<a class="navcta" href="contact.html">Request a quote →</a><button class="mobile" aria-label="Menu">☰</button>
-</div></header><main>
-<section class="page-hero"><div class="wrap"><div class="eyebrow">HOLYHORNET / TECHNOLOGY</div><h1>Airframe.<br>Payload.<br>Intelligence.</h1><p>A modern UAV capability is a system of systems. We evaluate every layer from flight platform to data output.</p></div></section>
-<section class="section"><div class="wrap"><div class="list">
-<div class="list-item"><div class="number">01 / PLATFORM</div><h3>Airframes</h3><p>Multirotor, fixed-wing, VTOL and specialized architectures selected for endurance, agility, coverage and environment.</p></div>
-<div class="list-item"><div class="number">02 / PAYLOAD</div><h3>Sensors</h3><p>Visible, thermal, mapping and specialist payloads integrated around the information the mission actually needs.</p></div>
-<div class="list-item"><div class="number">03 / LINK</div><h3>Communications</h3><p>Operational communications and control architectures designed around range, environment and mission requirements.</p></div>
-<div class="list-item"><div class="number">04 / DATA</div><h3>Processing</h3><p>Capture, processing, analysis and delivery workflows that turn aerial collection into usable information.</p></div>
-<div class="list-item"><div class="number">05 / AUTONOMY</div><h3>Automation</h3><p>Where appropriate, automation and autonomy can reduce operator workload and improve repeatability.</p></div>
-<div class="list-item"><div class="number">06 / INTEGRATION</div><h3>System Architecture</h3><p>Hardware and software components connected into a coherent operational capability rather than isolated products.</p></div>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Technology — HolyHornet UAV Systems</title>
+<meta name="description" content="Airframes, sensors, communications, data processing, automation and system architecture at HolyHornet.">
+<script>try{var t=localStorage.getItem('hh-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.layer{display:grid;grid-template-columns:200px 1fr 1fr;gap:32px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--line)}
+.layer:first-child{border-top:1px solid var(--line)}
+.layer .tag{justify-self:start}
+.layer h3{font-size:30px;line-height:1.15}
+.layer p{color:var(--soft)}
+@media (max-width:820px){.layer{grid-template-columns:1fr;gap:8px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="status"><div class="wrap">
+  <span class="live"><i></i>Systems online</span>
+  <span class="hide">Ops desk open 24/7</span>
+  <span class="clock" id="utc">--:--:-- UTC</span>
+</div></div>
+
+<header><div class="wrap bar">
+  <a class="mark" href="index.html" aria-label="HolyHornet UAV Systems, home">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M17 3l12 7v14l-12 7-12-7V10z" fill="#e9a420"/><path d="M11 14c2-3 10-3 12 0M12 19h10M14 23h6" stroke="#2a1d00" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    <span><b>HolyHornet</b><small>UAV Systems</small></span>
+  </a>
+  <button class="toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Home</a>
+    <a href="fleet.html">Fleet</a>
+    <a href="solutions.html">Solutions</a>
+    <a href="industries.html">Industries</a>
+    <a aria-current="page" href="technology.html">Technology</a>
+    <a href="education.html">Education</a>
+    <a href="about.html">About</a>
+    <a class="btn main" href="contact.html">Get a quote</a>
+  </nav>
+  <button class="theme" type="button" aria-label="Switch colour theme">
+    <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+  </button>
+</div></header>
+
+<main id="main">
+<section class="intro"><div class="wrap">
+  <span class="kicker">Technology</span>
+  <h1>Airframe. Payload. <em>Intelligence.</em></h1>
+  <p class="lead">A modern drone capability is a system of systems. We look at every layer, from the aircraft to the data you get at the end.</p>
+</div></section>
+<section class="sec first"><div class="wrap">
+  <div class="layer"><span class="tag">01 · Platform</span><h3>Airframes</h3><p>Multirotor, FPV, interceptor, heavy-lift and agricultural aircraft, chosen for endurance, agility, payload and environment.</p></div>
+  <div class="layer"><span class="tag">02 · Payload</span><h3>Sensors</h3><p>Day, night, thermal, mapping and specialist payloads, matched to the information the mission actually needs.</p></div>
+  <div class="layer"><span class="tag">03 · Link</span><h3>Communications</h3><p>Control and video links designed around range, terrain, interference and the rules where you fly.</p></div>
+  <div class="layer"><span class="tag">04 · Data</span><h3>Processing</h3><p>Capture, processing and delivery workflows that turn flights into maps, reports and decisions.</p></div>
+  <div class="layer"><span class="tag">05 · Autonomy</span><h3>Automation</h3><p>Route planning, one-click return, tracking and AI recognition, used where they reduce workload and improve safety.</p></div>
+  <div class="layer"><span class="tag">06 · Integration</span><h3>System architecture</h3><p>All of the above connected into one working capability, not a pile of separate products.</p></div>
+</div></section>
+<section class="sec tint"><div class="wrap">
+  <div class="head center"><span class="kicker">How we put it together</span><h2>Four simple steps</h2><p>From first conversation to a system that keeps getting better.</p></div>
+  <ol class="steps">
+    <li><h3>Talk</h3><p>Tell us what you need to see, measure or protect, and where.</p></li>
+    <li><h3>Plan</h3><p>We choose the aircraft, sensors and workflow that fit.</p></li>
+    <li><h3>Fly</h3><p>We set it all up and prove it works in real conditions.</p></li>
+    <li><h3>Improve</h3><p>We review results with you and fine-tune over time.</p></li>
+  </ol>
+</div></section>
+<section class="sec band-sec"><div class="wrap"><div class="band">
+  <h2>Want the technical <em>details?</em></h2>
+  <div><p>Every aircraft in our fleet has a full specification sheet. Or ask our engineers directly.</p><div class="actions"><a class="btn main" href="fleet.html">See the fleet</a><a class="btn quiet" href="contact.html">Ask an engineer</a></div></div>
 </div></div></section>
-</main><footer><div class="wrap footer-row"><div>© 2026 HOLYHORNET / UAV SYSTEMS & CONSULTANCY</div><div>Independent. Technical. Mission-focused.</div></div></footer><script src="script.js"></script></body></html>
+</main>
+
+<footer><div class="wrap">
+  <div class="foot">
+    <div><a class="mark" href="index.html"><span><b>HolyHornet</b><small>UAV Systems</small></span></a><p>Advanced UAV solutions for a safer tomorrow. Independent. Technical. Mission-focused.</p></div>
+    <div><h4>Explore</h4><a href="fleet.html">Fleet</a><a href="solutions.html">Solutions</a><a href="industries.html">Industries</a><a href="technology.html">Technology</a></div>
+    <div><h4>Company</h4><a href="about.html">About</a><a href="education.html">Education</a><a href="contact.html">Contact</a></div>
+    <div><h4>Say hello</h4><a href="mailto:info@holyhornet.com">info@holyhornet.com</a><a href="contact.html">Request a quote</a></div>
+  </div>
+  <div class="legal">© 2026 HolyHornet UAV Systems &amp; Consultancy</div>
+</div></footer>
+
+<script src="script.js"></script>
+</body>
+</html>

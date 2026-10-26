@@ -1,19 +1,121 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contact HolyHornet — Start a UAV Project</title><meta name="description" content="HolyHornet UAV Systems & Consultancy — UAV strategy, integration, operations and mission-specific systems."><link rel="stylesheet" href="styles.css"></head><body><div class="topline"></div>
-<header><div class="wrap nav">
-<a href="index.html"><img class="logo" src="assets/holyhornet-logo.jpg" alt="HolyHornet UAV Systems"></a>
-<nav class="navlinks">
-<a class="active" href="index.html">Home</a>
-<a class="" href="fleet.html">Fleet</a>
-<a class="" href="solutions.html">Solutions</a>
-<a class="" href="industries.html">Industries</a>
-<a class="" href="technology.html">Technology</a>
-<a class="" href="education.html">Education</a>
-<a class="" href="about.html">About</a>
-<a class="" href="contact.html">Contact</a>
-</nav>
-<a class="navcta" href="contact.html">Request a quote →</a><button class="mobile" aria-label="Menu">☰</button>
-</div></header><main>
-<section class="page-hero"><div class="wrap"><div class="eyebrow">HOLYHORNET / CONTACT</div><h1>Have a mission?<br>Let's engineer it.</h1><p>Tell us what you are trying to achieve. We'll start with the mission, environment and constraints — then work toward the right unmanned solution.</p></div></section>
-<section class="section"><div class="wrap contact"><div><div class="eyebrow">PROJECT ENQUIRY</div><h2>Start the conversation.</h2><p class="lead">Use the form for a project, partnership, consultancy or platform enquiry. Replace the placeholder contact details below with your official HolyHornet details before launch.</p><div style="margin-top:35px"><p><strong>EMAIL</strong><br><span class="yellow">hello@holyhornet.com</span></p><p><strong>LOCATION</strong><br><span style="color:var(--muted)">Europe / Netherlands</span></p></div></div>
-<form class="form" onsubmit="event.preventDefault();alert('Demo form — connect this to your email/CRM before launch.');"><label>Name<input required></label><label>Company<input></label><label>Email<input type="email" required></label><label>What do you need?<select><option>UAV consultancy</option><option>Fleet / platform</option><option>Systems integration</option><option>UAV operations</option><option>Other</option></select></label><label>Project details<textarea placeholder="Mission, environment, timing, desired outcome..."></textarea></label><button class="btn" type="submit">Send project enquiry →</button></form></div></section>
-</main><footer><div class="wrap footer-row"><div>© 2026 HOLYHORNET / UAV SYSTEMS & CONSULTANCY</div><div>Independent. Technical. Mission-focused.</div></div></footer><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact — HolyHornet UAV Systems</title>
+<meta name="description" content="Contact HolyHornet about UAV consultancy, the fleet, systems integration, operations or training.">
+<script>try{var t=localStorage.getItem('hh-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.contact{display:grid;grid-template-columns:1fr 1.3fr;gap:24px;align-items:start}
+.info,.form-card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:36px}
+.info h2,.form-card h2{font-size:30px;line-height:1.15;margin-bottom:10px}
+.info>p{color:var(--soft)}
+.ways{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
+.ways li{display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:14px;background:var(--alt)}
+.ways .ico{width:44px;height:44px;border-radius:12px;flex:none}
+.ways .ico svg{width:22px;height:22px}
+.ways small{display:block;font-size:13px;color:var(--soft)}
+.ways a,.ways b{font-weight:700;text-decoration:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.trap{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.form-msg{margin-top:16px;padding:16px 18px;border-radius:14px;font-size:16px}
+.form-msg.ok{background:var(--sage-tint);display:grid;gap:6px}
+.form-msg.ok b{font:500 22px/1.2 var(--serif)}
+.form-msg.ok[hidden],.form-msg.err[hidden]{display:none}
+.form-msg.err{background:color-mix(in srgb,#d9534f 16%,var(--card));border:1px solid color-mix(in srgb,#d9534f 45%,transparent)}
+.form-msg a{color:var(--honey-ink);font-weight:700}
+#enquiry button[disabled]{opacity:.65;cursor:wait;transform:none;box-shadow:none}
+.form-card .hint{color:var(--soft);font-size:15px;margin:-2px 0 22px}
+@media (max-width:980px){.contact{grid-template-columns:1fr}}
+@media (max-width:620px){.info,.form-card{padding:26px 20px}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="status"><div class="wrap">
+  <span class="live"><i></i>Systems online</span>
+  <span class="hide">Ops desk open 24/7</span>
+  <span class="clock" id="utc">--:--:-- UTC</span>
+</div></div>
+
+<header><div class="wrap bar">
+  <a class="mark" href="index.html" aria-label="HolyHornet UAV Systems, home">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M17 3l12 7v14l-12 7-12-7V10z" fill="#e9a420"/><path d="M11 14c2-3 10-3 12 0M12 19h10M14 23h6" stroke="#2a1d00" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    <span><b>HolyHornet</b><small>UAV Systems</small></span>
+  </a>
+  <button class="toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Home</a>
+    <a href="fleet.html">Fleet</a>
+    <a href="solutions.html">Solutions</a>
+    <a href="industries.html">Industries</a>
+    <a href="technology.html">Technology</a>
+    <a href="education.html">Education</a>
+    <a href="about.html">About</a>
+    <a class="btn main" href="contact.html">Get a quote</a>
+  </nav>
+  <button class="theme" type="button" aria-label="Switch colour theme">
+    <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+  </button>
+</div></header>
+
+<main id="main">
+<section class="intro"><div class="wrap">
+  <span class="kicker">Contact</span>
+  <h1>Have a mission? <em>Let's talk.</em></h1>
+  <p class="lead">Tell us what you're trying to achieve. We start with the mission, the place and the limits, then work towards the right drone solution.</p>
+</div></section>
+<section class="sec first"><div class="wrap contact">
+  <div class="info">
+    <h2>Start the conversation</h2>
+    <p>For projects, partnerships, consultancy, aircraft or training. Tell us a little about the job and we'll get back to you.</p>
+    <ul class="ways">
+      <li><span class="ico t1"><svg viewBox="0 0 28 28"><rect x='3' y='6' width='22' height='16' rx='3'/><path d='M4 8l10 7 10-7'/></svg></span><span><small>Email</small><a href="mailto:info@holyhornet.com">info@holyhornet.com</a></span></li>
+      <li><span class="ico t2"><svg viewBox="0 0 28 28"><path d='M14 25s8-7 8-13a8 8 0 0 0-16 0c0 6 8 13 8 13z'/><circle cx='14' cy='12' r='3'/></svg></span><span><small>Location</small><b>Europe / Netherlands</b></span></li>    </ul>
+  </div>
+  <div class="form-card">
+    <h2>Send an enquiry</h2>
+    <p class="hint">Fill this in and press send. It comes straight to our team.</p>
+    <form id="enquiry" action="https://formspree.io/f/xdeeewdd" method="POST">
+      <input type="hidden" name="_subject" value="New enquiry from holyhornet website">
+      <input type="text" name="_gotcha" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="two">
+        <label class="field"><span>Name</span><input name="name" autocomplete="name" required></label>
+        <label class="field"><span>Company</span><input name="company" autocomplete="organization"></label>
+      </div>
+      <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+      <label class="field"><span>What do you need?</span><select name="need">
+        <option>UAV consultancy</option><option>Fleet &amp; aircraft</option><option>Systems integration</option>
+        <option>UAV operations</option><option>Training &amp; courses</option><option>Other</option></select></label>
+      <label class="field"><span>Project details</span><textarea name="message" placeholder="The mission, the location, timing and what you need at the end"></textarea></label>
+      <button class="btn main" type="submit">Send enquiry</button>
+      <p class="form-msg err" id="form-error" role="alert" hidden></p>
+    </form>
+    <div class="form-msg ok" id="sent" role="status" tabindex="-1" hidden>
+      <b>Thanks, we've got your message.</b>
+      <span>We'll reply to the email address you gave us. Want to send another? <a href="contact.html">Start a new enquiry</a>.</span>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="foot">
+    <div><a class="mark" href="index.html"><span><b>HolyHornet</b><small>UAV Systems</small></span></a><p>Advanced UAV solutions for a safer tomorrow. Independent. Technical. Mission-focused.</p></div>
+    <div><h4>Explore</h4><a href="fleet.html">Fleet</a><a href="solutions.html">Solutions</a><a href="industries.html">Industries</a><a href="technology.html">Technology</a></div>
+    <div><h4>Company</h4><a href="about.html">About</a><a href="education.html">Education</a><a href="contact.html">Contact</a></div>
+    <div><h4>Say hello</h4><a href="mailto:info@holyhornet.com">info@holyhornet.com</a><a href="contact.html">Request a quote</a></div>
+  </div>
+  <div class="legal">© 2026 HolyHornet UAV Systems &amp; Consultancy</div>
+</div></footer>
+
+<script src="script.js"></script>
+</body>
+</html>

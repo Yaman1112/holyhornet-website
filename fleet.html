@@ -1,27 +1,442 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HolyHornet Fleet — UAV Platforms</title><meta name="description" content="HolyHornet UAV Systems & Consultancy — UAV strategy, integration, operations and mission-specific systems."><link rel="stylesheet" href="styles.css"></head><body><div class="topline"></div>
-<header><div class="wrap nav">
-<a href="index.html"><img class="logo" src="assets/holyhornet-logo.jpg" alt="HolyHornet UAV Systems"></a>
-<nav class="navlinks">
-<a class="active" href="index.html">Home</a>
-<a class="" href="fleet.html">Fleet</a>
-<a class="" href="solutions.html">Solutions</a>
-<a class="" href="industries.html">Industries</a>
-<a class="" href="technology.html">Technology</a>
-<a class="" href="education.html">Education</a>
-<a class="" href="about.html">About</a>
-<a class="" href="contact.html">Contact</a>
-</nav>
-<a class="navcta" href="contact.html">Request a quote →</a><button class="mobile" aria-label="Menu">☰</button>
-</div></header><main>
-<section class="page-hero"><div class="wrap"><div class="eyebrow">HOLYHORNET / FLEET</div><h1>The right platform<br>for every mission.</h1><p>A configurable family of UAV platforms spanning FPV, night vision, long-range, VTOL, fixed-wing, thermal and specialist payload systems.</p></div></section>
-<section class="section"><div class="wrap"><div class="fleet-grid">
-<div id="fpv" class="card"><div class="card-img"><span>HH-FPV / 01</span></div><div class="card-body"><div class="tag">FPV</div><h3>HORNET FPV X1</h3><p>High-agility FPV platform for immersive inspection, cinematic capture and specialist close-range work.</p><div class="spec">4S–6S / MODULAR / LOW LATENCY</div></div></div>
-<div id="night" class="card"><div class="card-img"><span>HH-NV / 02</span></div><div class="card-body"><div class="tag">NIGHT VISION</div><h3>NIGHT STINGER</h3><p>Low-light platform configured for night inspection, search support and operations in reduced visibility.</p><div class="spec">LOW LIGHT / EO-IR / MODULAR</div></div></div>
-<div id="longrange" class="card"><div class="card-img"><span>HH-LR / 03</span></div><div class="card-body"><div class="tag">LONG RANGE</div><h3>VIPER LR</h3><p>Endurance-focused multirotor architecture for extended inspection, mapping and data collection.</p><div class="spec">ENDURANCE / MULTI-PAYLOAD / RTK</div></div></div>
-<div id="vtol" class="card"><div class="card-img"><span>HH-VT / 04</span></div><div class="card-body"><div class="tag">VTOL</div><h3>ARES VTOL</h3><p>Hybrid fixed-wing platform for efficient coverage where runway independence and endurance matter.</p><div class="spec">HYBRID / LONG ENDURANCE / MAPPING</div></div></div>
-<div class="card"><div class="card-img"><span>HH-FW / 05</span></div><div class="card-body"><div class="tag">FIXED WING</div><h3>SKYHAWK</h3><p>Efficient platform for large-area surveying, infrastructure and environmental data collection.</p><div class="spec">FIXED WING / RTK / AREA COVERAGE</div></div></div>
-<div class="card"><div class="card-img"><span>HH-TH / 06</span></div><div class="card-body"><div class="tag">THERMAL</div><h3>THERMAL PLATFORM</h3><p>Visible and thermal sensing for inspection, search support and condition assessment.</p><div class="spec">THERMAL / EO / DATA REVIEW</div></div></div>
-<div class="card"><div class="card-img"><span>HH-PL / 07</span></div><div class="card-body"><div class="tag">PAYLOADS</div><h3>SENSOR SYSTEMS</h3><p>Modular payload architecture for imaging, mapping and specialist data acquisition.</p><div class="spec">EO/IR / LIDAR* / SPECIALIST</div></div></div>
-<div class="card"><div class="card-img"><span>HH-CX / 08</span></div><div class="card-body"><div class="tag">CUSTOM</div><h3>HOLYHORNET X</h3><p>Mission-specific configurations combining airframe, payload, communications and workflow requirements.</p><div class="spec">MODULAR / INTEGRATED / CUSTOM</div></div></div>
-</div><p class="lead" style="margin-top:20px;font-size:11px">Specifications shown are conceptual placeholders and should be replaced with verified HolyHornet platform data before launch.</p></div></section>
-</main><footer><div class="wrap footer-row"><div>© 2026 HOLYHORNET / UAV SYSTEMS & CONSULTANCY</div><div>Independent. Technical. Mission-focused.</div></div></footer><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fleet — HolyHornet UAV Systems</title>
+<meta name="description" content="The HolyHornet fleet: counter-drone interceptors, FPV, heavy-lift, industrial logistics and agricultural UAVs, with full specifications.">
+<script>try{var t=localStorage.getItem('hh-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.intro{padding-bottom:28px}
+.filters{position:sticky;top:76px;z-index:30;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.filters .wrap{display:flex;flex-wrap:wrap;gap:8px;padding:14px 0}
+.chip{flex:none;min-height:42px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:600 15px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.chip span{font-size:13px;color:var(--soft);background:var(--alt);border-radius:999px;padding:1px 8px}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip.on span{background:color-mix(in srgb,var(--bg) 20%,transparent);color:inherit}
+html{scroll-padding-top:150px}
+.group{padding:56px 0 8px}
+.ghead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 24px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.ghead h2{font-size:clamp(28px,3vw,38px);line-height:1.1}
+.ghead p{color:var(--soft);font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+.uav{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:box-shadow .2s}
+.uav:hover{box-shadow:var(--shadow)}
+.uav:target{outline:3px solid var(--honey);outline-offset:2px}
+.pic{position:relative;background:#fff;aspect-ratio:4/3;border-bottom:1px solid var(--line)}
+.pic img{position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:contain}
+.txt{padding:20px 22px 22px}
+.pill{display:inline-block;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--honey-tint);color:var(--honey-ink);margin-bottom:10px}
+.uav h3{font-size:28px;line-height:1.1;margin-bottom:6px}
+.uav p{color:var(--soft);font-size:16px}
+.keys{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.keys div{background:var(--alt);border-radius:12px;padding:10px 12px}
+.keys dt{font-size:13px;color:var(--soft)}
+.keys dd{margin:2px 0 0;font-weight:700;font-size:15px;line-height:1.3}
+.uav details{border-top:1px solid var(--line);margin:0 -22px -22px}
+.uav summary{cursor:pointer;list-style:none;padding:16px 22px;font-weight:700;font-size:16px;color:var(--honey-ink);display:flex;justify-content:space-between;align-items:center}
+.uav summary::-webkit-details-marker{display:none}
+.uav summary:after{content:"+";font-size:22px;line-height:1}
+.uav details[open] summary:after{content:"–"}
+.uav summary:hover{background:var(--alt)}
+.uav table{width:100%;border-collapse:collapse;font-size:15px}
+.uav th,.uav td{text-align:left;vertical-align:top;padding:9px 22px;border-top:1px solid var(--line)}
+.uav th{font-weight:600;color:var(--soft);width:44%}
+.uav tr:nth-child(odd) td,.uav tr:nth-child(odd) th{background:color-mix(in srgb,var(--alt) 55%,transparent)}
+.note{margin:56px 0 0;padding:22px 24px;border-radius:var(--r);background:var(--alt);color:var(--soft);font-size:16px}
+.band-sec{padding-top:40px}
+@media (max-width:980px){.grid{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){
+  .grid{grid-template-columns:1fr}
+  .filters .wrap{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .filters .wrap::-webkit-scrollbar{display:none}
+  .uav th,.uav td{padding:9px 16px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="status"><div class="wrap">
+  <span class="live"><i></i>Systems online</span>
+  <span class="hide">Ops desk open 24/7</span>
+  <span class="clock" id="utc">--:--:-- UTC</span>
+</div></div>
+
+<header><div class="wrap bar">
+  <a class="mark" href="index.html" aria-label="HolyHornet UAV Systems, home">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M17 3l12 7v14l-12 7-12-7V10z" fill="#e9a420"/><path d="M11 14c2-3 10-3 12 0M12 19h10M14 23h6" stroke="#2a1d00" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    <span><b>HolyHornet</b><small>UAV Systems</small></span>
+  </a>
+  <button class="toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Home</a>
+    <a aria-current="page" href="fleet.html">Fleet</a>
+    <a href="solutions.html">Solutions</a>
+    <a href="industries.html">Industries</a>
+    <a href="technology.html">Technology</a>
+    <a href="education.html">Education</a>
+    <a href="about.html">About</a>
+    <a class="btn main" href="contact.html">Get a quote</a>
+  </nav>
+  <button class="theme" type="button" aria-label="Switch colour theme">
+    <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+  </button>
+</div></header>
+
+<main id="main">
+<section class="intro"><div class="wrap">
+  <span class="kicker">Our fleet · 28 aircraft</span>
+  <h1>The right aircraft for the job</h1>
+  <p class="lead">From 380 km/h interceptors to 50 kg heavy lifters and farm sprayers. Pick a category, compare the key numbers, and open any aircraft for its full specifications.</p>
+</div></section>
+
+<div class="filters" role="toolbar" aria-label="Filter aircraft by category"><div class="wrap">
+  <button class="chip on" data-f="all" aria-pressed="true">All aircraft</button><button class="chip" data-f="counter-drone" aria-pressed="false">Counter-drone interceptors <span>2</span></button><button class="chip" data-f="high-speed" aria-pressed="false">High-speed FPV interceptors <span>3</span></button><button class="chip" data-f="fpv" aria-pressed="false">FPV aircraft <span>4</span></button><button class="chip" data-f="heavy-fpv" aria-pressed="false">Heavy-lift FPV aircraft <span>4</span></button><button class="chip" data-f="six-axis" aria-pressed="false">Six-axis heavy FPV aircraft <span>3</span></button><button class="chip" data-f="industrial" aria-pressed="false">Industrial patrol &amp; logistics drones <span>8</span></button><button class="chip" data-f="agriculture" aria-pressed="false">Agricultural drones <span>4</span></button>
+</div></div>
+
+<div class="wrap">
+  <section class="group" data-g="counter-drone" id="counter-drone">
+    <div class="ghead"><h2>Counter-drone interceptors</h2><p>Fast, agile aircraft built to catch and stop hostile drones in the air.</p></div>
+    <div class="grid">
+      <article class="uav" id="interceptor-250">
+        <div class="pic"><img src="assets/fleet/interceptor-250.jpg" alt="Interceptor 250 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">High-speed interception drone</span>
+          <h3>Interceptor 250</h3>
+          <p>Carbon and CNC-aluminium interceptor with automatic target selection and tracking.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>250 km/h</dd></div><div><dt>Thrust-to-weight</dt><dd>≥ 2.0</dd></div><div><dt>Take-off weight</dt><dd>3 kg</dd></div><div><dt>Protection</dt><dd>IP45</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Top speed (unloaded)</th><td>250 km/h</td></tr><tr><th>Thrust-to-weight ratio</th><td>≥ 2.0</td></tr><tr><th>Protection rating</th><td>IP45</td></tr><tr><th>Dimensions</th><td>580 × 580 × 520 mm</td></tr><tr><th>Frame</th><td>Carbon fibre + CNC aluminium</td></tr><tr><th>Wheelbase</th><td>435 mm</td></tr><tr><th>Battery</th><td>8S</td></tr><tr><th>Propellers</th><td>11 inch</td></tr><tr><th>Take-off weight (unloaded)</th><td>3 kg</td></tr><tr><th>Features</th><td>Multi-point calibration, autonomous target selection, automatic target tracking</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="interceptor-300">
+        <div class="pic"><img src="assets/fleet/interceptor-300.jpg" alt="Interceptor 300 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">High-speed interception drone</span>
+          <h3>Interceptor 300</h3>
+          <p>Delta-wing interceptor with fast climb and acceleration for chasing fast-moving drones.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>300 km/h</dd></div><div><dt>Climb rate</dt><dd>≥ 15 m/s</dd></div><div><dt>Flight time</dt><dd>12–18 min</dd></div><div><dt>Take-off weight</dt><dd>≤ 8 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Top speed</th><td>300 km/h</td></tr><tr><th>Max level speed</th><td>200 km/h (≈55 m/s)</td></tr><tr><th>Thrust-to-weight ratio</th><td>≥ 2.0</td></tr><tr><th>Rate of climb</th><td>≥ 15 m/s</td></tr><tr><th>0–100 km/h</th><td>≤ 3.5 s</td></tr><tr><th>Max take-off weight</th><td>≤ 8 kg</td></tr><tr><th>Endurance</th><td>12–18 min (high-speed interception)</td></tr><tr><th>Power</th><td>12S lithium (≈44.4 V), ≥ 120 A continuous; optional fuel cell</td></tr><tr><th>Control link</th><td>5–10 km line of sight, latency ≤ 30 ms</td></tr><tr><th>Protection rating</th><td>IP45</td></tr><tr><th>Features</th><td>Multi-point calibration, autonomous target selection, automatic target tracking</td></tr></table></details>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="group" data-g="high-speed" id="high-speed">
+    <div class="ghead"><h2>High-speed FPV interceptors</h2><p>Rocket-shaped FPV aircraft with low-drag bodies, 15 km range and very high top speeds.</p></div>
+    <div class="grid">
+      <article class="uav" id="fpv-5t">
+        <div class="pic"><img src="assets/fleet/fpv-5t.jpg" alt="FPV-5T drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">5-inch high-speed rocket airframe</span>
+          <h3>FPV-5T</h3>
+          <p>Smallest and fastest of the rocket range, for high-speed tracking and interception.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>380 km/h</dd></div><div><dt>Max payload</dt><dd>300 g</dd></div><div><dt>Flight time</dt><dd>About 5 min</dd></div><div><dt>Take-off weight</dt><dd>900 g</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>5-inch high-speed rocket</td></tr><tr><th>Frame type</th><td>Streamlined rocket body</td></tr><tr><th>Wheelbase</th><td>230 mm</td></tr><tr><th>Weight</th><td>450 g (bare)</td></tr><tr><th>Top speed</th><td>380 km/h</td></tr><tr><th>Rated payload</th><td>200 g</td></tr><tr><th>Max payload</th><td>300 g</td></tr><tr><th>Max take-off weight</th><td>900 g</td></tr><tr><th>Battery</th><td>Dedicated battery (6S)</td></tr><tr><th>Endurance</th><td>About 5 min</td></tr><tr><th>Motor KV</th><td>Custom rocket motor</td></tr><tr><th>Control &amp; video range</th><td>Up to 15 km</td></tr><tr><th>Wind resistance</th><td>Level 6</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-7t">
+        <div class="pic"><img src="assets/fleet/fpv-7t.jpg" alt="FPV-7T drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">7-inch high-speed rocket airframe</span>
+          <h3>FPV-7T</h3>
+          <p>8S-powered rocket airframe balancing speed with a larger payload.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>320 km/h</dd></div><div><dt>Max payload</dt><dd>450 g</dd></div><div><dt>Flight time</dt><dd>About 5 min</dd></div><div><dt>Take-off weight</dt><dd>1.3 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>7-inch high-speed rocket</td></tr><tr><th>Frame type</th><td>Streamlined rocket body</td></tr><tr><th>Wheelbase</th><td>300 mm</td></tr><tr><th>Weight</th><td>650 g (bare)</td></tr><tr><th>Top speed</th><td>320 km/h</td></tr><tr><th>Rated payload</th><td>300 g</td></tr><tr><th>Max payload</th><td>450 g</td></tr><tr><th>Max take-off weight</th><td>1.3 kg</td></tr><tr><th>Battery</th><td>Dedicated battery (8S)</td></tr><tr><th>Endurance</th><td>About 5 min</td></tr><tr><th>Motor KV</th><td>Custom rocket motor</td></tr><tr><th>Control &amp; video range</th><td>Up to 15 km</td></tr><tr><th>Wind resistance</th><td>Level 6</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-10t">
+        <div class="pic"><img src="assets/fleet/fpv-10t.jpg" alt="FPV-10T drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">10-inch high-speed rocket airframe</span>
+          <h3>FPV-10T</h3>
+          <p>Carbon and aluminium rocket airframe with the biggest payload in the range.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>280 km/h</dd></div><div><dt>Max payload</dt><dd>650 g</dd></div><div><dt>Flight time</dt><dd>About 6 min</dd></div><div><dt>Take-off weight</dt><dd>2.1 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>10-inch high-speed rocket</td></tr><tr><th>Frame type</th><td>Streamlined rocket body</td></tr><tr><th>Wheelbase</th><td>480 mm</td></tr><tr><th>Weight</th><td>1400 g (bare)</td></tr><tr><th>Top speed</th><td>280 km/h</td></tr><tr><th>Rated payload</th><td>500 g</td></tr><tr><th>Max payload</th><td>650 g</td></tr><tr><th>Max take-off weight</th><td>2.1 kg</td></tr><tr><th>Battery</th><td>Dedicated battery</td></tr><tr><th>Endurance</th><td>About 6 min</td></tr><tr><th>Motor KV</th><td>Custom rocket motor</td></tr><tr><th>Control &amp; video range</th><td>Up to 15 km</td></tr><tr><th>Wind resistance</th><td>Level 6</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="group" data-g="fpv" id="fpv">
+    <div class="ghead"><h2>FPV aircraft</h2><p>Classic X-frame FPV quads for training, inspection, fast filming and light carrying jobs.</p></div>
+    <div class="grid">
+      <article class="uav" id="fpv-5">
+        <div class="pic"><img src="assets/fleet/fpv-5.jpg" alt="FPV-5 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">5-inch standard FPV</span>
+          <h3>FPV-5</h3>
+          <p>Light and agile at 381 g. A great all-rounder for training and freestyle.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>130 km/h</dd></div><div><dt>Max payload</dt><dd>0.6 kg</dd></div><div><dt>Flight time</dt><dd>About 14 min</dd></div><div><dt>Take-off weight</dt><dd>1.5 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>5-inch</td></tr><tr><th>Frame type</th><td>X-frame</td></tr><tr><th>Wheelbase</th><td>225 mm</td></tr><tr><th>Weight</th><td>381 g</td></tr><tr><th>Top speed</th><td>130 km/h</td></tr><tr><th>Rated payload</th><td>0.5 kg</td></tr><tr><th>Max payload</th><td>0.6 kg</td></tr><tr><th>Max take-off weight</th><td>1.5 kg</td></tr><tr><th>Battery</th><td>6S 1800 mAh (XT60)</td></tr><tr><th>Endurance</th><td>About 14 min (1800 mAh)</td></tr><tr><th>Motor KV</th><td>1960 KV</td></tr><tr><th>Endurance (1500 mAh)</th><td>About 10 min</td></tr><tr><th>ESC</th><td>65 A</td></tr><tr><th>Motor</th><td>2207</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-7">
+        <div class="pic"><img src="assets/fleet/fpv-7.jpg" alt="FPV-7 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">7-inch standard FPV</span>
+          <h3>FPV-7</h3>
+          <p>Efficient 7-inch quad that carries up to 2 kg for line inspection and light tasks.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>130 km/h</dd></div><div><dt>Max payload</dt><dd>2.0 kg</dd></div><div><dt>Flight time</dt><dd>About 7 min</dd></div><div><dt>Take-off weight</dt><dd>3.5 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>7-inch</td></tr><tr><th>Frame type</th><td>X-frame</td></tr><tr><th>Wheelbase</th><td>295 mm</td></tr><tr><th>Weight</th><td>540 g</td></tr><tr><th>Top speed</th><td>130 km/h</td></tr><tr><th>Rated payload</th><td>1.5 kg</td></tr><tr><th>Max payload</th><td>2.0 kg</td></tr><tr><th>Max take-off weight</th><td>3.5 kg</td></tr><tr><th>Battery</th><td>6S 4500 mAh (XT60)</td></tr><tr><th>Endurance</th><td>About 7 min (4500 mAh)</td></tr><tr><th>Motor KV</th><td>900 KV</td></tr><tr><th>Endurance (8500 mAh)</th><td>About 12 min</td></tr><tr><th>ESC</th><td>55 A 4-in-1</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-10">
+        <div class="pic"><img src="assets/fleet/fpv-10.jpg" alt="FPV-10 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">10-inch standard FPV</span>
+          <h3>FPV-10</h3>
+          <p>Large 10-inch quad weighing just 800 g, carrying up to 4 kg.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>140 km/h</dd></div><div><dt>Max payload</dt><dd>4.0 kg</dd></div><div><dt>Flight time</dt><dd>About 9 min</dd></div><div><dt>Take-off weight</dt><dd>6.5 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>10-inch</td></tr><tr><th>Frame type</th><td>X-frame</td></tr><tr><th>Wheelbase</th><td>425 mm</td></tr><tr><th>Weight</th><td>800 g</td></tr><tr><th>Top speed</th><td>140 km/h</td></tr><tr><th>Rated payload</th><td>3.0 kg</td></tr><tr><th>Max payload</th><td>4.0 kg</td></tr><tr><th>Max take-off weight</th><td>6.5 kg</td></tr><tr><th>Battery</th><td>6S 8500 mAh (XT60)</td></tr><tr><th>Endurance</th><td>About 9 min (8500 mAh)</td></tr><tr><th>Motor KV</th><td>900 KV</td></tr><tr><th>Endurance (10000 mAh)</th><td>About 11 min</td></tr><tr><th>ESC</th><td>65 A 4-in-1</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-10a">
+        <div class="pic"><img src="assets/fleet/fpv-10a.jpg" alt="FPV-10A drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">10-inch FPV on Mark4 V2 frame</span>
+          <h3>FPV-10A</h3>
+          <p>The FPV-10 on a Mark4 V2 frame with 3115 motors, for equipment carrying.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>140 km/h</dd></div><div><dt>Max payload</dt><dd>4.0 kg</dd></div><div><dt>Flight time</dt><dd>About 9 min</dd></div><div><dt>Take-off weight</dt><dd>6.5 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>10-inch Mark4 V2</td></tr><tr><th>Frame type</th><td>X-frame</td></tr><tr><th>Wheelbase</th><td>425 mm</td></tr><tr><th>Weight</th><td>800 g</td></tr><tr><th>Top speed</th><td>140 km/h</td></tr><tr><th>Rated payload</th><td>3.0 kg</td></tr><tr><th>Max payload</th><td>4.0 kg</td></tr><tr><th>Max take-off weight</th><td>6.5 kg</td></tr><tr><th>Battery</th><td>6S 8500 mAh (XT60)</td></tr><tr><th>Endurance</th><td>About 9 min (8500 mAh)</td></tr><tr><th>Motor KV</th><td>900 KV</td></tr><tr><th>Endurance (10000 mAh)</th><td>About 11 min</td></tr><tr><th>ESC</th><td>65 A 4-in-1</td></tr><tr><th>Motor</th><td>3115</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="group" data-g="heavy-fpv" id="heavy-fpv">
+    <div class="ghead"><h2>Heavy-lift FPV aircraft</h2><p>Big-propeller FPV quads that carry 6–13 kg for transport and industrial jobs.</p></div>
+    <div class="grid">
+      <article class="uav" id="fpv-13">
+        <div class="pic"><img src="assets/fleet/fpv-13.jpg" alt="FPV-13 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">13-inch heavy-lift FPV</span>
+          <h3>FPV-13</h3>
+          <p>8S, 90 A heavy-lift quad carrying up to 8 kg.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>130 km/h</dd></div><div><dt>Max payload</dt><dd>8 kg</dd></div><div><dt>Flight time</dt><dd>About 11 min</dd></div><div><dt>Take-off weight</dt><dd>11.3 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>13-inch</td></tr><tr><th>Frame type</th><td>X-frame</td></tr><tr><th>Wheelbase</th><td>550 mm</td></tr><tr><th>Weight</th><td>1980 g</td></tr><tr><th>Top speed</th><td>130 km/h</td></tr><tr><th>Rated payload</th><td>6 kg</td></tr><tr><th>Max payload</th><td>8 kg</td></tr><tr><th>Max take-off weight</th><td>11.3 kg</td></tr><tr><th>Battery</th><td>8S 12000 mAh (XT60)</td></tr><tr><th>Endurance</th><td>About 11 min (12000 mAh)</td></tr><tr><th>Motor KV</th><td>400 KV</td></tr><tr><th>ESC</th><td>90 A 4-in-1, 8S</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-13a">
+        <div class="pic"><img src="assets/fleet/fpv-13a.jpg" alt="FPV-13A drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">13-inch heavy-lift FPV, Mark4 frame</span>
+          <h3>FPV-13A</h3>
+          <p>Mark4-frame version of the FPV-13 with extra power headroom.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>130 km/h</dd></div><div><dt>Max payload</dt><dd>7 kg</dd></div><div><dt>Flight time</dt><dd>About 11 min</dd></div><div><dt>Take-off weight</dt><dd>11.3 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>13-inch Mark4</td></tr><tr><th>Frame type</th><td>X-frame</td></tr><tr><th>Wheelbase</th><td>520 mm</td></tr><tr><th>Weight</th><td>1980 g</td></tr><tr><th>Top speed</th><td>130 km/h</td></tr><tr><th>Rated payload</th><td>6 kg</td></tr><tr><th>Max payload</th><td>7 kg</td></tr><tr><th>Max take-off weight</th><td>11.3 kg</td></tr><tr><th>Battery</th><td>8S 12600 mAh (XT60)</td></tr><tr><th>Endurance</th><td>About 11 min (12600 mAh)</td></tr><tr><th>Motor KV</th><td>400 KV</td></tr><tr><th>ESC</th><td>90 A 4-in-1, 8S</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-15">
+        <div class="pic"><img src="assets/fleet/fpv-15.jpg" alt="FPV-15 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">15-inch heavy-lift FPV</span>
+          <h3>FPV-15</h3>
+          <p>15-inch quad carrying up to 10 kg for logistics and survey kit.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>130 km/h</dd></div><div><dt>Max payload</dt><dd>10 kg</dd></div><div><dt>Flight time</dt><dd>About 12 min</dd></div><div><dt>Take-off weight</dt><dd>13 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>15-inch</td></tr><tr><th>Frame type</th><td>X-frame</td></tr><tr><th>Wheelbase</th><td>647 mm</td></tr><tr><th>Weight</th><td>2080 g</td></tr><tr><th>Top speed</th><td>130 km/h</td></tr><tr><th>Rated payload</th><td>8 kg</td></tr><tr><th>Max payload</th><td>10 kg</td></tr><tr><th>Max take-off weight</th><td>13 kg</td></tr><tr><th>Battery</th><td>8S 16000 mAh</td></tr><tr><th>Endurance</th><td>About 12 min (16000 mAh)</td></tr><tr><th>Motor KV</th><td>440 KV</td></tr><tr><th>ESC</th><td>110 A 4-in-1, 8S</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-18">
+        <div class="pic"><img src="assets/fleet/fpv-18.jpg" alt="FPV-18 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">18-inch heavy-lift FPV</span>
+          <h3>FPV-18</h3>
+          <p>The biggest quad, on a 12S system, carrying up to 13 kg.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>130 km/h</dd></div><div><dt>Max payload</dt><dd>13 kg</dd></div><div><dt>Flight time</dt><dd>About 12 min</dd></div><div><dt>Take-off weight</dt><dd>19 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>18-inch</td></tr><tr><th>Frame type</th><td>X-frame</td></tr><tr><th>Wheelbase</th><td>596 mm</td></tr><tr><th>Weight</th><td>3000 g</td></tr><tr><th>Top speed</th><td>130 km/h</td></tr><tr><th>Rated payload</th><td>12 kg</td></tr><tr><th>Max payload</th><td>13 kg</td></tr><tr><th>Max take-off weight</th><td>19 kg</td></tr><tr><th>Battery</th><td>12S 30000 mAh</td></tr><tr><th>Endurance</th><td>About 12 min (30000 mAh)</td></tr><tr><th>Motor KV</th><td>210 KV</td></tr><tr><th>ESC</th><td>4 × 160 A individual</td></tr><tr><th>Motor</th><td>6210</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="group" data-g="six-axis" id="six-axis">
+    <div class="ghead"><h2>Six-axis heavy FPV aircraft</h2><p>Six motors mean redundancy: the aircraft can keep flying safely if one motor fails.</p></div>
+    <div class="grid">
+      <article class="uav" id="fpv-11m">
+        <div class="pic"><img src="assets/fleet/fpv-11m.jpg" alt="FPV-11M drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">11-inch six-axis heavy FPV</span>
+          <h3>FPV-11M</h3>
+          <p>Six-rotor redundancy with the longest FPV flight time, around 16 minutes.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>140 km/h</dd></div><div><dt>Max payload</dt><dd>6 kg</dd></div><div><dt>Flight time</dt><dd>About 16 min</dd></div><div><dt>Take-off weight</dt><dd>11.5 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>11-inch 6-axis</td></tr><tr><th>Frame type</th><td>X-type 6-axis</td></tr><tr><th>Wheelbase</th><td>484 mm</td></tr><tr><th>Weight</th><td>1800 g</td></tr><tr><th>Top speed</th><td>140 km/h</td></tr><tr><th>Rated payload</th><td>5 kg</td></tr><tr><th>Max payload</th><td>6 kg</td></tr><tr><th>Max take-off weight</th><td>11.5 kg</td></tr><tr><th>Battery</th><td>8S 16000 mAh</td></tr><tr><th>Endurance</th><td>About 16 min (16000 mAh)</td></tr><tr><th>Motor KV</th><td>480 KV</td></tr><tr><th>ESC</th><td>6 × 60 A individual</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-13m">
+        <div class="pic"><img src="assets/fleet/fpv-13m.jpg" alt="FPV-13M drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">13-inch six-axis heavy FPV</span>
+          <h3>FPV-13M</h3>
+          <p>Redundant six-rotor platform carrying up to 10 kg.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>140 km/h</dd></div><div><dt>Max payload</dt><dd>10 kg</dd></div><div><dt>Flight time</dt><dd>About 14 min</dd></div><div><dt>Take-off weight</dt><dd>15 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>13-inch 6-axis</td></tr><tr><th>Frame type</th><td>X-type 6-axis</td></tr><tr><th>Wheelbase</th><td>700 mm</td></tr><tr><th>Weight</th><td>—</td></tr><tr><th>Top speed</th><td>140 km/h</td></tr><tr><th>Rated payload</th><td>9 kg</td></tr><tr><th>Max payload</th><td>10 kg</td></tr><tr><th>Max take-off weight</th><td>15 kg</td></tr><tr><th>Battery</th><td>8S 20000 mAh</td></tr><tr><th>Endurance</th><td>About 14 min (20000 mAh)</td></tr><tr><th>Motor KV</th><td>380 KV</td></tr><tr><th>ESC</th><td>6 × 60 A individual</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="fpv-15m">
+        <div class="pic"><img src="assets/fleet/fpv-15m.jpg" alt="FPV-15M drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">15-inch six-axis heavy FPV</span>
+          <h3>FPV-15M</h3>
+          <p>Industrial six-rotor platform with an 11.5 kg payload and 19.5 kg take-off weight.</p>
+          <dl class="keys"><div><dt>Top speed</dt><dd>130 km/h</dd></div><div><dt>Max payload</dt><dd>11.5 kg</dd></div><div><dt>Flight time</dt><dd>About 12 min</dd></div><div><dt>Take-off weight</dt><dd>19.5 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Frame</th><td>15-inch 6-axis</td></tr><tr><th>Frame type</th><td>X-type 6-axis</td></tr><tr><th>Wheelbase</th><td>—</td></tr><tr><th>Weight</th><td>—</td></tr><tr><th>Top speed</th><td>130 km/h</td></tr><tr><th>Rated payload</th><td>10 kg</td></tr><tr><th>Max payload</th><td>11.5 kg</td></tr><tr><th>Max take-off weight</th><td>19.5 kg</td></tr><tr><th>Battery</th><td>8S 20000 mAh</td></tr><tr><th>Endurance</th><td>About 12 min (20000 mAh)</td></tr><tr><th>Motor KV</th><td>380 KV</td></tr><tr><th>ESC</th><td>6 × 80 A individual</td></tr><tr><th>Motor</th><td>4720</td></tr><tr><th>Flight controller</th><td>F405</td></tr><tr><th>Gyroscope</th><td>ICM-42688-P</td></tr><tr><th>Barometer</th><td>SPL06-001</td></tr><tr><th>Black box</th><td>16 MB</td></tr><tr><th>Radio protocol</th><td>ELRS</td></tr><tr><th>Video link</th><td>5.8 GHz analogue</td></tr><tr><th>Video frequency</th><td>5500–6000 MHz</td></tr><tr><th>Video power</th><td>Up to 3 W (25 / 1000 / 2000 / 3000 mW)</td></tr><tr><th>Video on/off control</th><td>Supported (switch)</td></tr><tr><th>Antenna connector</th><td>MMCX</td></tr><tr><th>Camera</th><td>1/3&quot; CMOS, 1500 TVL</td></tr></table></details>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="group" data-g="industrial" id="industrial">
+    <div class="ghead"><h2>Industrial patrol &amp; logistics drones</h2><p>Foldable GPS multirotors for patrol, delivery and heavy lifting, with route planning and one-click return.</p></div>
+    <div class="grid">
+      <article class="uav" id="t5-x4">
+        <div class="pic"><img src="assets/fleet/t5-x4.jpg" alt="T5-X4 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">4-rotor, 5 kg payload</span>
+          <h3>T5-X4</h3>
+          <p>Foldable patrol and logistics drone with 53 minutes of flight time when empty.</p>
+          <dl class="keys"><div><dt>Max payload</dt><dd>5 kg</dd></div><div><dt>Flight time</dt><dd>53 min empty / 24 min with 4 kg</dd></div><div><dt>Take-off weight</dt><dd>9 kg</dd></div><div><dt>Protection</dt><dd>IP56</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Unfolded size</th><td>710 × 710 × 500 mm</td></tr><tr><th>Folded size</th><td>345 × 345 × 500 mm</td></tr><tr><th>Wheelbase</th><td>900 mm</td></tr><tr><th>Motors</th><td>4 (X layout)</td></tr><tr><th>Empty weight</th><td>3.3 kg (without battery)</td></tr><tr><th>Standard payload</th><td>3–5 kg</td></tr><tr><th>Max payload</th><td>5 kg</td></tr><tr><th>Max take-off weight</th><td>9 kg</td></tr><tr><th>Endurance</th><td>53 min empty, 24 min with 4 kg</td></tr><tr><th>Flight speed</th><td>8–15 m/s</td></tr><tr><th>Voltage</th><td>25.8 V (6S)</td></tr><tr><th>Battery</th><td>6S 30000 mAh</td></tr><tr><th>Wind resistance</th><td>Level 5</td></tr><tr><th>Protection rating</th><td>IP56</td></tr><tr><th>Body</th><td>Engineering plastic, PP, PA+GF, aluminium alloy</td></tr><tr><th>Propellers</th><td>Carbon-fibre reinforced nylon</td></tr><tr><th>Navigation</th><td>GPS, route planning</td></tr><tr><th>Functions</th><td>Route planning, one-click return, high/low-altitude drop, A-B and multi-point logistics</td></tr><tr><th>Expansion</th><td>Obstacle-avoidance radar, altitude radar, quick-release payload mounts</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="t5-x6">
+        <div class="pic"><img src="assets/fleet/t5-x6.jpg" alt="T5-X6 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">6-rotor, 5 kg payload</span>
+          <h3>T5-X6</h3>
+          <p>Compact six-rotor with motor redundancy and a fold-away frame.</p>
+          <dl class="keys"><div><dt>Max payload</dt><dd>5 kg</dd></div><div><dt>Flight time</dt><dd>30 min empty / 15 min with 5 kg</dd></div><div><dt>Take-off weight</dt><dd>12 kg</dd></div><div><dt>Protection</dt><dd>IP56</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Unfolded size</th><td>1280 × 1100 × 610 mm</td></tr><tr><th>Folded size</th><td>655 × 405 × 610 mm</td></tr><tr><th>Wheelbase</th><td>1200 mm</td></tr><tr><th>Motors</th><td>6</td></tr><tr><th>Empty weight</th><td>5.1 kg (without battery)</td></tr><tr><th>Standard payload</th><td>3–5 kg</td></tr><tr><th>Max payload</th><td>5 kg</td></tr><tr><th>Max take-off weight</th><td>12 kg</td></tr><tr><th>Endurance</th><td>30 min empty, 15 min with 5 kg</td></tr><tr><th>Flight speed</th><td>5–15 m/s</td></tr><tr><th>Voltage</th><td>25.8 V (6S)</td></tr><tr><th>Battery</th><td>6S 30000 mAh</td></tr><tr><th>Wind resistance</th><td>Level 5</td></tr><tr><th>Protection rating</th><td>IP56</td></tr><tr><th>Body</th><td>Engineering plastic, PP, PA+GF, aluminium alloy</td></tr><tr><th>Propellers</th><td>Carbon-fibre reinforced nylon</td></tr><tr><th>Navigation</th><td>GPS, route planning</td></tr><tr><th>Functions</th><td>Route planning, one-click return, high/low-altitude drop, A-B and multi-point logistics</td></tr><tr><th>Expansion</th><td>Obstacle-avoidance radar, altitude radar</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="t15-x6">
+        <div class="pic"><img src="assets/fleet/t15-x6.jpg" alt="T15-X6 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">6-rotor, 15 kg payload</span>
+          <h3>T15-X6</h3>
+          <p>Mid-size hexacopter for logistics and emergency rescue, rated IP64.</p>
+          <dl class="keys"><div><dt>Max payload</dt><dd>15 kg</dd></div><div><dt>Flight time</dt><dd>25 min empty / 10 min with 15 kg</dd></div><div><dt>Take-off weight</dt><dd>34 kg</dd></div><div><dt>Protection</dt><dd>IP64</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Unfolded size</th><td>1700 × 1470 × 600 mm</td></tr><tr><th>Folded size</th><td>1080 × 950 × 600 mm</td></tr><tr><th>Wheelbase</th><td>1600 mm</td></tr><tr><th>Motors</th><td>6</td></tr><tr><th>Empty weight</th><td>13.1 kg (without battery)</td></tr><tr><th>Standard payload</th><td>10–15 kg</td></tr><tr><th>Max payload</th><td>15 kg</td></tr><tr><th>Max take-off weight</th><td>34 kg</td></tr><tr><th>Endurance</th><td>25 min empty, 10 min with 15 kg</td></tr><tr><th>Flight speed</th><td>5 m/s</td></tr><tr><th>Voltage</th><td>44.4 V (12S)</td></tr><tr><th>Battery</th><td>2 × 6S 22000 mAh</td></tr><tr><th>Wind resistance</th><td>Level 5</td></tr><tr><th>Protection rating</th><td>IP64</td></tr><tr><th>Body</th><td>Engineering plastic, PP, PA+GF, aluminium alloy</td></tr><tr><th>Propellers</th><td>Carbon-fibre reinforced nylon</td></tr><tr><th>Navigation</th><td>GPS, logistics flight mode</td></tr><tr><th>Functions</th><td>High/low-altitude drop, A-B and multi-point logistics</td></tr><tr><th>Expansion</th><td>Obstacle-avoidance radar, altitude radar</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="t20-x4">
+        <div class="pic"><img src="assets/fleet/t20-x4.jpg" alt="T20-X4 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">4-rotor, 20 kg payload</span>
+          <h3>T20-X4</h3>
+          <p>Long-endurance lifter: 29 minutes in the air even with 20 kg on board.</p>
+          <dl class="keys"><div><dt>Max payload</dt><dd>20 kg</dd></div><div><dt>Flight time</dt><dd>56 min empty / 29 min with 20 kg</dd></div><div><dt>Take-off weight</dt><dd>40 kg</dd></div><div><dt>Protection</dt><dd>IP56</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Unfolded size</th><td>1100 × 1100 × 600 mm</td></tr><tr><th>Folded size</th><td>650 × 650 × 600 mm</td></tr><tr><th>Wheelbase</th><td>1400 mm</td></tr><tr><th>Motors</th><td>4 (X layout, one per arm)</td></tr><tr><th>Empty weight</th><td>13.5 kg (without battery)</td></tr><tr><th>Standard payload</th><td>10–20 kg</td></tr><tr><th>Max payload</th><td>20 kg</td></tr><tr><th>Max take-off weight</th><td>40 kg</td></tr><tr><th>Endurance</th><td>56 min empty, 29 min with 20 kg</td></tr><tr><th>Flight speed</th><td>8–15 m/s</td></tr><tr><th>Voltage</th><td>58.8 V (14S)</td></tr><tr><th>Battery</th><td>2 × 14S 30000 mAh</td></tr><tr><th>Wind resistance</th><td>Level 5</td></tr><tr><th>Protection rating</th><td>IP56</td></tr><tr><th>Body</th><td>PE, FP, PA+GF, aluminium alloy</td></tr><tr><th>Propellers</th><td>Carbon-fibre reinforced nylon</td></tr><tr><th>Navigation</th><td>GPS, route planning</td></tr><tr><th>Functions</th><td>One-click return, route planning, high/low-altitude drop, A-B and multi-point logistics</td></tr><tr><th>Expansion</th><td>Obstacle-avoidance radar, altitude radar</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="t30-x6">
+        <div class="pic"><img src="assets/fleet/t30-x6.jpg" alt="T30-X6 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">6-rotor, 30 kg payload</span>
+          <h3>T30-X6</h3>
+          <p>Professional heavy lifter for logistics and rescue, with swarm flight support.</p>
+          <dl class="keys"><div><dt>Max payload</dt><dd>30 kg</dd></div><div><dt>Flight time</dt><dd>45 min empty / 20 min with 30 kg</dd></div><div><dt>Take-off weight</dt><dd>49 kg</dd></div><div><dt>Protection</dt><dd>IP64</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Unfolded size</th><td>2025 × 1800 × 850 mm</td></tr><tr><th>Folded size</th><td>1100 × 1050 × 850 mm</td></tr><tr><th>Wheelbase</th><td>1950 mm</td></tr><tr><th>Motors</th><td>6</td></tr><tr><th>Empty weight</th><td>18.6 kg (without battery)</td></tr><tr><th>Standard payload</th><td>20–30 kg</td></tr><tr><th>Max payload</th><td>30 kg</td></tr><tr><th>Max take-off weight</th><td>49 kg</td></tr><tr><th>Endurance</th><td>45 min empty, 20 min with 30 kg</td></tr><tr><th>Flight speed</th><td>5–15 m/s</td></tr><tr><th>Voltage</th><td>58.8 V (14S)</td></tr><tr><th>Battery</th><td>2 × 14S 30000 mAh</td></tr><tr><th>Wind resistance</th><td>Level 5</td></tr><tr><th>Protection rating</th><td>IP64</td></tr><tr><th>Body</th><td>Engineering plastic, PP, PA+GF, aluminium alloy</td></tr><tr><th>Propellers</th><td>Carbon-fibre reinforced nylon</td></tr><tr><th>Navigation</th><td>GPS, logistics flight mode</td></tr><tr><th>Functions</th><td>Swarm formation, route planning, high/low-altitude drop, A-B and multi-point logistics</td></tr><tr><th>Expansion</th><td>Obstacle-avoidance radar, altitude radar</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="t30-x8">
+        <div class="pic"><img src="assets/fleet/t30-x8.jpg" alt="T30-X8 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">Coaxial 8-rotor, 30 kg payload</span>
+          <h3>T30-X8</h3>
+          <p>Eight motors on four arms for full power redundancy, with 30-inch folding props.</p>
+          <dl class="keys"><div><dt>Max payload</dt><dd>30 kg</dd></div><div><dt>Flight time</dt><dd>45 min empty / 18 min with 20 kg</dd></div><div><dt>Take-off weight</dt><dd>55 kg</dd></div><div><dt>Protection</dt><dd>IP56</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Unfolded size</th><td>1100 × 1100 × 700 mm</td></tr><tr><th>Folded size</th><td>760 × 760 × 700 mm</td></tr><tr><th>Wheelbase</th><td>1500 mm</td></tr><tr><th>Motors</th><td>8 (X layout, coaxial pair on each arm)</td></tr><tr><th>Empty weight</th><td>16 kg (without battery)</td></tr><tr><th>Standard payload</th><td>≥ 20 kg</td></tr><tr><th>Max payload</th><td>30 kg</td></tr><tr><th>Max take-off weight</th><td>55 kg</td></tr><tr><th>Endurance</th><td>45 min empty, 18 min with 20 kg</td></tr><tr><th>Flight speed</th><td>0–20 m/s (stepless)</td></tr><tr><th>Thrust per axis</th><td>5–7 kg working, 15 kg max</td></tr><tr><th>Battery</th><td>14S 41000 mAh</td></tr><tr><th>Wind resistance</th><td>Level 6</td></tr><tr><th>Protection rating</th><td>IP56</td></tr><tr><th>Propellers</th><td>30-inch folding, carbon-fibre reinforced nylon</td></tr><tr><th>Body</th><td>Carbon fibre, ABS, aerospace aluminium alloy</td></tr><tr><th>Navigation</th><td>GPS, route planning</td></tr><tr><th>Functions</th><td>One-click return, route planning, high/low-altitude drop, A-B and multi-point logistics</td></tr><tr><th>Expansion</th><td>Obstacle-avoidance radar, altitude radar</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="t30-x8-rtk">
+        <div class="pic"><img src="assets/fleet/t30-x8-rtk.jpg" alt="T30-X8 RTK drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">Coaxial 8-rotor with dual RTK</span>
+          <h3>T30-X8 RTK</h3>
+          <p>The T30-X8 with dual-RTK positioning, accurate to a few centimetres.</p>
+          <dl class="keys"><div><dt>Max payload</dt><dd>30 kg</dd></div><div><dt>Flight time</dt><dd>45 min empty / 18 min with 20 kg</dd></div><div><dt>Take-off weight</dt><dd>55 kg</dd></div><div><dt>Positioning</dt><dd>Dual RTK ±0.05 m</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Unfolded size</th><td>1100 × 1100 × 700 mm</td></tr><tr><th>Folded size</th><td>760 × 760 × 700 mm</td></tr><tr><th>Wheelbase</th><td>1500 mm</td></tr><tr><th>Motors</th><td>8 (X layout, coaxial pair on each arm)</td></tr><tr><th>Empty weight</th><td>16 kg (without battery)</td></tr><tr><th>Standard payload</th><td>≥ 20 kg</td></tr><tr><th>Max payload</th><td>30 kg</td></tr><tr><th>Max take-off weight</th><td>55 kg</td></tr><tr><th>Endurance</th><td>45 min empty, 18 min with 20 kg</td></tr><tr><th>Flight speed</th><td>0–20 m/s (stepless)</td></tr><tr><th>Speed accuracy</th><td>0.03 m/s</td></tr><tr><th>Horizontal accuracy</th><td>±0.05 m (dual RTK)</td></tr><tr><th>Thrust per axis</th><td>5–7 kg working, 15 kg max</td></tr><tr><th>Battery</th><td>14S 41000 mAh</td></tr><tr><th>Wind resistance</th><td>Level 6</td></tr><tr><th>Protection rating</th><td>IP56</td></tr><tr><th>Propellers</th><td>30-inch folding, carbon-fibre reinforced nylon</td></tr><tr><th>Navigation</th><td>GPS + dual RTK, route planning</td></tr><tr><th>Functions</th><td>One-click return, route planning, high/low-altitude drop, A-B and multi-point logistics</td></tr><tr><th>Expansion</th><td>Obstacle-avoidance radar, altitude radar</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="t50-x4">
+        <div class="pic"><img src="assets/fleet/t50-x4.jpg" alt="T50-X4 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">4-rotor, 50 kg payload</span>
+          <h3>T50-X4</h3>
+          <p>Flagship heavy-lift transporter: 50 kg payload and 110 kg take-off weight.</p>
+          <dl class="keys"><div><dt>Max payload</dt><dd>50 kg</dd></div><div><dt>Flight time</dt><dd>60 min empty / 18 min with 50 kg</dd></div><div><dt>Take-off weight</dt><dd>110 kg</dd></div><div><dt>Protection</dt><dd>IP56</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Unfolded size</th><td>1615 × 1615 × 970 mm</td></tr><tr><th>Folded size</th><td>1000 × 1000 × 970 mm</td></tr><tr><th>Wheelbase</th><td>2100 mm</td></tr><tr><th>Motors</th><td>4 (X layout)</td></tr><tr><th>Empty weight</th><td>26 kg (without battery)</td></tr><tr><th>Standard payload</th><td>≥ 40 kg</td></tr><tr><th>Max payload</th><td>50 kg</td></tr><tr><th>Max take-off weight</th><td>110 kg</td></tr><tr><th>Endurance</th><td>60 min empty, 18 min with 50 kg (theoretical)</td></tr><tr><th>Flight speed</th><td>5–15 m/s</td></tr><tr><th>Voltage</th><td>58.8 V (14S)</td></tr><tr><th>Battery</th><td>2 × 14S 66000 mAh</td></tr><tr><th>Wind resistance</th><td>Level 5</td></tr><tr><th>Protection rating</th><td>IP56</td></tr><tr><th>Body</th><td>Engineering plastic, PP, PA+GF, aluminium alloy</td></tr><tr><th>Propellers</th><td>Carbon-fibre reinforced nylon</td></tr><tr><th>Navigation</th><td>GPS, logistics flight mode</td></tr><tr><th>Functions</th><td>Swarm formation, route planning, high/low-altitude drop, A-B and multi-point logistics</td></tr><tr><th>Expansion</th><td>Obstacle-avoidance radar, altitude radar</td></tr></table></details>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="group" data-g="agriculture" id="agriculture">
+    <div class="ghead"><h2>Agricultural drones</h2><p>Spraying and spreading drones with sealed bodies, dual nozzles and terrain-following radar.</p></div>
+    <div class="grid">
+      <article class="uav" id="ag16-x4">
+        <div class="pic"><img src="assets/fleet/ag16-x4.jpg" alt="AG16-X4 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">16 L agricultural drone</span>
+          <h3>AG16-X4</h3>
+          <p>Light folding sprayer that one person can carry and set up.</p>
+          <dl class="keys"><div><dt>Spray tank</dt><dd>16 L</dd></div><div><dt>Spreader</dt><dd>33 L</dd></div><div><dt>Flight time</dt><dd>20 min empty / 10 min full</dd></div><div><dt>Take-off weight</dt><dd>42 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Spray tank</th><td>16 L</td></tr><tr><th>Spreader box</th><td>33 L</td></tr><tr><th>Spray flow</th><td>8 L/min</td></tr><tr><th>Spray width</th><td>5–8 m</td></tr><tr><th>Nozzles</th><td>Centrifugal</td></tr><tr><th>Work rate</th><td>About 40 mu (≈2.7 ha) per hour</td></tr><tr><th>Unfolded size</th><td>1225 × 1055 × 585 mm</td></tr><tr><th>Folded size</th><td>875 × 525 × 585 mm</td></tr><tr><th>Wheelbase</th><td>1480 mm</td></tr><tr><th>Aircraft weight</th><td>16 kg</td></tr><tr><th>Take-off weight</th><td>42 kg</td></tr><tr><th>Endurance</th><td>20 min empty, 10 min full</td></tr><tr><th>Flight speed</th><td>5–10 m/s</td></tr><tr><th>Battery</th><td>14S 18000 mAh</td></tr><tr><th>Voltage</th><td>58.8 V (14S)</td></tr><tr><th>Power system</th><td>X9</td></tr><tr><th>Propellers</th><td>34 inch</td></tr><tr><th>Flight controller</th><td>K++ V7AG</td></tr><tr><th>Body</th><td>Carbon fibre, nylon fibre, aluminium alloy</td></tr><tr><th>Radar</th><td>Optional front/rear obstacle avoidance and terrain following</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="ag20-x4">
+        <div class="pic"><img src="assets/fleet/ag20-x4.jpg" alt="AG20-X4 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">20 L agricultural drone</span>
+          <h3>AG20-X4</h3>
+          <p>Upgraded sprayer with a front camera and room for radar.</p>
+          <dl class="keys"><div><dt>Spray tank</dt><dd>20 L</dd></div><div><dt>Spreader</dt><dd>35 L</dd></div><div><dt>Flight time</dt><dd>20 min empty / 10 min full</dd></div><div><dt>Take-off weight</dt><dd>44 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Spray tank</th><td>20 L</td></tr><tr><th>Spreader box</th><td>35 L</td></tr><tr><th>Spray flow</th><td>8 L/min</td></tr><tr><th>Spray width</th><td>5–8 m</td></tr><tr><th>Nozzles</th><td>Centrifugal + pressure (dual)</td></tr><tr><th>Work rate</th><td>About 50 mu (≈3.3 ha) per hour</td></tr><tr><th>Unfolded size</th><td>1225 × 1055 × 585 mm</td></tr><tr><th>Folded size</th><td>875 × 525 × 585 mm</td></tr><tr><th>Wheelbase</th><td>1480 mm</td></tr><tr><th>Aircraft weight</th><td>18 kg</td></tr><tr><th>Take-off weight</th><td>44 kg</td></tr><tr><th>Endurance</th><td>20 min empty, 10 min full</td></tr><tr><th>Flight speed</th><td>5–10 m/s</td></tr><tr><th>Battery</th><td>14S 22000 mAh</td></tr><tr><th>Voltage</th><td>58.8 V (14S)</td></tr><tr><th>Power system</th><td>X9 Plus</td></tr><tr><th>Propellers</th><td>36 inch</td></tr><tr><th>Flight controller</th><td>K++ V7AG</td></tr><tr><th>Body</th><td>Carbon fibre, nylon fibre, aluminium alloy</td></tr><tr><th>Radar</th><td>Optional front/rear obstacle avoidance and terrain following</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="ag30-x4">
+        <div class="pic"><img src="assets/fleet/ag30-x4.jpg" alt="AG30-X4 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">30 L agricultural drone</span>
+          <h3>AG30-X4</h3>
+          <p>Large-area sprayer with obstacle-avoidance and terrain radar as standard.</p>
+          <dl class="keys"><div><dt>Spray tank</dt><dd>30 L</dd></div><div><dt>Spreader</dt><dd>50 L</dd></div><div><dt>Flight time</dt><dd>15 min empty / 8 min full</dd></div><div><dt>Take-off weight</dt><dd>68 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Spray tank</th><td>30 L</td></tr><tr><th>Spreader box</th><td>50 L</td></tr><tr><th>Spray flow</th><td>12 L/min</td></tr><tr><th>Spray width</th><td>6–10 m</td></tr><tr><th>Nozzles</th><td>Dual detachable centrifugal</td></tr><tr><th>Work rate</th><td>About 60 mu (≈4 ha) per hour</td></tr><tr><th>Unfolded size</th><td>1710 × 1453 × 700 mm</td></tr><tr><th>Folded size</th><td>603 × 1120 × 700 mm</td></tr><tr><th>Wheelbase</th><td>2000 mm</td></tr><tr><th>Aircraft weight</th><td>26.8 kg (without battery)</td></tr><tr><th>Take-off weight</th><td>68 kg</td></tr><tr><th>Endurance</th><td>15 min empty, 8 min full</td></tr><tr><th>Flight speed</th><td>5–10 m/s</td></tr><tr><th>Battery</th><td>14S 30000 mAh</td></tr><tr><th>Voltage</th><td>58.8 V (14S)</td></tr><tr><th>Propellers</th><td>41 inch</td></tr><tr><th>Navigation</th><td>GPS</td></tr><tr><th>Control range</th><td>3 km (open area)</td></tr><tr><th>Body</th><td>Carbon fibre, nylon fibre, aluminium alloy</td></tr><tr><th>Radar</th><td>Front + rear obstacle avoidance and terrain following (standard)</td></tr><tr><th>Functions</th><td>A-B point operation, automatic return</td></tr></table></details>
+        </div>
+      </article>
+      <article class="uav" id="ag50-x4">
+        <div class="pic"><img src="assets/fleet/ag50-x4.jpg" alt="AG50-X4 drone" loading="lazy"></div>
+        <div class="txt">
+          <span class="pill">50 L agricultural drone</span>
+          <h3>AG50-X4</h3>
+          <p>Flagship farm drone with an 80 L spreader and 99 kg take-off weight.</p>
+          <dl class="keys"><div><dt>Spray tank</dt><dd>50 L</dd></div><div><dt>Spreader</dt><dd>80 L</dd></div><div><dt>Flight time</dt><dd>28 min empty / 7 min full</dd></div><div><dt>Take-off weight</dt><dd>99 kg</dd></div></dl>
+          <details><summary>All specifications</summary><table><tr><th>Spray tank</th><td>50 L</td></tr><tr><th>Spreader box</th><td>80 L</td></tr><tr><th>Spray flow</th><td>12 L/min</td></tr><tr><th>Spray width</th><td>6–10 m</td></tr><tr><th>Nozzles</th><td>Dual centrifugal</td></tr><tr><th>Work rate</th><td>About 70 mu (≈4.7 ha) per hour</td></tr><tr><th>Unfolded size</th><td>1950 × 1720 × 815 mm</td></tr><tr><th>Folded size</th><td>635 × 1340 × 815 mm</td></tr><tr><th>Wheelbase</th><td>2300 mm</td></tr><tr><th>Aircraft weight</th><td>35 kg (without battery)</td></tr><tr><th>Take-off weight</th><td>99 kg</td></tr><tr><th>Endurance</th><td>28 min empty, 7 min full</td></tr><tr><th>Flight speed</th><td>5–10 m/s</td></tr><tr><th>Battery</th><td>18S 30000 mAh</td></tr><tr><th>Navigation</th><td>GPS</td></tr><tr><th>Control range</th><td>3 km (open area)</td></tr><tr><th>Body</th><td>Carbon fibre, nylon fibre, aluminium alloy</td></tr><tr><th>Radar</th><td>Front + rear obstacle avoidance and terrain following (standard), wide-angle front camera</td></tr><tr><th>Functions</th><td>A-B point operation, automatic return, live tank-level monitoring</td></tr></table></details>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <p class="note">Specifications are manufacturer figures. Flight times depend on payload, battery, weather and how the aircraft is flown, and exact configurations can vary. Ask us for the setup that matches your mission.</p>
+</div>
+
+<section class="sec band-sec"><div class="wrap"><div class="band">
+  <h2>Not sure which one fits? <em>Ask us.</em></h2>
+  <div><p>Tell us the job and we'll recommend the aircraft, payload and setup.</p><div class="actions"><a class="btn main" href="contact.html?need=Fleet">Get a recommendation</a></div></div>
+</div></div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="foot">
+    <div><a class="mark" href="index.html"><span><b>HolyHornet</b><small>UAV Systems</small></span></a><p>Advanced UAV solutions for a safer tomorrow. Independent. Technical. Mission-focused.</p></div>
+    <div><h4>Explore</h4><a href="fleet.html">Fleet</a><a href="solutions.html">Solutions</a><a href="industries.html">Industries</a><a href="technology.html">Technology</a></div>
+    <div><h4>Company</h4><a href="about.html">About</a><a href="education.html">Education</a><a href="contact.html">Contact</a></div>
+    <div><h4>Say hello</h4><a href="mailto:info@holyhornet.com">info@holyhornet.com</a><a href="contact.html">Request a quote</a></div>
+  </div>
+  <div class="legal">© 2026 HolyHornet UAV Systems &amp; Consultancy</div>
+</div></footer>
+
+<script src="script.js"></script>
+</body>
+</html>
