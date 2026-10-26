@@ -1,4 +1,4 @@
-// HolyHornet UAV Systems — shared behaviour for every page
+// Holy Hornet UAV Systems — shared behaviour for every page
 
 // Light / dark switch. Dark by default; remembers the visitor's choice.
 (function () {

@@ -1,6 +1,6 @@
-# HolyHornet UAV Systems
+# Holy Hornet UAV Systems
 
-> HolyHornet is an independent UAV (drone) consultancy and systems company based in Europe (Netherlands). It designs, integrates and operates unmanned aircraft for surveillance, inspection, mapping, logistics, agriculture and counter-drone defence, and trains teams to fly them. Slogan: "Advanced UAV solutions for a safer tomorrow."
+> Holy Hornet is an independent UAV (drone) consultancy and systems company based in Europe (Netherlands). It designs, integrates and operates unmanned aircraft for surveillance, inspection, mapping, logistics, agriculture and counter-drone defence, and trains teams to fly them. Slogan: "Advanced UAV solutions for a safer tomorrow."
 
 - Website: https://holyhornet.com/
 - Contact: info@holyhornet.com or https://holyhornet.com/contact.html
@@ -8,14 +8,14 @@
 
 ## Pages
 
-- [Home](https://holyhornet.com/): HolyHornet designs, integrates and operates UAV systems for surveillance, inspection, mapping, logistics, agriculture and counter-drone defence across Europe.
+- [Home](https://holyhornet.com/): Holy Hornet designs, integrates and operates UAV systems for surveillance, inspection, mapping, logistics, agriculture and counter-drone defence across Europe.
 - [Fleet](https://holyhornet.com/fleet.html): Compare 28 UAVs: 380 km/h FPV interceptors, counter-drone aircraft, heavy-lift drones carrying up to 50 kg and farm sprayers, with full specs.
-- [Solutions](https://holyhornet.com/solutions.html): UAV strategy and consultancy, systems integration, mission planning, drone operations, payload and sensor integration, and team training from HolyHornet.
+- [Solutions](https://holyhornet.com/solutions.html): UAV strategy and consultancy, systems integration, mission planning, drone operations, payload and sensor integration, and team training from Holy Hornet.
 - [Industries](https://holyhornet.com/industries.html): Drone capability for infrastructure, energy, public safety, security and counter-drone, agriculture, media, logistics, research and environmental survey.
-- [Technology](https://holyhornet.com/technology.html): How HolyHornet builds drone capability as a system: airframes, sensors, communication links, data processing, automation and full system integration.
+- [Technology](https://holyhornet.com/technology.html): How Holy Hornet builds drone capability as a system: airframes, sensors, communication links, data processing, automation and full system integration.
 - [Education](https://holyhornet.com/education.html): Practical UAV courses: drone engineering, aerial photography, remote pilot licence (RPA-L) theory, specific category operations and systems engineering.
-- [About](https://holyhornet.com/about.html): HolyHornet is an independent UAV consultancy and systems company in Europe that advises on, integrates, operates and develops drone systems.
-- [Contact](https://holyhornet.com/contact.html): Contact HolyHornet about drone consultancy, choosing an aircraft from our fleet, systems integration, UAV operations or training. Email info@holyhornet.com.
+- [About](https://holyhornet.com/about.html): Holy Hornet is an independent UAV consultancy and systems company in Europe that advises on, integrates, operates and develops drone systems.
+- [Contact](https://holyhornet.com/contact.html): Contact Holy Hornet about drone consultancy, choosing an aircraft from our fleet, systems integration, UAV operations or training. Email info@holyhornet.com.
 
 ## Services
 
@@ -116,4 +116,4 @@ Spraying and spreading drones with sealed bodies, dual nozzles and terrain-follo
 ## Notes
 
 - Aircraft specifications are manufacturer figures; flight time depends on payload, battery and weather.
-- Course details, certification and regulatory fit are confirmed with HolyHornet before enrolment.
+- Course details, certification and regulatory fit are confirmed with Holy Hornet before enrolment.

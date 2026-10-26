@@ -1,4 +1,4 @@
-# HOLYHORNET — Full Static Website
+# HOLY HORNET — Full Static Website
 
 Pages:
 - index.html — Home

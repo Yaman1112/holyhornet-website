@@ -1,4 +1,4 @@
-# HolyHornet UAV Systems
+# Holy Hornet UAV Systems
 # Search engines and AI assistants are welcome to read and cite this site.
 
 User-agent: *
