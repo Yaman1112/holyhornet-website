@@ -9,7 +9,7 @@
 ## Pages
 
 - [Home](https://holyhornet.com/): Holy Hornet designs, integrates and operates UAV systems for surveillance, inspection, mapping, logistics, agriculture and counter-drone defence across Europe.
-- [Fleet](https://holyhornet.com/fleet.html): Compare 28 UAVs: 380 km/h FPV interceptors, counter-drone aircraft, heavy-lift drones carrying up to 50 kg and farm sprayers, with full specs.
+- [Fleet](https://holyhornet.com/fleet.html): Compare 23 UAVs: agile FPV aircraft, heavy-lift drones carrying up to 50 kg and farm sprayers, with full specs.
 - [Solutions](https://holyhornet.com/solutions.html): UAV strategy and consultancy, systems integration, mission planning, drone operations, payload and sensor integration, and team training from Holy Hornet.
 - [Industries](https://holyhornet.com/industries.html): Drone capability for infrastructure, energy, public safety, security and counter-drone, agriculture, media, logistics, research and environmental survey.
 - [Technology](https://holyhornet.com/technology.html): How Holy Hornet builds drone capability as a system: airframes, sensors, communication links, data processing, automation and full system integration.
@@ -28,22 +28,7 @@
 
 ## Fleet
 
-28 aircraft in 7 categories. Full specifications: https://holyhornet.com/fleet.html
-
-### Counter-drone interceptors
-
-Fast, agile aircraft built to catch and stop hostile drones in the air.
-
-- [Sting 250](https://holyhornet.com/fleet.html#interceptor-250): High-speed interception drone. Carbon and CNC-aluminium interceptor with automatic target selection and tracking. (Top speed: 250 km/h; Thrust-to-weight: ≥ 2.0; Take-off weight: 3 kg; Protection: IP45)
-- [Sting 300](https://holyhornet.com/fleet.html#interceptor-300): High-speed interception drone. Delta-wing interceptor with fast climb and acceleration for chasing fast-moving drones. (Top speed: 300 km/h; Climb rate: ≥ 15 m/s; Flight time: 12–18 min; Take-off weight: ≤ 8 kg)
-
-### High-speed FPV interceptors
-
-Rocket-shaped FPV aircraft with low-drag bodies, 15 km range and very high top speeds.
-
-- [Dart 5](https://holyhornet.com/fleet.html#fpv-5t): 5-inch high-speed rocket airframe. Smallest and fastest of the rocket range, for high-speed tracking and interception. (Top speed: 380 km/h; Max payload: 300 g; Flight time: About 5 min; Take-off weight: 900 g)
-- [Dart 7](https://holyhornet.com/fleet.html#fpv-7t): 7-inch high-speed rocket airframe. 8S-powered rocket airframe balancing speed with a larger payload. (Top speed: 320 km/h; Max payload: 450 g; Flight time: About 5 min; Take-off weight: 1.3 kg)
-- [Dart 10](https://holyhornet.com/fleet.html#fpv-10t): 10-inch high-speed rocket airframe. Carbon and aluminium rocket airframe with the biggest payload in the range. (Top speed: 280 km/h; Max payload: 650 g; Flight time: About 6 min; Take-off weight: 2.1 kg)
+23 aircraft in 5 categories. Full specifications: https://holyhornet.com/fleet.html
 
 ### FPV aircraft
 

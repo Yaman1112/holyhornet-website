@@ -2,7 +2,7 @@
 
 Pages:
 - index.html — Home
-- fleet.html — Fleet (28 aircraft with full specifications)
+- fleet.html — Fleet (23 aircraft with full specifications)
 - solutions.html — Solutions
 - industries.html — Industries
 - technology.html — Technology
