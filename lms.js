@@ -35,7 +35,7 @@
   function money(c) {
     return new Intl.NumberFormat('en-IE', { style: 'currency', currency: c.currency.toUpperCase() }).format(c.price_cents / 100);
   }
-  function safeNext(v) { return /^[a-z]+\.html(\?[\w=&%.-]*)?$/.test(v || '') ? v : 'account.html'; }
+  function safeNext(v) { return /^[a-z]+(\.html)?(\?[\w=&%.-]*)?$/.test(v || '') ? v : 'account.html'; }
   function signInLink() { return 'account.html?next=' + encodeURIComponent(location.pathname.split('/').pop() + location.search); }
   function fail(err) {
     console.error(err);
