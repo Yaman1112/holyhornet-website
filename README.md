@@ -14,6 +14,13 @@ Shared files:
 - styles.css — colours, layout and components for every page (dark mode by default, light/dark switch)
 - script.js — menu, theme switch, status clock, fleet filters, course search, contact form
 
+Course platform (LMS):
+- education.html — course catalogue; course.html — outline and purchase; learn.html — lesson player
+- account.html — sign in and "My learning"; admin.html — add lessons, PDFs, prices
+- lms.js, lms.css, lms-config.js — the platform code and its connection settings
+- supabase/ — database, access rules and payment functions. Follow supabase/README.md to switch it on.
+- tools/build_courses.py — starting course outlines (writes supabase/seed.sql and assets/courses.json)
+
 Assets:
 - assets/fleet/ — transparent aircraft photos (WebP)
 - assets/hero-uav.jpg — homepage photo

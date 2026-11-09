@@ -84,7 +84,7 @@ Spraying and spreading drones with sealed bodies, dual nozzles and terrain-follo
 - Aerial Photography & Cinematography: Plan and capture great aerial images using composition, camera settings, movement and careful flight preparation.
 - Remote Pilot Licence (RPA-L) Theory: Aviation principles, airspace, weather, human factors and safe procedures. The exact syllabus depends on the licensing framework that applies to you.
 - Specific Category UAV Operations: Planning and safety for operations beyond the open category, including risk, mitigations and paperwork where needed.
-- UAV Systems Engineering: The drone as one integrated capability: platform choice, payloads, links, power, data flow, interfaces and validation.
+- UAV Systems Engineering: Model, simulate and control UAVs in MATLAB and Simulink, from PID to model predictive control, reinforcement learning, SLAM and swarms.
 
 ## Industries
 

@@ -3,6 +3,9 @@
 
 User-agent: *
 Allow: /
+Disallow: /learn.html
+Disallow: /account.html
+Disallow: /admin.html
 Disallow: /design/
 Disallow: /_preview/
 
