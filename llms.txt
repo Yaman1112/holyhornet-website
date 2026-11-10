@@ -13,7 +13,7 @@
 - [Solutions](https://holyhornet.com/solutions.html): UAV strategy and consultancy, systems integration, mission planning, drone operations, payload and sensor integration, and team training from Holy Hornet.
 - [Industries](https://holyhornet.com/industries.html): Drone capability for infrastructure, energy, public safety, security and counter-drone, agriculture, media, logistics, research and environmental survey.
 - [Technology](https://holyhornet.com/technology.html): How Holy Hornet builds drone capability as a system: airframes, sensors, communication links, data processing, automation and full system integration.
-- [Education](https://holyhornet.com/education.html): Practical UAV courses: drone engineering, aerial photography, remote pilot licence (RPA-L) theory, specific category operations and systems engineering.
+- [Education](https://holyhornet.com/education.html): Practical UAV and pilot courses: drone engineering, aerial photography, remote pilot licence (RPA-L) theory, private pilot licence PPL(A) theory, specific category operations and systems engineering.
 - [About](https://holyhornet.com/about.html): Holy Hornet is an independent UAV consultancy and systems company in Europe that advises on, integrates, operates and develops drone systems.
 - [Contact](https://holyhornet.com/contact.html): Contact Holy Hornet about drone consultancy, choosing an aircraft from our fleet, systems integration, UAV operations or training. Email info@holyhornet.com.
 
@@ -85,6 +85,7 @@ Spraying and spreading drones with sealed bodies, dual nozzles and terrain-follo
 - Remote Pilot Licence (RPA-L) Theory: Aviation principles, airspace, weather, human factors and safe procedures. The exact syllabus depends on the licensing framework that applies to you.
 - Specific Category UAV Operations: Planning and safety for operations beyond the open category, including risk, mitigations and paperwork where needed.
 - UAV Systems Engineering: Model, simulate and control UAVs in MATLAB and Simulink, from PID to model predictive control, reinforcement learning, SLAM and swarms.
+- Private Pilot Licence PPL(A) Theory: The theory subjects for the aeroplane private pilot licence, from how a wing flies to instruments, air law, weather and navigation.
 
 ## Industries
 
