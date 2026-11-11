@@ -85,7 +85,7 @@
   // ---------- catalogue (education page) ----------
   function catalogue() {
     if (!db) return;
-    Promise.all([session(), db.from('courses').select('id,price_cents,currency').then(must)]).then(function (r) {
+    Promise.all([session(), db.from('courses').select('id,price_cents,currency,modules(lessons(is_preview))').then(must)]).then(function (r) {
       var user = r[0] && r[0].user;
       return (user ? db.from('enrollments').select('course_id').eq('user_id', user.id).then(must) : Promise.resolve([])).then(function (owned) {
         var mine = owned.map(function (e) { return e.course_id; });
@@ -96,6 +96,7 @@
           var has = mine.indexOf(c.id) !== -1;
           if (has) meta.appendChild(el('span', { cls: 'price', text: 'Enrolled' }));
           else if (c.price_cents) meta.appendChild(el('span', { cls: 'price', text: money(c) }));
+          else if (isFree(c)) meta.appendChild(el('span', { cls: 'price', text: 'Free' }));
           if (has) card.querySelector('.more').textContent = 'Continue learning →';
         });
       });
@@ -123,6 +124,11 @@
     var all = lessonsOf(course);
     return all.filter(function (l) { return !done[l.id]; })[0] || all[0];
   }
+  // a course is free when every lesson is open (is_preview) and it has no price
+  function isFree(course) {
+    var all = lessonsOf(course);
+    return !course.price_cents && all.length > 0 && all.every(function (l) { return l.is_preview; });
+  }
   function learnLink(course, lesson) { return 'learn.html?c=' + course.id + (lesson ? '&l=' + lesson.id : ''); }
 
   function courseAction(course, user, access) {
@@ -133,6 +139,14 @@
       box.appendChild(el('b', { cls: 'lms-price', text: pct + '% complete' }));
       box.appendChild(bar(pct));
       box.appendChild(el('a', { cls: 'btn main', href: learnLink(course, firstOpenLesson(course, access.done)), text: pct ? 'Continue learning' : 'Start learning' }));
+      return box;
+    }
+    if (db && isFree(course)) {
+      box.appendChild(el('b', { cls: 'lms-price', text: 'Free' }));
+      box.appendChild(el('p', { text: 'Every lesson in this course is free. Sign in to start and keep track of your progress.' }));
+      box.appendChild(user
+        ? el('a', { cls: 'btn main', href: learnLink(course, firstOpenLesson(course, access.done || {})), text: percent(course, access.done || {}) ? 'Continue learning' : 'Start learning' })
+        : el('a', { cls: 'btn main', href: signInLink(), text: 'Sign in to start' }));
       return box;
     }
     if (!db || !course.price_cents) {
@@ -155,6 +169,7 @@
   }
 
   function syllabus(course, access) {
+    var free = isFree(course);
     return el('div', { cls: 'lms-syllabus' }, course.modules.map(function (m, i) {
       return el('details', { open: i === 0 },
         el('summary', {}, el('span', { text: 'Module ' + (i + 1) }), el('b', { text: m.title }), el('small', { text: m.lessons.length + (m.lessons.length === 1 ? ' lesson' : ' lessons') })),
@@ -162,7 +177,7 @@
           var open = db && (access.owned || l.is_preview);
           return el('li', { cls: access.done[l.id] ? 'done' : '' },
             open ? el('a', { href: learnLink(course, l), text: l.title }) : el('span', { text: l.title }),
-            l.is_preview && !access.owned ? el('em', { text: 'Free preview' }) : null,
+            l.is_preview && !access.owned && !free ? el('em', { text: 'Free preview' }) : null,
             access.done[l.id] ? el('em', { text: 'Done' }) : null);
         })));
     }));
