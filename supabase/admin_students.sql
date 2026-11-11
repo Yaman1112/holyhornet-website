@@ -24,3 +24,7 @@ language sql stable security definer set search_path = '' as $$
 $$;
 revoke execute on function public.admin_students() from public, anon;
 grant execute on function public.admin_students() to authenticated;
+
+-- If everything above ran, Results shows one row: "Students list installed".
+select 'Students list installed' as result
+where exists (select 1 from pg_proc where proname = 'admin_students');
