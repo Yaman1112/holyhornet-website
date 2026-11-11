@@ -1,3 +1,4 @@
-# Stripe calls the webhook without a user login; it proves itself with a signature instead.
-[functions.stripe-webhook]
+# Mollie calls the webhook without a user login. It sends only a payment id, which the
+# function checks with Mollie itself before changing anything.
+[functions.mollie-webhook]
 verify_jwt = false

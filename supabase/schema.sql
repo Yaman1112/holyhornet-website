@@ -62,13 +62,11 @@ create index on public.lesson_files (lesson_id);
 create table public.enrollments (
   user_id uuid not null references auth.users (id) on delete cascade,
   course_id text not null references public.courses (id) on delete cascade,
-  stripe_session_id text unique,
-  stripe_payment_intent text,
+  payment_id text unique,                        -- Mollie payment id (tr_...)
   amount_cents integer,
   created_at timestamptz not null default now(),
   primary key (user_id, course_id)
 );
-create index on public.enrollments (stripe_payment_intent);
 
 create table public.progress (
   user_id uuid not null references auth.users (id) on delete cascade,
@@ -121,6 +119,14 @@ begin
   end if;
   return public.has_lesson_access(part::uuid);
 end $$;
+
+-- The trigger function is never called directly; the access helpers only matter to signed-in users
+-- (is_admin stays open to visitors because the public catalogue policies use it).
+revoke execute on function public.handle_new_user() from public, anon, authenticated;
+revoke execute on function public.is_enrolled(text) from public, anon;
+revoke execute on function public.has_lesson_access(uuid) from public, anon;
+revoke execute on function public.has_file_access(text) from public, anon;
+grant execute on function public.is_enrolled(text), public.has_lesson_access(uuid), public.has_file_access(text) to authenticated;
 
 -- ---------- row level security ----------
 alter table public.profiles enable row level security;

@@ -182,7 +182,7 @@
       if (!course) { show(el('div', { cls: 'wrap lms-page' }, el('h1', { text: 'Course not found' }), el('p', {}, el('a', { href: 'education.html', text: 'Back to all courses' })))); return; }
       document.title = course.title + ' | Holy Hornet';
       var paid = params.get('paid') && user;
-      if (paid) show(el('div', { cls: 'wrap lms-page' }, notice('Payment received. Unlocking your course…')));
+      if (paid) show(el('div', { cls: 'wrap lms-page' }, notice('Checking your payment…')));
       return (paid ? waitForPayment(course, user, 10) : courseAccess(user, id)).then(function (access) {
         var count = lessonsOf(course).length;
         show(
@@ -199,7 +199,7 @@
                 el('span', {}, el('b', { text: course.level }), 'level'))),
             courseAction(course, user, access))),
           el('section', { cls: 'sec' }, el('div', { cls: 'wrap' },
-            paid && !access.owned ? notice('Your payment is still being confirmed. Refresh in a minute; if the course stays locked, email info@holyhornet.com.', 'bad') : null,
+            paid && !access.owned ? notice('We have not received this payment yet. If you completed it, refresh in a minute; if the course stays locked, email info@holyhornet.com. If the payment failed, you can try again above.', 'bad') : null,
             paid && access.owned ? notice('You now have full access to this course.', 'good') : null,
             el('h2', { cls: 'lms-h2', text: 'Course outline' }),
             syllabus(course, access))));
@@ -410,7 +410,7 @@
       var title = field('Title', { value: course.title, required: true });
       var summary = field('Short summary', { value: course.summary });
       var desc = field('Full description', { rows: 4, value: course.description });
-      var price = field('Price in euros (empty = not on sale)', { type: 'number', min: '0.5', step: '0.01', value: course.price_cents ? (course.price_cents / 100).toFixed(2) : '' });
+      var price = field('Price in ' + (course.currency || 'eur').toUpperCase() + ' (empty = not on sale)', { type: 'number', min: '0.5', step: '0.01', value: course.price_cents ? (course.price_cents / 100).toFixed(2) : '' });
       var pub = el('input', { type: 'checkbox', checked: course.published });
       var courseForm = el('form', { cls: 'lms-admin-card', onsubmit: function (e) {
         e.preventDefault();

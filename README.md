@@ -18,7 +18,7 @@ Course platform (LMS):
 - education.html — course catalogue; course.html — outline and purchase; learn.html — lesson player
 - account.html — sign in and "My learning"; admin.html — add lessons, PDFs, prices
 - lms.js, lms.css, lms-config.js — the platform code and its connection settings
-- supabase/ — database, access rules and payment functions. Follow supabase/README.md to switch it on.
+- supabase/ — database, access rules and Mollie payment functions. See supabase/README.md for what is set up and what is left.
 - tools/build_courses.py — starting course outlines (writes supabase/seed.sql and assets/courses.json)
 
 Assets:
