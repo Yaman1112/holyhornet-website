@@ -23,6 +23,10 @@ where id = (select id from auth.users where email = 'YOUR-EMAIL');
 
 `account.html` now shows **Manage courses**, which opens `admin.html`.
 
+The **Students** tab on `admin.html` lists every account with the courses bought, amount paid, Mollie payment id
+and lesson progress, and can download it as a CSV. It needs `admin_students.sql` run once in **SQL Editor**
+(a project built from the current `schema.sql` already has it).
+
 ## 3. Mollie (payments)
 Two functions handle payments, both already deployed:
 - `create-checkout` opens a Mollie payment for the course price stored in the database.

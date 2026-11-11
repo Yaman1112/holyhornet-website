@@ -103,6 +103,33 @@
 .lms-add .btn{min-height:48px;flex:none}
 .lms-admin-edit{position:sticky;top:90px}
 
+/* admin tabs and students list */
+.lms-tabs{display:flex;gap:6px;margin:4px 0 24px;border-bottom:1px solid var(--line)}
+.lms-tabs a{padding:10px 16px;font-weight:600;color:var(--soft);text-decoration:none;border-bottom:3px solid transparent;margin-bottom:-1px}
+.lms-tabs a:hover{color:var(--ink)}
+.lms-tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--honey)}
+.lms-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:24px}
+.lms-stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px}
+.lms-stat b{display:block;font-size:28px;line-height:1.1;overflow-wrap:anywhere}
+.lms-stat span{color:var(--soft);font-size:15px}
+.lms-filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.lms-filters input,.lms-filters select{min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;font-size:16px}
+.lms-filters input{flex:1 1 260px}
+.lms-filters .btn{min-height:48px}
+.lms-count,.lms-soft{color:var(--soft);font-size:15px}
+.lms-count{margin:8px 0 12px}
+.lms-table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-bottom:16px}
+.lms-table{width:100%;border-collapse:collapse;font-size:16px}
+.lms-table th{text-align:left;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);padding:14px 18px;border-bottom:1px solid var(--line)}
+.lms-table td{padding:14px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+.lms-table tr:last-child td{border-bottom:0}
+.lms-table td:first-child b,.lms-table td:first-child a{display:block}
+.lms-table td:first-child a{color:var(--soft);font-size:15px;overflow-wrap:anywhere}
+.lms-tag{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:99px;background:var(--honey-tint);color:var(--honey-ink);font-size:12px;font-weight:700}
+.lms-owned{display:grid;gap:4px;min-width:220px}
+.lms-owned + .lms-owned{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.lms-owned span{color:var(--soft);font-size:14px;overflow-wrap:anywhere}
+
 @media (max-width:980px){
   .lms-hero,.lms-admin{grid-template-columns:1fr}
   .lms-learn{grid-template-columns:1fr}
@@ -112,6 +139,14 @@
 }
 @media (max-width:620px){
   .lms-grid{grid-template-columns:1fr}
+  .lms-stats{grid-template-columns:1fr 1fr;gap:10px}
+  .lms-stat{padding:14px 16px}
+  .lms-stat b{font-size:21px}
+  .lms-table thead{display:none}
+  .lms-table tr{display:block;border-bottom:1px solid var(--line);padding:6px 0}
+  .lms-table tr:last-child{border-bottom:0}
+  .lms-table td{display:block;border:0;padding:8px 16px}
+  .lms-table td[data-label]:not(:first-child)::before{content:attr(data-label);display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
   .lms-syllabus summary{grid-template-columns:1fr auto}
   .lms-syllabus summary span{grid-column:1/-1}
   .lms-syllabus ol{padding-left:42px}

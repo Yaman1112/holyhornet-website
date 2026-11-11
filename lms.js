@@ -397,9 +397,106 @@
       if (!s) { location.replace(signInLink()); return; }
       return isAdmin(s.user).then(function (ok) {
         if (!ok) { location.replace('account.html'); return; }
+        if (params.get('view') === 'students') return adminStudents();
         return db.from('courses').select('id,title').order('position').then(must).then(function (list) { adminCourse(list, params.get('c') || list[0].id, null); });
       });
     }).catch(fail);
+  }
+
+  function adminTabs(current) {
+    var tab = function (key, href, text) { return el('a', { href: href, text: text, 'aria-current': current === key ? 'page' : null }); };
+    return el('nav', { cls: 'lms-tabs', 'aria-label': 'Admin sections' },
+      tab('courses', 'admin.html', 'Courses'), tab('students', 'admin.html?view=students', 'Students'));
+  }
+
+  // ---------- admin: students ----------
+  function day(iso) { return iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'; }
+  function paid(x) { return x.amount_cents ? money({ currency: x.currency || 'eur', price_cents: x.amount_cents }) : 'No charge'; }
+
+  function adminStudents() {
+    return db.rpc('admin_students').then(function (res) {
+      if (res.error && /admin_students/.test(res.error.message || '')) {
+        show(el('div', { cls: 'wrap lms-page' }, el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Students' }), adminTabs('students'),
+          notice('The students list is not switched on yet. In Supabase, open SQL Editor and run supabase/admin_students.sql once.', 'bad')));
+        return;
+      }
+      var rows = must(res);
+      var bought = [].concat.apply([], rows.map(function (r) { return r.courses; }));
+      var totals = {};
+      bought.forEach(function (x) { if (x.amount_cents) totals[x.currency || 'eur'] = (totals[x.currency || 'eur'] || 0) + x.amount_cents; });
+      var revenue = Object.keys(totals).map(function (c) { return money({ currency: c, price_cents: totals[c] }); }).join(' + ') || money({ currency: 'usd', price_cents: 0 });
+      var titles = {};
+      bought.forEach(function (x) { titles[x.course_id] = x.title; });
+
+      var search = el('input', { type: 'search', placeholder: 'Search name or email', 'aria-label': 'Search students' });
+      var pick = el('select', { 'aria-label': 'Filter by course' }, el('option', { value: '', text: 'All students' }), el('option', { value: '*', text: 'Bought any course' }),
+        Object.keys(titles).map(function (id) { return el('option', { value: id, text: titles[id] }); }));
+      var body = el('tbody');
+      var count = el('p', { cls: 'lms-count', role: 'status' });
+
+      function visible() {
+        var q = search.value.trim().toLowerCase(), c = pick.value;
+        return rows.filter(function (r) {
+          if (q && (r.full_name + ' ' + r.email).toLowerCase().indexOf(q) === -1) return false;
+          if (c === '*') return r.courses.length > 0;
+          return !c || r.courses.some(function (x) { return x.course_id === c; });
+        });
+      }
+      function draw() {
+        var list = visible();
+        body.textContent = '';
+        count.textContent = list.length + ' of ' + rows.length + ' students';
+        list.forEach(function (r) {
+          body.appendChild(el('tr', {},
+            el('td', { 'data-label': 'Student' }, el('b', { text: r.full_name || '(no name)' }), el('a', { href: 'mailto:' + r.email, text: r.email }),
+              r.is_admin ? el('small', { cls: 'lms-tag', text: 'Admin' }) : null),
+            el('td', { 'data-label': 'Signed up', text: day(r.signed_up) }),
+            el('td', { 'data-label': 'Last sign-in', text: day(r.last_sign_in) }),
+            el('td', { 'data-label': 'Courses' }, r.courses.length ? r.courses.map(function (x) {
+              var pct = x.total ? Math.round(100 * x.done / x.total) : 0;
+              return el('div', { cls: 'lms-owned' },
+                el('b', { text: x.title }),
+                el('span', { text: paid(x) + ' · ' + day(x.enrolled_at) + (x.payment_id ? ' · ' + x.payment_id : '') }),
+                el('span', { text: x.done + ' of ' + x.total + ' lessons done' }), bar(pct));
+            }) : el('span', { cls: 'lms-soft', text: 'No courses yet' }))));
+        });
+      }
+      function csvCell(v) {
+        v = String(v === null || v === undefined ? '' : v);
+        if (/^[=+\-@\t\r]/.test(v)) v = "'" + v;
+        return '"' + v.replace(/"/g, '""') + '"';
+      }
+      function exportCsv() {
+        var lines = [['Name', 'Email', 'Signed up', 'Last sign-in', 'Course', 'Paid', 'Bought on', 'Mollie payment', 'Lessons done', 'Lessons total']];
+        visible().forEach(function (r) {
+          var base = [r.full_name, r.email, day(r.signed_up), day(r.last_sign_in)];
+          if (!r.courses.length) lines.push(base.concat(['', '', '', '', '', '']));
+          r.courses.forEach(function (x) { lines.push(base.concat([x.title, paid(x), day(x.enrolled_at), x.payment_id || '', x.done, x.total])); });
+        });
+        var blob = new Blob(['﻿' + lines.map(function (l) { return l.map(csvCell).join(','); }).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+        var a = el('a', { href: URL.createObjectURL(blob), download: 'holy-hornet-students.csv' });
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+      }
+      search.addEventListener('input', draw);
+      pick.addEventListener('change', draw);
+
+      var stat = function (n, label) { return el('div', { cls: 'lms-stat' }, el('b', { text: n }), el('span', { text: label })); };
+      show(el('div', { cls: 'wrap lms-page' },
+        el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Students' }), adminTabs('students'),
+        el('div', { cls: 'lms-stats' },
+          stat(String(rows.length), 'accounts'),
+          stat(String(rows.filter(function (r) { return r.courses.length; }).length), 'paying students'),
+          stat(String(bought.length), 'courses sold'),
+          stat(revenue, 'paid in total')),
+        el('div', { cls: 'lms-filters' }, search, pick, el('button', { cls: 'btn quiet', type: 'button', text: 'Download CSV', onclick: exportCsv })),
+        count,
+        el('div', { cls: 'lms-table-wrap' }, el('table', { cls: 'lms-table' },
+          el('thead', {}, el('tr', {}, ['Student', 'Signed up', 'Last sign-in', 'Courses'].map(function (h) { return el('th', { scope: 'col', text: h }); }))),
+          body)),
+        el('p', { cls: 'lms-soft', text: 'Refunds remove a course here automatically. Full payment details are in your Mollie dashboard.' })));
+      draw();
+    });
   }
 
   function adminCourse(list, id, openLesson) {
@@ -454,7 +551,7 @@
       function adminError(err) { console.error(err); msg.textContent = ''; msg.appendChild(notice(err.message || 'That did not work.', 'bad')); }
 
       show(el('div', { cls: 'wrap lms-page' },
-        el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Manage courses' }),
+        el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Manage courses' }), adminTabs('courses'),
         el('label', { cls: 'lms-field lms-pick' }, el('span', { text: 'Course' }), el('select', { onchange: function (e) { adminCourse(list, e.target.value, null); } },
           list.map(function (c) { var o = el('option', { value: c.id, text: c.title }); o.selected = c.id === id; return o; }))),
         msg,
