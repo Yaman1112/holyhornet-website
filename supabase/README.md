@@ -47,4 +47,11 @@ so cards and PayPal are the methods students will see.
 ## Adding material
 In `admin.html`: pick a course, pick a lesson, then add text, a Vimeo/YouTube link and files. Files are private and limited to 50 MB each on the free plan, so host long videos on Vimeo with domain-level privacy. Ticking **Free preview** opens a lesson to signed-in visitors who have not bought the course.
 
+### Lesson videos and figures
+A lesson's text can also hold an animated, narrated Holy Hornet video and figures, drawn by `lms-figures.js`
+(no video files to host). In the lesson text, a block that starts with `::video` holds one scene per line,
+`figure settings | Scene title | Narration`, and a block that starts with `::figure name settings` (caption on the
+next line) places a figure. A setting written `a>b` animates in the video and becomes a slider in a figure.
+The figure names are listed at the bottom of `lms-figures.js` (`HHFig.names`).
+
 To change the starting outlines in bulk, edit `tools/build_courses.py` and run it, then run `seed.sql` again. It only adds what is missing.

@@ -233,6 +233,12 @@
   function richText(body) {
     return el('div', { cls: 'lms-text' }, body.split(/\n\s*\n/).filter(function (b) { return b.trim(); }).map(function (b) {
       b = b.trim();
+      if (b.slice(0, 2) === '::') {
+        // ::figure blocks are drawn by lms-figures.js; ::video is taken out before this runs
+        if (b.slice(0, 9) !== '::figure ' || !window.HHFig) return null;
+        var fl = b.split('\n');
+        return window.HHFig.figure(fl[0].slice(9), fl.slice(1).join(' ').trim());
+      }
       if (b.slice(0, 3) === '## ') return el('h2', { text: b.slice(3) });
       var lines = b.split('\n');
       if (lines.every(function (l) { return l.trim().slice(0, 2) === '- '; })) return el('ul', {}, lines.map(function (l) { return el('li', { text: l.trim().slice(2) }); }));
@@ -286,7 +292,9 @@
     var viewer = el('div', { cls: 'lms-viewer' });
     var rows = files.map(function (f) { return fileRow(f, viewer); });
     var embed = content && content.video_url ? videoEmbed(content.video_url) : null;
-    var empty = !embed && !(content && content.body.trim()) && !files.length;
+    var parts = window.HHFig ? window.HHFig.splitBody(content ? content.body : '') : { video: null, body: content ? content.body : '' };
+    var lessonVideo = parts.video && parts.video.length ? window.HHFig.video(parts.video, lesson.title) : null;
+    var empty = !embed && !lessonVideo && !parts.body.trim() && !files.length;
 
     var side = el('nav', { cls: 'lms-side', 'aria-label': 'Course lessons' },
       el('a', { cls: 'lms-back', href: 'course.html?c=' + course.id, text: '← Course overview' }),
@@ -321,8 +329,9 @@
       el('span', { cls: 'kicker', text: 'Lesson ' + (at + 1) + ' of ' + all.length }),
       el('h1', { text: lesson.title }),
       embed ? el('div', { cls: 'lms-video' }, el('iframe', { src: embed, title: lesson.title, allow: 'fullscreen; picture-in-picture', allowfullscreen: true })) : null,
+      lessonVideo,
       viewer,
-      content && content.body.trim() ? richText(content.body) : null,
+      parts.body.trim() ? richText(parts.body) : null,
       files.length ? el('section', { cls: 'lms-files' }, el('h2', { text: 'Lesson files' }), el('ul', {}, rows.map(function (r) { return r.row; }))) : null,
       empty ? notice('This lesson is being prepared. Its material will appear here as soon as it is ready.') : null,
       el('div', { cls: 'lms-pager' },
