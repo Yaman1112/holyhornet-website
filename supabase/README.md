@@ -47,6 +47,12 @@ so cards and PayPal are the methods students will see.
 ## Adding material
 In `admin.html`: pick a course, pick a lesson, then add text, a Vimeo/YouTube link and files. Files are private and limited to 50 MB each on the free plan, so host long videos on Vimeo with domain-level privacy. Ticking **Free preview** opens a lesson to signed-in visitors who have not bought the course.
 
+### Student details ("About you")
+After signing in, students are asked for their country, background and goals (they can skip, and edit later from
+their account page). Admins see the answers on the dashboard and in the Students CSV. This needs
+`student_details.sql` run once in **SQL Editor** (a project built from the current `schema.sql` already has it).
+Until it is run, the site simply skips the form.
+
 ### Lesson videos and figures
 A lesson's text can also hold an animated, narrated Holy Hornet video and figures, drawn by `lms-figures.js`
 (no video files to host). In the lesson text, a block that starts with `::video` holds one scene per line,

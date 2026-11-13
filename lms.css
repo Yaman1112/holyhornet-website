@@ -285,3 +285,31 @@
   .hhd-card{padding:16px}
 }
 @media (prefers-reduced-motion:reduce){.hhd-col>i{transition:none}}
+
+/* ---------- "About you" form and admin details ---------- */
+.lms-about-page{max-width:760px}
+.lms-lead{color:var(--soft);font-size:18px;margin:-4px 0 26px}
+.lms-about fieldset{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:18px 22px 6px;margin:0 0 18px}
+.lms-about legend{padding:0 8px;margin-left:-8px;font-family:var(--serif);font-size:22px}
+.lms-about .lms-field input,.lms-about .lms-field select,.lms-about .lms-field textarea{background:var(--bg)}
+.lms-about .lms-field select:focus{outline:0;border-color:var(--honey)}
+.lms-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+.lms-check{display:flex;gap:10px;align-items:flex-start;margin:0 0 16px;font-size:16px;cursor:pointer}
+.lms-check input{width:20px;height:20px;margin-top:2px;accent-color:var(--honey);flex:none}
+.lms-about-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin:0 0 26px;padding:16px 20px;border:1px solid var(--line);border-left:4px solid var(--honey);border-radius:var(--r);background:var(--card)}
+.lms-about-card b{display:block;font-size:18px}
+.lms-about-card span{color:var(--soft)}
+.hhd-about{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px;margin:0 0 18px;padding:14px 16px;border-radius:12px;background:var(--alt)}
+.hhd-about dt{color:var(--soft);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.hhd-about dd{margin:2px 0 0;overflow-wrap:anywhere}
+.hhd-about-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.hhd-hbars h3{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.04em;margin:0 0 10px}
+.hhd-hbars ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.hhd-hbars li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;align-items:center;font-size:15px}
+.hhd-hbars li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hhd-hbars li i{grid-column:1;height:6px;border-radius:3px;background:var(--alt)}
+.hhd-hbars li i b{display:block;height:100%;border-radius:3px;background:var(--honey)}
+.hhd-hbars li small{grid-row:1;grid-column:2;color:var(--soft);font-variant-numeric:tabular-nums}
+.hhd-hbars .hhd-empty{padding:10px 0;text-align:left}
+@media (max-width:1100px){.hhd-about-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.lms-pair,.hhd-about,.hhd-about-grid{grid-template-columns:minmax(0,1fr)}.lms-about fieldset{padding:14px 16px 4px}}

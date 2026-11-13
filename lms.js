@@ -365,6 +365,7 @@
 
   function authForm(mode) {
     var next = safeNext(params.get('next'));
+    var afterSignIn = next === 'account.html' ? 'account.html?welcome=1' : 'account.html?next=' + encodeURIComponent(next);
     var name = field('Full name', { type: 'text', required: true, autocomplete: 'name', maxlength: 120 });
     var mail = field('Email', { type: 'email', required: true, autocomplete: 'email' });
     var pw = field('Password', { type: 'password', required: true, minlength: 8, autocomplete: mode === 'up' ? 'new-password' : 'current-password' });
@@ -376,9 +377,9 @@
       e.preventDefault();
       var back = location.origin + location.pathname.replace(/[^/]*$/, '') + 'account.html';
       var job;
-      if (mode === 'in') job = db.auth.signInWithPassword({ email: v(mail), password: pw.querySelector('input').value }).then(must).then(function () { location.replace(next); });
+      if (mode === 'in') job = db.auth.signInWithPassword({ email: v(mail), password: pw.querySelector('input').value }).then(must).then(function () { location.replace(afterSignIn); });
       else if (mode === 'up') job = db.auth.signUp({ email: v(mail), password: pw.querySelector('input').value, options: { data: { full_name: v(name) }, emailRedirectTo: back } }).then(must).then(function (d) {
-        if (d.session) location.replace(next); else say('Check your email and click the link to confirm your account.', 'good');
+        if (d.session) location.replace(afterSignIn); else say('Check your email and click the link to confirm your account.', 'good');
       });
       else job = db.auth.resetPasswordForEmail(v(mail), { redirectTo: back }).then(must).then(function () { say('If that address has an account, a reset link is on its way.', 'good'); });
       job.catch(function (err) { say(err.message, 'bad'); });
@@ -391,13 +392,110 @@
       el('p', { cls: 'lms-swap' }, mode !== 'in' ? swap('in', 'I already have an account') : null, mode !== 'up' ? swap('up', 'Create an account') : null, mode === 'in' ? swap('reset', 'Forgot password?') : null)));
   }
 
+  // ---------- "About you" details (supabase/student_details.sql) ----------
+  var ABOUT = {
+    experience: [['new', 'New to aviation and drones'], ['drone-hobby', 'I fly drones as a hobby'], ['drone-pro', 'I fly drones for work or hold a drone certificate'],
+      ['student-pilot', 'Student pilot'], ['pilot', 'Licensed pilot'], ['engineer', 'Engineer or technician'], ['other', 'Something else']],
+    goal: [['licence', 'Pass a licence or theory exam'], ['career', 'Start or grow a career'], ['business', 'Use drones in my business'], ['hobby', 'Personal interest'], ['other', 'Something else']],
+    heard_from: [['search', 'Google or another search engine'], ['social', 'Social media'], ['friend', 'A friend or colleague'], ['work', 'My school or employer'], ['event', 'An event or fair'], ['other', 'Somewhere else']]
+  };
+  function aboutLabel(key, v) { var m = (ABOUT[key] || []).filter(function (o) { return o[0] === v; })[0]; return m ? m[1] : (v || ''); }
+  function skipKey(user) { return 'hh-about-skip-' + user.id; }
+  function skippedRecently(user) { try { return Date.now() - (+localStorage.getItem(skipKey(user)) || 0) < 14 * 864e5; } catch (e) { return false; } }
+
+  function detailsOf(user) {
+    return Promise.all([
+      db.from('student_details').select('*').eq('user_id', user.id).maybeSingle(),
+      db.from('profiles').select('full_name').eq('id', user.id).maybeSingle()
+    ]).then(function (r) {
+      return { ready: !r[0].error, row: r[0].data || null, name: (r[1].data && r[1].data.full_name) || '' };
+    });
+  }
+
+  function aboutForm(user, info, next, editing) {
+    var d = info.row || {};
+    var go = function () { location.replace(next ? safeNext(next) : 'account.html'); };
+    var text = function (label, key, props) {
+      props = props || {};
+      props.value = key === 'full_name' ? info.name : (d[key] || '');
+      props.name = key;
+      return field(label, props);
+    };
+    var choose = function (label, key, required) {
+      return el('label', { cls: 'lms-field' }, el('span', { text: label }),
+        el('select', { name: key, required: required || null },
+          el('option', { value: '', text: required ? 'Choose one' : 'Choose one (optional)' }),
+          ABOUT[key].map(function (o) { return el('option', { value: o[0], text: o[1], selected: d[key] === o[0] || null }); })));
+    };
+    var msg = el('div');
+    var news = el('input', { type: 'checkbox', name: 'news_ok', checked: !!d.news_ok });
+    var form = el('form', { cls: 'lms-about', onsubmit: function (e) {
+      e.preventDefault();
+      var f = function (k) { var x = form.elements[k]; return x ? String(x.value).trim() : ''; };
+      var row = { user_id: user.id, country: f('country'), city: f('city'), phone: f('phone'), occupation: f('occupation'), organisation: f('organisation'),
+        experience: f('experience'), goal: f('goal'), heard_from: f('heard_from'), notes: f('notes'), news_ok: news.checked, updated_at: new Date().toISOString() };
+      var btn = form.querySelector('button[type=submit]');
+      btn.disabled = true;
+      var jobs = [db.from('student_details').upsert(row).then(must)];
+      if (f('full_name') && f('full_name') !== info.name) jobs.push(db.from('profiles').update({ full_name: f('full_name') }).eq('id', user.id).then(must));
+      Promise.all(jobs).then(go).catch(function (err) { btn.disabled = false; msg.textContent = ''; msg.appendChild(notice(err.message, 'bad')); });
+    } },
+      el('fieldset', {}, el('legend', { text: 'You' }),
+        text('Full name', 'full_name', { type: 'text', required: true, autocomplete: 'name', maxlength: 120 }),
+        el('div', { cls: 'lms-pair' },
+          text('Country', 'country', { type: 'text', required: true, autocomplete: 'country-name', maxlength: 80 }),
+          text('City (optional)', 'city', { type: 'text', autocomplete: 'address-level2', maxlength: 80 })),
+        text('Phone (optional)', 'phone', { type: 'tel', autocomplete: 'tel', maxlength: 40 })),
+      el('fieldset', {}, el('legend', { text: 'Your background' }),
+        choose('Your experience', 'experience', true),
+        el('div', { cls: 'lms-pair' },
+          text('Job or studies (optional)', 'occupation', { type: 'text', maxlength: 120, autocomplete: 'organization-title' }),
+          text('Company or school (optional)', 'organisation', { type: 'text', maxlength: 120, autocomplete: 'organization' }))),
+      el('fieldset', {}, el('legend', { text: 'Your goals' }),
+        choose('What do you want to achieve?', 'goal', true),
+        choose('How did you hear about Holy Hornet?', 'heard_from', false),
+        field('Anything we should know? (optional)', { rows: 3, name: 'notes', maxlength: 1000, value: d.notes || '' }),
+        el('label', { cls: 'lms-check' }, news, el('span', { text: 'Email me when new courses open. You can stop this at any time.' }))),
+      msg,
+      el('div', { cls: 'actions' },
+        el('button', { cls: 'btn main', type: 'submit', text: editing ? 'Save changes' : 'Save and continue' }),
+        editing ? el('a', { cls: 'btn quiet', href: 'account.html', text: 'Cancel' })
+          : el('button', { cls: 'btn quiet', type: 'button', text: 'Skip for now', onclick: function () { try { localStorage.setItem(skipKey(user), String(Date.now())); } catch (e) { /* storage blocked */ } go(); } })));
+    document.title = 'About you | Holy Hornet';
+    show(el('div', { cls: 'wrap lms-page lms-about-page' },
+      el('span', { cls: 'kicker', text: editing ? 'My details' : 'Welcome to Holy Hornet' }),
+      el('h1', { text: editing ? 'Your details' : 'Tell us about you' }),
+      el('p', { cls: 'lms-lead', text: 'It takes a minute and helps us support your training. Only you and the Holy Hornet team can see these details.' }),
+      form));
+    if (!editing) (info.name ? form.elements.country : form.elements.full_name).focus();
+  }
+
+  function aboutSummary(info) {
+    var d = info.row;
+    if (!info.ready) return null;
+    if (!d) return el('div', { cls: 'lms-about-card' }, el('div', {}, el('b', { text: 'Tell us about you' }), el('span', { text: 'Add your background and goals so we can support your training.' })),
+      el('a', { cls: 'btn main', href: 'account.html?step=about', text: 'Add my details' }));
+    var bits = [[d.city, d.country].filter(Boolean).join(', '), aboutLabel('experience', d.experience), aboutLabel('goal', d.goal)].filter(Boolean);
+    return el('div', { cls: 'lms-about-card' }, el('div', {}, el('b', { text: info.name || 'My details' }), el('span', { text: bits.join(' · ') })),
+      el('a', { cls: 'btn quiet', href: 'account.html?step=about', text: 'Edit my details' }));
+  }
+
   function accountPage() {
     if (!db) { show(el('div', { cls: 'wrap lms-page lms-narrow' }, el('h1', { text: 'Student accounts open soon' }), el('p', {}, el('a', { href: 'education.html', text: 'See the courses' })))); return; }
     session().then(function (s) {
       if (s && recovering) { newPasswordForm(); return; }
       if (!s) { authForm('in'); return; }
       var user = s.user;
-      if (params.get('next')) { location.replace(safeNext(params.get('next'))); return; }
+      return detailsOf(user).then(function (info) {
+        var next = params.get('next');
+        if (info.ready && (params.get('step') === 'about' || (!info.row && !skippedRecently(user)))) { aboutForm(user, info, next, !!info.row || params.get('step') === 'about'); return; }
+        if (next) { location.replace(safeNext(next)); return; }
+        return myLearning(user, info);
+      });
+    }).catch(fail);
+  }
+
+  function myLearning(user, info) {
       return Promise.all([
         isAdmin(user),
         db.from('enrollments').select('course_id').eq('user_id', user.id).then(must),
@@ -412,13 +510,13 @@
           });
           show(el('section', { cls: 'wrap lms-page' },
             el('span', { cls: 'kicker', text: user.email }), el('h1', { text: 'My learning' }),
+            aboutSummary(info),
             cards.length ? el('div', { cls: 'lms-grid' }, cards) : el('p', {}, 'You have no courses yet. ', el('a', { href: 'education.html', text: 'Browse the courses' }), '.'),
             el('div', { cls: 'actions lms-gap' },
               r[0] ? el('a', { cls: 'btn main', href: 'admin.html', text: 'Admin dashboard' }) : null,
               el('button', { cls: 'btn quiet', type: 'button', text: 'Sign out', onclick: function () { db.auth.signOut().then(function () { location.replace('education.html'); }); } }))));
         });
       });
-    }).catch(fail);
   }
 
   // ---------- admin ----------
@@ -499,9 +597,11 @@
         return '"' + v.replace(/"/g, '""') + '"';
       }
       function exportCsv() {
-        var lines = [['Name', 'Email', 'Signed up', 'Last sign-in', 'Course', 'Paid', 'Bought on', 'Mollie payment', 'Lessons done', 'Lessons total']];
+        var lines = [['Name', 'Email', 'Signed up', 'Last sign-in', 'Country', 'City', 'Phone', 'Experience', 'Goal', 'Job or studies', 'Company or school', 'Heard about us', 'Course news', 'Note', 'Course', 'Paid', 'Bought on', 'Mollie payment', 'Lessons done', 'Lessons total']];
         visible().forEach(function (r) {
-          var base = [r.full_name, r.email, day(r.signed_up), day(r.last_sign_in)];
+          var d = r.details || {};
+          var base = [r.full_name, r.email, day(r.signed_up), day(r.last_sign_in), d.country, d.city, d.phone, aboutLabel('experience', d.experience), aboutLabel('goal', d.goal),
+            d.occupation, d.organisation, aboutLabel('heard_from', d.heard_from), r.details ? (d.news_ok ? 'Yes' : 'No') : '', d.notes];
           if (!r.courses.length) lines.push(base.concat(['', '', '', '', '', '']));
           r.courses.forEach(function (x) { lines.push(base.concat([x.title, paid(x), day(x.enrolled_at), x.payment_id || '', x.done, x.total])); });
         });
@@ -671,6 +771,15 @@
           el('div', {}, el('dt', { text: 'Last sign-in' }), el('dd', { text: ago(s.last_sign_in) })),
           el('div', {}, el('dt', { text: 'Spent' }), el('dd', { text: moneyOf(spent) })),
           el('div', {}, el('dt', { text: 'Courses' }), el('dd', { text: String(s.courses.length) }))));
+        var dt = s.details;
+        if (dt) {
+          var line = function (k, v) { return v ? el('div', {}, el('dt', { text: k }), el('dd', { text: v })) : null; };
+          dialog.appendChild(el('dl', { cls: 'hhd-about' },
+            line('From', [dt.city, dt.country].filter(Boolean).join(', ')), line('Phone', dt.phone),
+            line('Experience', aboutLabel('experience', dt.experience)), line('Goal', aboutLabel('goal', dt.goal)),
+            line('Job or studies', [dt.occupation, dt.organisation].filter(Boolean).join(' · ')), line('Heard about us', aboutLabel('heard_from', dt.heard_from)),
+            line('Course news', dt.news_ok ? 'Yes, by email' : 'No'), line('Note', dt.notes)));
+        } else dialog.appendChild(el('p', { cls: 'lms-soft', text: 'This student has not filled in their details yet.' }));
         dialog.appendChild(s.courses.length ? el('div', { cls: 'hhd-owned' }, s.courses.map(function (c) {
           return el('div', { cls: 'hhd-owned-row' },
             el('div', {}, el('b', { text: c.title }), el('small', { text: paid(c) + ' · bought ' + day(c.enrolled_at) + (c.payment_id ? ' · ' + c.payment_id : '') })),
@@ -756,7 +865,7 @@
           list.forEach(function (s) {
             var p = progOf(s);
             tbody.appendChild(el('tr', { tabindex: 0, onclick: function () { studentDialog(s); }, onkeydown: function (e) { if (e.key === 'Enter') studentDialog(s); } },
-              el('td', { 'data-label': 'Student' }, el('b', { text: s.full_name || '(no name)' }), el('span', { cls: 'lms-soft', text: s.email }), s.is_admin ? el('small', { cls: 'lms-tag', text: 'Admin' }) : null),
+              el('td', { 'data-label': 'Student' }, el('b', { text: s.full_name || '(no name)' }), el('span', { cls: 'lms-soft', text: s.email + (s.details && s.details.country ? ' · ' + s.details.country : '') }), s.is_admin ? el('small', { cls: 'lms-tag', text: 'Admin' }) : null),
               el('td', { 'data-label': 'Signed up', text: day(s.signed_up) }),
               el('td', { 'data-label': 'Last active', text: ago(s.last_sign_in) }),
               el('td', { 'data-label': 'Courses', text: s.courses.length ? s.courses.map(function (c) { return c.title; }).join(', ') : '—' }),
@@ -819,6 +928,26 @@
             stuck.length ? el('ul', { cls: 'hhd-people' }, stuck.map(function (e) { return person(e.student, e.title + ' · bought ' + ago(e.enrolled_at)); })) : el('p', { cls: 'hhd-empty', text: 'Everyone who bought a course has started it.' })),
           el('section', { cls: 'hhd-card' }, el('h2', { text: 'Gone quiet (30+ days)' }),
             quiet.length ? el('ul', { cls: 'hhd-people' }, quiet.slice(0, 6).map(function (s) { var a = ago(s.last_sign_in); return person(s, 'Last sign-in ' + (/^\d/.test(a) ? a : a.toLowerCase())); })) : el('p', { cls: 'hhd-empty', text: 'No learners have gone quiet.' }))));
+
+        var withD = rows.filter(function (s) { return s.details; });
+        var tally = function (fn) {
+          var t = {};
+          withD.forEach(function (s) { var k = fn(s.details); if (k) t[k] = (t[k] || 0) + 1; });
+          return Object.keys(t).map(function (k) { return [k, t[k]]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 5);
+        };
+        var hbars = function (title, list) {
+          var top = list.length ? list[0][1] : 1;
+          return el('div', { cls: 'hhd-hbars' }, el('h3', { text: title }), list.length ? el('ul', {}, list.map(function (x) {
+            return el('li', {}, el('span', { text: x[0] }), el('i', {}, el('b', { style: 'width:' + Math.round(x[1] / top * 100) + '%' })), el('small', { text: String(x[1]) }));
+          })) : el('p', { cls: 'hhd-empty', text: 'No answers yet.' }));
+        };
+        root.appendChild(el('section', { cls: 'hhd-card' },
+          el('div', { cls: 'hhd-card-head' }, el('h2', { text: 'About your students' }), el('span', { cls: 'lms-soft', text: withD.length + ' of ' + rows.length + ' filled in their details' })),
+          el('div', { cls: 'hhd-about-grid' },
+            hbars('Country', tally(function (d) { var c = (d.country || '').trim(); return c ? c.charAt(0).toUpperCase() + c.slice(1) : ''; })),
+            hbars('Experience', tally(function (d) { return aboutLabel('experience', d.experience); })),
+            hbars('Goal', tally(function (d) { return aboutLabel('goal', d.goal); })),
+            hbars('Heard about us', tally(function (d) { return aboutLabel('heard_from', d.heard_from); })))));
 
         root.appendChild(el('section', { cls: 'hhd-card' },
           el('div', { cls: 'hhd-card-head' }, el('h2', { text: 'Students' }), el('a', { cls: 'btn quiet', href: 'admin.html?view=students', text: 'Full list and CSV' })),
