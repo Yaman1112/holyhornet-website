@@ -143,6 +143,17 @@
 @keyframes mv-land{0%{transform:translate(-110px,-66px)}45%{transform:translate(0,-34px)}62%{transform:translate(0,-34px)}80%,100%{transform:translate(0,0)}}
 @keyframes mv-ring{0%{transform:scale(2.2)}60%,100%{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.mv .drive,.mv .uav,.mv .ring,.mv .lane{animation:none}}
+.fc{background:#14110c}
+.fc .gd{stroke:#d2a24c;stroke-opacity:.07;stroke-width:1;fill:none}
+.fc .zone{fill:#d2a24c;fill-opacity:.05;stroke:#d2a24c;stroke-opacity:.45;stroke-width:1;stroke-dasharray:4 4}
+.fc .trk{fill:none;stroke:#d2a24c;stroke-width:1.6;stroke-linecap:round;opacity:.85}
+.fc .stoop{fill:none;stroke:#e06a52;stroke-width:1.8;stroke-linecap:round}
+.fc .bird{fill:#fff;animation:fc-fly 8s linear infinite}
+.fc .fix{fill:#5fb37a}
+.fc .ring{fill:none;stroke:#5fb37a;stroke-width:1.2;animation:ai-ping 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.fc .lbl{fill:#a09a8c;font:600 10px/1 var(--sans);letter-spacing:.08em}
+@keyframes fc-fly{0%{offset-distance:0%}100%{offset-distance:100%}}
+@media (prefers-reduced-motion:reduce){.fc .bird,.fc .ring{animation:none}}
 .sg{background:#0b1220}
 .sg .gd{stroke:#22d3ee;stroke-opacity:.07;stroke-width:1;fill:none}
 .sg .area{fill:#22d3ee;fill-opacity:.06;stroke:#22d3ee;stroke-opacity:.5;stroke-width:1}
@@ -372,6 +383,30 @@
         <a class="btn quiet" href="/projects/skygrid/">About SkyGrid</a>
       </div>
       <p class="note">The planning and simulation engine runs in your browser, nothing to install; the first start downloads about 10 MB. Every aircraft, facility and flight is simulated, and SkyGrid is an advisory tool, not certified air traffic control.</p>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig fc" href="/projects/falcon-intelligence/" aria-label="Open the Falcon Intelligence platform">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Animation: a falcon's recorded flight path circles upward inside a training zone and ends in a steep descent to a tracked position">
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <circle class="zone" cx="160" cy="116" r="88"/>
+        <path class="trk" d="M60 170 C40 140 60 110 95 112 C135 114 140 150 110 156 C80 162 78 120 112 96 C150 70 200 78 205 112 C210 146 168 150 170 118 C172 84 222 52 262 60"/>
+        <path class="stoop" d="M262 60 L196 168"/>
+        <circle class="fix" cx="196" cy="168" r="4.5"/><circle class="ring" cx="196" cy="168" r="9"/>
+        <circle class="bird" r="4" style="offset-path:path('M60 170 C40 140 60 110 95 112 C135 114 140 150 110 156 C80 162 78 120 112 96 C150 70 200 78 205 112 C210 146 168 150 170 118 C172 84 222 52 262 60 L196 168')"/>
+        <text class="lbl" x="14" y="24">IDENTITY · TRACKING · HEALTH · RECOVERY</text>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">Falconry · Telemetry · Interactive platform</span>
+      <h2>Falcon Intelligence: one record for every falcon</h2>
+      <p>A platform for falcon owners, falconers, breeders and falcon hospitals. Each bird has a digital identity with its documents, weights, feeding, training sessions, veterinary records and lineage. Tracker flights are replayed in 2D and 3D and measured against that bird's own history, never ranked against other birds. Changes in weight or activity are raised as observations for a falconer or vet to check, never as a diagnosis. If a falcon goes missing, a recovery case gathers its last valid position, sightings and an expiring link for helpers. Sign in as an owner, a falconer, a vet or a recovery contact, start a simulated flight, and lose the signal to see what happens.</p>
+      <ul class="facts"><li>10 roles, location kept private</li><li>Every figure labelled by source</li><li>Imports GPX, KML and CSV tracks</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/falcon-intelligence/">Open the platform</a>
+      </div>
+      <p class="note">The full backend runs in your browser, nothing to install; the first start downloads about 25 MB and everything resets on reload. Every falcon, record and flight is synthetic, no real tracker is connected yet, and the platform has no trained AI model: its analysis is rules and statistics.</p>
     </div>
   </article>
   <div class="next"><b>More projects are on their way.</b><span>Tell us about the job you have in mind.</span><a class="more" href="contact.html">Start a project &rarr;</a></div>
