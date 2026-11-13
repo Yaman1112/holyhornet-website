@@ -220,6 +220,12 @@
 .proj{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s,border-color .2s}
 .proj:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
 .proj[hidden]{display:none}
+.proj.locked{filter:blur(7px);opacity:.75;user-select:none;pointer-events:none}
+.proj.locked:hover{transform:none;box-shadow:none}
+.plock{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding:22px 26px;border:1.5px dashed var(--honey);border-radius:var(--r);background:var(--honey-tint)}
+.plock b{font:500 26px/1.1 var(--serif)}
+.plock span{flex:1 1 320px;color:var(--soft)}
+.plock[hidden]{display:none}
 .pbody{padding:22px 24px 26px}
 .proj h3{font-size:24px;line-height:1.2;margin:14px 0 8px}
 .proj p{color:var(--soft);font-size:16.5px}
@@ -454,68 +460,73 @@
 <text class="lbl" x="168" y="66">(5,5,5)</text><text class="lbl" x="20" y="186">(0,0,0)</text><text class="lbl" x="168" y="164">LAND</text></svg></figure>
     <div class="pbody"><span class="tag">Planning · MATLAB</span><h3>Trajectory planning mission</h3><p>Take off from (0,0,0), climb to (5,5,5), hover for 5 s, fly a 2.5 m circle at constant height and land with less than 0.1 m/s vertical speed.</p></div>
   </article>
-  <article class="proj" data-c="planning">
+  <aside class="plock" id="more">
+    <b>21 more systems</b>
+    <span>The rest of our portfolio is shared with clients and partners. Tell us what you need and we will walk you through the systems that fit.</span>
+    <a class="btn main" href="contact.html">Ask for the full portfolio</a>
+  </aside>
+  <article class="proj locked" inert aria-hidden="true" data-c="planning">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><rect class="field" x="26" y="28" width="268" height="146" rx="8"/><path class="rows" d="M26 55H294M26 85H294M26 115H294M26 145H294"/>
 <path class="spray" pathLength="100" d="M40 40H280V70H40V100H280V130H40V160H280"/><path class="dot" pathLength="100" d="M40 40H280V70H40V100H280V130H40V160H280"/><text class="lbl" x="12" y="194">SPRAY PATTERN</text></svg></figure>
     <div class="pbody"><span class="tag">Planning · MATLAB</span><h3>Mission trajectories</h3><p>Animated flight patterns for real jobs: crop spraying, forest-fire runs, circle, square, star, heart, infinity, butterfly, zigzag and a spiral tower.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="ln" d="M90 178L160 196L230 178M160 196V30"/><path class="faint" d="M230 150 L229 152 L227 154 L222 156 L217 158 L209 159 L201 160 L192 161 L182 161 L171 160 L160 159 L149 158 L138 156 L128 153 L119 150 L111 147 L103 143 L98 139 L93 134 L91 130 L90 125 L91 120 L93 115 L98 111 L103 107 L111 103 L119 99 L128 96 L138 94 L149 92 L160 90 L171 89 L182 89 L192 89 L201 89 L209 90 L217 92 L222 93 L227 95 L229 97 L230 100 L229 102 L227 104 L222 106 L217 107 L209 109 L201 110 L192 110 L182 110 L171 110 L160 109 L149 107 L138 105 L128 103 L119 100 L111 96 L103 92 L98 88 L93 84 L91 79 L90 74 L91 70 L93 65 L98 61 L103 56 L111 53 L119 49 L128 46 L138 43 L149 41 L160 40 L171 39 L182 38 L192 38 L201 39 L209 40 L217 41 L222 43 L227 45 L229 47 L230 49"/><path class="trail draw" pathLength="100" d="M230 150 L229 152 L227 154 L222 156 L217 158 L209 159 L201 160 L192 161 L182 161 L171 160 L160 159 L149 158 L138 156 L128 153 L119 150 L111 147 L103 143 L98 139 L93 134 L91 130 L90 125 L91 120 L93 115 L98 111 L103 107 L111 103 L119 99 L128 96 L138 94 L149 92 L160 90 L171 89 L182 89 L192 89 L201 89 L209 90 L217 92 L222 93 L227 95 L229 97 L230 100 L229 102 L227 104 L222 106 L217 107 L209 109 L201 110 L192 110 L182 110 L171 110 L160 109 L149 107 L138 105 L128 103 L119 100 L111 96 L103 92 L98 88 L93 84 L91 79 L90 74 L91 70 L93 65 L98 61 L103 56 L111 53 L119 49 L128 46 L138 43 L149 41 L160 40 L171 39 L182 38 L192 38 L201 39 L209 40 L217 41 L222 43 L227 45 L229 47 L230 49"/><path class="dot" pathLength="100" d="M230 150 L229 152 L227 154 L222 156 L217 158 L209 159 L201 160 L192 161 L182 161 L171 160 L160 159 L149 158 L138 156 L128 153 L119 150 L111 147 L103 143 L98 139 L93 134 L91 130 L90 125 L91 120 L93 115 L98 111 L103 107 L111 103 L119 99 L128 96 L138 94 L149 92 L160 90 L171 89 L182 89 L192 89 L201 89 L209 90 L217 92 L222 93 L227 95 L229 97 L230 100 L229 102 L227 104 L222 106 L217 107 L209 109 L201 110 L192 110 L182 110 L171 110 L160 109 L149 107 L138 105 L128 103 L119 100 L111 96 L103 92 L98 88 L93 84 L91 79 L90 74 L91 70 L93 65 L98 61 L103 56 L111 53 L119 49 L128 46 L138 43 L149 41 L160 40 L171 39 L182 38 L192 38 L201 39 L209 40 L217 41 L222 43 L227 45 L229 47 L230 49"/>
 <text class="lbl" x="12" y="24">1D · 2D · 3D</text><text class="lbl" x="250" y="24">HELIX</text></svg></figure>
     <div class="pbody"><span class="tag">Control · MATLAB</span><h3>Quadcopter control in 1D, 2D and 3D</h3><p>PID control step by step: hover and altitude steps in 1D, line and sine paths in the plane, then line, helix and minimum-snap (7th-order polynomial) trajectories in 3D.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><g class="gust"><line x1="0" y1="60" x2="40" y2="60"/><line x1="0" y1="96" x2="60" y2="96" style="animation-delay:.5s"/><line x1="0" y1="130" x2="34" y2="130" style="animation-delay:1s"/><line x1="0" y1="80" x2="50" y2="80" style="animation-delay:1.4s"/><line x1="0" y1="150" x2="44" y2="150" style="animation-delay:.2s"/></g>
 <path class="faint dash" d="M200 30V170M130 100H270"/><g class="hold" style="transform-origin:200px 100px"><use class="qs" href="#qs" x="200" y="100"/></g><text class="lbl" x="230" y="24">SETPOINT</text><text class="lbl" x="12" y="190">WIND GUST →</text></svg></figure>
     <div class="pbody"><span class="tag">Control · Simulink</span><h3>PD and PID control in wind</h3><p>Cascaded PD and PID position and attitude loops, including a helix flight without gyro feedback and a test flown with and without wind gusts.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="ln" d="M30 100H290M30 30V170"/><path class="trail draw" pathLength="100" d="M30 40C50 160 70 150 90 70S130 120 150 92S190 104 210 98S260 100 290 100"/><path class="trail cy draw" pathLength="100" d="M30 160C55 60 80 70 100 122S140 90 160 104S210 98 290 100" style="animation-delay:.4s"/><path class="trail gn draw" pathLength="100" d="M30 70C60 140 90 110 120 96S180 102 290 100" style="animation-delay:.8s"/>
 <text class="lbl" x="150" y="24">J = ∫ xᵀQx + uᵀRu</text></svg></figure>
     <div class="pbody"><span class="tag">Control · MATLAB</span><h3>LQR control</h3><p>A linear-quadratic regulator built from a linearised state-space model. The gain trades tracking error against control effort while the drone follows a desired trajectory.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="ln" d="M30 170H290M30 170V30"/><path class="faint dash" d="M30 70H290"/><path class="trail draw" pathLength="100" d="M30 170C60 170 70 30 100 40S140 90 160 74S210 68 290 70"/><path class="trail cy draw" pathLength="100" d="M30 170C70 170 90 74 140 71S220 70 290 70" style="animation-delay:.5s"/>
 <g class="lg"><line x1="200" y1="140" x2="220" y2="140" class="hn"/><text class="lbl" x="226" y="144">PID</text><line x1="200" y1="158" x2="220" y2="158" class="cyl"/><text class="lbl" x="226" y="162">LQR</text></g></svg></figure>
     <div class="pbody"><span class="tag">Control · Simulink</span><h3>PID vs LQR in Simulink</h3><p>The same quadcopter flown with PID loops for throttle, roll, pitch and yaw and with an LQR controller, so the two can be compared side by side.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><circle class="faint dash" cx="160" cy="100" r="70"/><g class="orbit" style="transform-origin:160px 100px"><g class="hz"><circle cx="228.5" cy="114.6" r="4.0" opacity="0.90"/><circle cx="223.9" cy="128.5" r="3.5" opacity="0.75"/><circle cx="216.6" cy="141.1" r="3.0" opacity="0.60"/><circle cx="206.8" cy="152.0" r="2.5" opacity="0.45"/><circle cx="195.0" cy="160.6" r="2.0" opacity="0.30"/></g><circle class="me" cx="230" cy="100" r="6"/></g>
 <text class="lbl" x="12" y="24">HORIZON N = 5</text></svg></figure>
     <div class="pbody"><span class="tag">Control · MATLAB</span><h3>Model predictive control</h3><p>MPC predicts a short horizon ahead and picks the best inputs, re-solving every step while the drone flies a circle. A second version pairs MPC on an LPV model with feedback linearisation.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="faint dash" d="M270 100 L269 106 L265 112 L260 118 L253 122 L245 124 L236 126 L228 127 L220 126 L212 125 L205 123 L198 121 L191 119 L186 116 L180 113 L175 110 L170 107 L165 103 L160 100 L155 97 L150 93 L145 90 L140 87 L134 84 L129 81 L122 79 L115 77 L108 75 L100 74 L92 73 L84 74 L75 76 L67 78 L60 82 L55 88 L51 94 L50 100 L51 106 L55 112 L60 118 L67 122 L75 124 L84 126 L92 127 L100 126 L108 125 L115 123 L122 121 L129 119 L134 116 L140 113 L145 110 L150 107 L155 103 L160 100 L165 97 L170 93 L175 90 L180 87 L186 84 L191 81 L198 79 L205 77 L212 75 L220 74 L228 73 L236 74 L245 76 L253 78 L260 82 L265 88 L269 94 L270 100"/><path class="trail draw" pathLength="100" d="M270 100 L269 106 L265 112 L260 118 L253 122 L245 124 L236 126 L228 127 L220 126 L212 125 L205 123 L198 121 L191 119 L186 116 L180 113 L175 110 L170 107 L165 103 L160 100 L155 97 L150 93 L145 90 L140 87 L134 84 L129 81 L122 79 L115 77 L108 75 L100 74 L92 73 L84 74 L75 76 L67 78 L60 82 L55 88 L51 94 L50 100 L51 106 L55 112 L60 118 L67 122 L75 124 L84 126 L92 127 L100 126 L108 125 L115 123 L122 121 L129 119 L134 116 L140 113 L145 110 L150 107 L155 103 L160 100 L165 97 L170 93 L175 90 L180 87 L186 84 L191 81 L198 79 L205 77 L212 75 L220 74 L228 73 L236 74 L245 76 L253 78 L260 82 L265 88 L269 94 L270 100"/><path class="dot" pathLength="100" d="M270 100 L269 106 L265 112 L260 118 L253 122 L245 124 L236 126 L228 127 L220 126 L212 125 L205 123 L198 121 L191 119 L186 116 L180 113 L175 110 L170 107 L165 103 L160 100 L155 97 L150 93 L145 90 L140 87 L134 84 L129 81 L122 79 L115 77 L108 75 L100 74 L92 73 L84 74 L75 76 L67 78 L60 82 L55 88 L51 94 L50 100 L51 106 L55 112 L60 118 L67 122 L75 124 L84 126 L92 127 L100 126 L108 125 L115 123 L122 121 L129 119 L134 116 L140 113 L145 110 L150 107 L155 103 L160 100 L165 97 L170 93 L175 90 L180 87 L186 84 L191 81 L198 79 L205 77 L212 75 L220 74 L228 73 L236 74 L245 76 L253 78 L260 82 L265 88 L269 94 L270 100"/><text class="lbl" x="12" y="24">NONLINEAR MODEL</text></svg></figure>
     <div class="pbody"><span class="tag">Control · MATLAB</span><h3>Nonlinear MPC</h3><p>Nonlinear model predictive control on the full quadrotor model, tracking a stored reference trajectory, written up in a report and presentation.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><rect class="loop" x="30" y="20" width="260" height="160" rx="18" style="animation-delay:2s"/><rect class="loop" x="70" y="48" width="180" height="104" rx="14" style="animation-delay:1s"/><rect class="loop" x="110" y="74" width="100" height="52" rx="10" style="animation-delay:0s"/>
 <g class="wob" style="transform-origin:160px 100px"><use class="qs" href="#qs" x="160" y="102"/></g>
 <text class="lbl" x="40" y="38">POSITION</text><text class="lbl" x="80" y="66">VELOCITY</text><text class="lbl" x="118" y="90">ATTITUDE</text></svg></figure>
     <div class="pbody"><span class="tag">Control · MATLAB + Simulink</span><h3>Backstepping control</h3><p>A step-by-step Lyapunov design: the position, velocity and attitude loops are each stabilised in turn, tested on fixed and variable trajectories.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="ln" d="M30 170H290M30 170V30"/><path class="wavy" d="M30 150C60 60 90 170 120 100S180 40 210 110S260 50 290 50"/><path class="straight" d="M30 170L290 50"/>
 <text class="lbl xa" x="120" y="24">ẍ = f(x) + g(x)·u</text><text class="lbl xb" x="150" y="24">ẍ = v</text></svg></figure>
     <div class="pbody"><span class="tag">Control · MATLAB</span><h3>Feedback linearisation</h3><p>Cancels the quadcopter’s nonlinear dynamics so the outer loop sees a simple linear system, which ordinary linear control can then track.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="ln" d="M30 100H290M160 20V180"/><path class="surf" d="M60 160L260 40"/><path class="trail draw" pathLength="100" d="M90 30C70 70 90 110 110 130L118 130L120 119L130 123L132 112L142 115L144 105L154 108L156 98L160 100"/><path class="dot" pathLength="100" d="M90 30C70 70 90 110 110 130L118 130L120 119L130 123L132 112L142 115L144 105L154 108L156 98L160 100"/>
 <text class="lbl" x="250" y="34">s = 0</text><text class="lbl" x="276" y="114">e</text><text class="lbl" x="166" y="28">ė</text></svg></figure>
     <div class="pbody"><span class="tag">Control · MATLAB + Simulink</span><h3>Sliding mode control</h3><p>Drives the tracking error onto a sliding surface and keeps it there, for robust control under disturbances. Results are compared with PID, LQR, backstepping, feedback linearisation and MRAC.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="ln" d="M30 170H290M30 170V30"/>
 <path class="mf" d="M40 170L40 50L120 170" style="animation-delay:0s"/><path class="mf" d="M80 170L160 50L240 170" style="animation-delay:1.5s"/><path class="mf" d="M200 170L280 50L280 170" style="animation-delay:3s"/>
 <line class="sweep" x1="50" y1="40" x2="50" y2="172"/><text class="lbl" x="44" y="190">N</text><text class="lbl" x="156" y="190">Z</text><text class="lbl" x="274" y="190">P</text><text class="lbl" x="12" y="40">μ</text><text class="lbl" x="226" y="24">NTSMC</text></svg></figure>
     <div class="pbody"><span class="tag">Control · Simulink</span><h3>Adaptive fuzzy sliding-mode control</h3><p>Adaptive nonlinear control that combines fuzzy logic with non-singular terminal sliding mode (NTSMC). The fuzzy rules tune the controller as it flies, so it copes with model errors and disturbances.</p></div>
   </article>
-  <article class="proj" data-c="control">
+  <article class="proj locked" inert aria-hidden="true" data-c="control">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><rect class="obsr" x="140" y="70" width="44" height="60" rx="8"/><path class="faint dash" d="M30 100H290"/><path class="trail draw" pathLength="100" d="M30 100C90 100 110 40 162 40S236 100 290 100"/><path class="dot" pathLength="100" d="M30 100C90 100 110 40 162 40S236 100 290 100"/>
 <text class="lbl" x="12" y="180">IF obstacle NEAR → STEER</text></svg></figure>
     <div class="pbody"><span class="tag">Control · Simulink</span><h3>Fuzzy control with obstacle avoidance</h3><p>A 6-DOF quadcopter flown by fuzzy inference systems for attitude, altitude and yaw, plus a fuzzy rule set that steers round obstacles.</p></div>
   </article>
-  <article class="proj" data-c="ai">
+  <article class="proj locked" inert aria-hidden="true" data-c="ai">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="faint" d="M30 160C80 160 90 60 160 70S250 160 290 120"/><path class="trail draw" pathLength="100" d="M30 160C80 160 90 60 160 70S250 160 290 120"/>
 <g class="lm"><g style="animation-delay:.6s"><ellipse class="unc" cx="70" cy="90" rx="16" ry="10"/><path class="star" d="M70 84l2 4 4 .5-3 3 1 4-4-2-4 2 1-4-3-3 4-.5z"/></g>
 <g style="animation-delay:1.6s"><ellipse class="unc" cx="140" cy="130" rx="16" ry="10"/><path class="star" d="M140 124l2 4 4 .5-3 3 1 4-4-2-4 2 1-4-3-3 4-.5z"/></g>
@@ -525,22 +536,22 @@
 <path class="dot" pathLength="100" d="M30 160C80 160 90 60 160 70S250 160 290 120"/><text class="lbl" x="12" y="24">EKF · MAP</text></svg></figure>
     <div class="pbody"><span class="tag">Autonomy · MATLAB</span><h3>3D SLAM with an EKF</h3><p>The UAV maps landmarks while estimating its own position with an extended Kalman filter, with known and unknown landmarks. It flies with differential flatness and an LQR trajectory controller.</p></div>
   </article>
-  <article class="proj" data-c="ai">
+  <article class="proj locked" inert aria-hidden="true" data-c="ai">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><rect class="q" x="54" y="30" width="32" height="32" rx="5" style="--v:0.38;animation-delay:0.75s"/><rect class="q" x="90" y="30" width="32" height="32" rx="5" style="--v:0.50;animation-delay:1.00s"/><rect class="q" x="126" y="30" width="32" height="32" rx="5" style="--v:0.62;animation-delay:1.25s"/><rect class="q" x="162" y="30" width="32" height="32" rx="5" style="--v:0.75;animation-delay:1.50s"/><rect class="q" x="198" y="30" width="32" height="32" rx="5" style="--v:0.88;animation-delay:1.75s"/><rect class="goal" x="234" y="30" width="32" height="32" rx="5" style="--v:1.00;animation-delay:2.00s"/><rect class="q" x="54" y="66" width="32" height="32" rx="5" style="--v:0.25;animation-delay:0.50s"/><rect class="q" x="90" y="66" width="32" height="32" rx="5" style="--v:0.38;animation-delay:0.75s"/><rect class="q" x="126" y="66" width="32" height="32" rx="5" style="--v:0.50;animation-delay:1.00s"/><rect class="q" x="162" y="66" width="32" height="32" rx="5" style="--v:0.62;animation-delay:1.25s"/><rect class="q" x="198" y="66" width="32" height="32" rx="5" style="--v:0.75;animation-delay:1.50s"/><rect class="q" x="234" y="66" width="32" height="32" rx="5" style="--v:0.88;animation-delay:1.75s"/><rect class="q" x="54" y="102" width="32" height="32" rx="5" style="--v:0.12;animation-delay:0.25s"/><rect class="q" x="90" y="102" width="32" height="32" rx="5" style="--v:0.25;animation-delay:0.50s"/><rect class="q" x="126" y="102" width="32" height="32" rx="5" style="--v:0.38;animation-delay:0.75s"/><rect class="q" x="162" y="102" width="32" height="32" rx="5" style="--v:0.50;animation-delay:1.00s"/><rect class="q" x="198" y="102" width="32" height="32" rx="5" style="--v:0.62;animation-delay:1.25s"/><rect class="q" x="234" y="102" width="32" height="32" rx="5" style="--v:0.75;animation-delay:1.50s"/><rect class="q" x="54" y="138" width="32" height="32" rx="5" style="--v:0.05;animation-delay:0.00s"/><rect class="q" x="90" y="138" width="32" height="32" rx="5" style="--v:0.12;animation-delay:0.25s"/><rect class="q" x="126" y="138" width="32" height="32" rx="5" style="--v:0.25;animation-delay:0.50s"/><rect class="q" x="162" y="138" width="32" height="32" rx="5" style="--v:0.38;animation-delay:0.75s"/><rect class="q" x="198" y="138" width="32" height="32" rx="5" style="--v:0.50;animation-delay:1.00s"/><rect class="q" x="234" y="138" width="32" height="32" rx="5" style="--v:0.62;animation-delay:1.25s"/><rect class="wall" x="90" y="66" width="32" height="32" rx="5"/><rect class="wall" x="198" y="102" width="32" height="32" rx="5"/><circle class="agent" cx="70" cy="154" r="8"/><text class="lbl" x="268" y="52">GOAL</text></svg></figure>
     <div class="pbody"><span class="tag">Autonomy · MATLAB</span><h3>Q-learning flight</h3><p>Tabular Q-learning with an epsilon-greedy policy and a shaped reward. The drone learns a route through a grid of states, then the learned policy is animated.</p></div>
   </article>
-  <article class="proj" data-c="ai">
+  <article class="proj locked" inert aria-hidden="true" data-c="ai">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="ep e1" d="M90 50C140 40 190 66 230 46C250 90 220 120 236 150C180 160 140 140 86 156C96 120 70 90 90 50Z"/><path class="ep e2" d="M86 48C140 44 190 56 232 48C236 90 226 120 234 152C190 154 130 148 88 154C90 120 82 90 86 48Z"/>
 <path class="ep e3" d="M86 48H234V152H86Z"/><path class="dot" pathLength="100" d="M86 48H234V152H86Z"/><text class="lbl t1" x="12" y="190">EPISODE 1</text><text class="lbl t2" x="12" y="190">EPISODE 50</text><text class="lbl t3" x="12" y="190">EPISODE 500</text></svg></figure>
     <div class="pbody"><span class="tag">Autonomy · Simulink</span><h3>Reinforcement learning in Simulink</h3><p>A learned control policy with discretised states and actions, trained to follow a square trajectory inside a Simulink model.</p></div>
   </article>
-  <article class="proj" data-c="ai">
+  <article class="proj locked" inert aria-hidden="true" data-c="ai">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="vf" d="M20 30V18H36M284 18H300V30M300 170V182H284M36 182H20V170"/><path class="faint" d="M150 100H170M160 90V110M20 132H300"/>
 <g class="tgtmove"><use class="qt red" href="#qt" x="0" y="0" transform="scale(.7)"/></g><g class="trk"><rect x="-18" y="-18" width="36" height="36" class="box"/></g>
 <text class="lbl blink" x="28" y="42">TRACK</text><text class="lbl" x="236" y="42">AI · 60 FPS</text><text class="lbl" x="28" y="168">LOW-LIGHT</text></svg></figure>
     <div class="pbody"><span class="tag">Counter-UAS · Evaluation</span><h3>Counter-UAS detection and tracking</h3><p>We evaluate counter-drone technology: high-speed interceptor platforms and onboard AI modules that detect and track targets by day and in low light.</p></div>
   </article>
-  <article class="proj" data-c="systems">
+  <article class="proj locked" inert aria-hidden="true" data-c="systems">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><g class="blk"><rect x="14" y="74" width="54" height="40" rx="6"/><rect x="104" y="74" width="74" height="40" rx="6"/><rect x="214" y="74" width="92" height="40" rx="6"/><rect x="214" y="146" width="92" height="36" rx="6"/></g>
 <circle class="ln" cx="86" cy="94" r="7"/>
 <path class="wire" d="M68 94H79M93 94H104M178 94H214M306 94H312V164H306M214 164H86V101"/>
@@ -549,23 +560,23 @@
 <use class="qt hov" href="#qt" x="260" y="40"/></svg></figure>
     <div class="pbody"><span class="tag">Systems · Simulink</span><h3>Autonomous quadrotor model</h3><p>A full quadrotor dynamics model with an autonomous controller in a closed loop, flying a stored trajectory and drawing the vehicle in 3D.</p></div>
   </article>
-  <article class="proj" data-c="systems">
+  <article class="proj locked" inert aria-hidden="true" data-c="systems">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><line class="ln" x1="0" y1="182" x2="320" y2="182"/><path class="tgt" d="M202 176l16 10M218 176l-16 10"/><path class="ln" d="M262 182V150L282 136L302 150V182"/>
 <g class="fly"><g transform="translate(60 60)"><rect class="body" x="-16" y="-4" width="32" height="9" rx="3"/><line class="ln" x1="-30" y1="-3" x2="30" y2="-3"/><line class="prop" x1="-38" y1="-9" x2="-22" y2="-9"/><line class="prop" x1="-8" y1="-9" x2="8" y2="-9"/><line class="prop" x1="22" y1="-9" x2="38" y2="-9"/><line class="ln" x1="-10" y1="5" x2="-13" y2="12"/><line class="ln" x1="10" y1="5" x2="13" y2="12"/></g>
 <line class="ln teth" x1="60" y1="66" x2="60" y2="76"/><rect class="parcel" x="52" y="76" width="16" height="13" rx="2"/></g>
 <text class="lbl" x="12" y="24">MISSION PLANNER</text></svg></figure>
     <div class="pbody"><span class="tag">Systems · Simulink + CAD</span><h3>Hexacopter delivery drone</h3><p>A parcel-delivery hexacopter modelled part by part: arms, propellers, motors, battery and electrics, sensors, skids and ground contact, with a mission-planner app, a reliability model and CAD for the airframe.</p></div>
   </article>
-  <article class="proj" data-c="systems">
+  <article class="proj locked" inert aria-hidden="true" data-c="systems">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><g class="yaw" style="transform-origin:160px 100px"><line class="ln" x1="160" y1="100" x2="224.0" y2="100.0"/><circle class="disc" cx="224.0" cy="100.0" r="17"/><rect class="blade cw" x="209.0" y="98.5" width="30" height="3" rx="1.5"/><line class="ln" x1="160" y1="100" x2="205.3" y2="145.3"/><circle class="disc" cx="205.3" cy="145.3" r="17"/><rect class="blade ccw" x="190.3" y="143.8" width="30" height="3" rx="1.5"/><line class="ln" x1="160" y1="100" x2="160.0" y2="164.0"/><circle class="disc" cx="160.0" cy="164.0" r="17"/><rect class="blade cw" x="145.0" y="162.5" width="30" height="3" rx="1.5"/><line class="ln" x1="160" y1="100" x2="114.7" y2="145.3"/><circle class="disc" cx="114.7" cy="145.3" r="17"/><rect class="blade ccw" x="99.7" y="143.8" width="30" height="3" rx="1.5"/><line class="ln" x1="160" y1="100" x2="96.0" y2="100.0"/><circle class="disc" cx="96.0" cy="100.0" r="17"/><rect class="blade cw" x="81.0" y="98.5" width="30" height="3" rx="1.5"/><line class="ln" x1="160" y1="100" x2="114.7" y2="54.7"/><circle class="disc" cx="114.7" cy="54.7" r="17"/><rect class="blade ccw" x="99.7" y="53.2" width="30" height="3" rx="1.5"/><line class="ln" x1="160" y1="100" x2="160.0" y2="36.0"/><circle class="disc" cx="160.0" cy="36.0" r="17"/><rect class="blade cw" x="145.0" y="34.5" width="30" height="3" rx="1.5"/><line class="ln" x1="160" y1="100" x2="205.3" y2="54.7"/><circle class="disc" cx="205.3" cy="54.7" r="17"/><rect class="blade ccw" x="190.3" y="53.2" width="30" height="3" rx="1.5"/><circle class="body" cx="160" cy="100" r="14"/><path class="hn" d="M160 90V80"/></g><text class="lbl" x="12" y="24">8 ROTORS · CW/CCW</text></svg></figure>
     <div class="pbody"><span class="tag">Systems · Simulink</span><h3>Octocopter model</h3><p>An eight-rotor multicopter modelled in Simulink, with its own parameter set and a project report.</p></div>
   </article>
-  <article class="proj" data-c="systems">
+  <article class="proj locked" inert aria-hidden="true" data-c="systems">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="ln" d="M108 196L112 84L116 196Z"/><g class="blades" style="transform-origin:112px 80px"><path d="M112 80L106 22L114 22Z"/><path d="M112 80L166 108L162 114Z"/><path d="M112 80L58 108L62 114Z"/></g><circle class="body" cx="112" cy="80" r="6"/>
 <g class="insp"><path class="cone" d="M216 90L170 70L170 110Z"/><use class="qt" href="#qt" x="226" y="90"/></g><text class="lbl" x="230" y="190">INSPECTION</text></svg></figure>
     <div class="pbody"><span class="tag">Systems · Simulink</span><h3>Wind turbine inspection drone</h3><p>A drone and a wind turbine in one Simulink project, with guidance, attitude and motor subsystems flying the inspection route round the turbine.</p></div>
   </article>
-  <article class="proj" data-c="systems">
+  <article class="proj locked" inert aria-hidden="true" data-c="systems">
     <figure class="fig" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><path class="gd" d="M0 40H320M0 80H320M0 120H320M0 160H320M64 0V200M128 0V200M192 0V200M256 0V200"/><path class="faint dash" d="M20 100C50 50 80 50 110 100S170 150 200 100S260 50 300 100"/><path class="trail draw" pathLength="100" d="M20 160C50 140 80 70 110 96S170 148 200 101S260 52 300 100"/><text class="lbl" x="12" y="24">REF ‒ ‒   ACTUAL ━</text></svg></figure>
     <div class="pbody"><span class="tag">Systems · Simulink</span><h3>Trajectory tracking in Simulink</h3><p>A trajectory-tracking demo: set the desired path in the model, run it, and plot how closely the drone follows.</p></div>
   </article>
@@ -605,6 +616,7 @@ document.documentElement.classList.add('js');
       var f = b.dataset.p;
       chips.forEach(function (x) { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b); });
       items.forEach(function (it) { it.hidden = f !== 'all' && it.dataset.c !== f; });
+      var lock = document.getElementById('more'); if (lock) lock.hidden = f !== 'all';
     });
   });
 })();
