@@ -168,9 +168,16 @@
     return box;
   }
 
-  function syllabus(course, access) {
+  function syllabus(course, access, user) {
     var free = isFree(course);
+    // Before buying, only the first two modules are readable; the rest of the outline is blurred.
+    var hide = !access.owned && !(free && user) && course.modules.length > 2;
     return el('div', { cls: 'lms-syllabus' }, course.modules.map(function (m, i) {
+      if (hide && i >= 2) {
+        return el('div', { cls: 'lms-blurred', 'aria-hidden': 'true' },
+          el('div', { cls: 'lms-blurred-row' }, el('span', { text: 'Module ' + (i + 1) }), el('b', { text: m.title }), el('small', { text: m.lessons.length + (m.lessons.length === 1 ? ' lesson' : ' lessons') })),
+          el('ol', {}, m.lessons.slice(0, 3).map(function (l) { return el('li', { text: l.title }); })));
+      }
       return el('details', { open: i === 0 },
         el('summary', {}, el('span', { text: 'Module ' + (i + 1) }), el('b', { text: m.title }), el('small', { text: m.lessons.length + (m.lessons.length === 1 ? ' lesson' : ' lessons') })),
         el('ol', {}, m.lessons.map(function (l) {
@@ -180,7 +187,7 @@
             l.is_preview && !access.owned && !free ? el('em', { text: 'Free preview' }) : null,
             access.done[l.id] ? el('em', { text: 'Done' }) : null);
         })));
-    }));
+    }).concat(hide ? [el('p', { cls: 'lms-blur-note', text: (free ? 'Sign in' : 'Enrol') + ' to see the full outline: ' + (course.modules.length - 2) + ' more modules.' })] : []));
   }
 
   function waitForPayment(course, user, tries) {
@@ -217,7 +224,7 @@
             paid && !access.owned ? notice('We have not received this payment yet. If you completed it, refresh in a minute; if the course stays locked, email info@holyhornet.com. If the payment failed, you can try again above.', 'bad') : null,
             paid && access.owned ? notice('You now have full access to this course.', 'good') : null,
             el('h2', { cls: 'lms-h2', text: 'Course outline' }),
-            syllabus(course, access))));
+            syllabus(course, access, user))));
       });
     }).catch(fail);
   }
