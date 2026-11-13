@@ -208,6 +208,70 @@
 .art{display:flex;align-items:center;justify-content:space-between;padding:22px 24px}
 .art .ico{background:var(--card)}
 .art small{font-weight:700;font-size:13px;color:var(--soft)}
+/* ---------- animated course headers ---------- */
+.art{position:relative;min-height:150px;align-items:flex-start;overflow:hidden}
+.art .ico,.art small{position:relative;z-index:1}
+.art .scene{position:absolute;left:0;right:0;bottom:0;top:30px;width:100%;height:calc(100% - 30px);color:var(--ink);pointer-events:none;overflow:visible}
+.art small{padding:3px 10px;border-radius:999px;background:var(--card)}
+.scene *{vector-effect:non-scaling-stroke}
+.scene .route,.scene .resp,.scene .sig{vector-effect:none}
+.scene .grid{stroke:currentColor;opacity:.08;stroke-width:1}
+.scene .dim,.scene .lbl{fill:currentColor;opacity:.55;font:700 10px var(--sans);letter-spacing:.08em}
+.scene .lbl{opacity:.8;text-anchor:middle;font-size:11px}
+/* 1 */
+.scene .arm{stroke:currentColor;stroke-width:5;stroke-linecap:round;opacity:.75}
+.scene .rotor{fill:none;stroke:var(--honey-ink);stroke-width:2;animation:rotor .35s linear infinite;transform-box:fill-box;transform-origin:center}
+.scene .body{fill:var(--honey)}.scene .led{fill:var(--card);animation:blink 1.2s steps(2) infinite}
+.scene .part{animation:assemble 6s ease-in-out infinite}
+.scene .p1{--x:-26px;--y:-18px}.scene .p2{--x:26px;--y:-18px}.scene .p3{--x:-24px;--y:16px}.scene .p4{--x:24px;--y:16px}
+@keyframes assemble{0%,12%{transform:translate(var(--x),var(--y));opacity:.35}38%,82%{transform:none;opacity:1}100%{transform:translate(var(--x),var(--y));opacity:.35}}
+@keyframes rotor{50%{transform:scaleX(.25)}}
+@keyframes blink{50%{opacity:0}}
+/* 2 */
+.scene .hill{fill:currentColor;opacity:.12}.scene .hill.far{opacity:.07}
+.scene .sun{fill:var(--honey);opacity:.55}
+.scene .vf path{fill:none;stroke:currentColor;stroke-width:2;opacity:.7}
+.scene .rec{fill:#e5584a;animation:blink 1s steps(2) infinite}
+.scene .cam{animation:sweep 7s ease-in-out infinite}
+.scene .cam rect{fill:var(--honey)}.scene .cam path{stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+.scene .cam .beam{fill:var(--honey);stroke:none;opacity:.14}
+.scene .flash{fill:#fff;opacity:0;animation:flash 7s ease-out infinite}
+@keyframes sweep{0%,100%{transform:translate(110px,40px)}50%{transform:translate(268px,30px)}}
+@keyframes flash{0%,44%,56%,100%{opacity:0}48%{opacity:.35}}
+/* 3 */
+.scene .ring{fill:none;stroke:currentColor;stroke-width:1;opacity:.22}
+.scene .sweep{fill:var(--honey);opacity:.32;animation:spin 4s linear infinite;transform-origin:0 0}
+.scene .blip circle{fill:var(--honey-ink)}
+.scene .blip{animation:ping 4s linear infinite}.scene .b2{animation-delay:-1.8s}
+.scene .orbit{animation:spin 9s linear infinite reverse;transform-origin:0 0}
+.scene .uav{fill:currentColor;transform:translateY(-40px) rotate(180deg);transform-box:fill-box;transform-origin:center}
+@keyframes spin{to{transform:rotate(-360deg)}}
+@keyframes ping{0%,8%{opacity:1}40%,100%{opacity:.15}}
+/* 4 */
+.scene .zone{fill:var(--honey);fill-opacity:.07;stroke:var(--honey-ink);stroke-width:1.5;stroke-dasharray:6 5;animation:march 1.5s linear infinite}
+.scene .nofly{fill:#e5584a;fill-opacity:.12;stroke:#e5584a;stroke-width:1.5}.scene .nofly.x{fill:none}
+.scene .route{fill:none;stroke:currentColor;stroke-width:2.5;stroke-dasharray:320;animation:draw 6s ease-in-out infinite}
+.scene .wp circle{fill:var(--card);stroke:currentColor;stroke-width:2}
+.scene .ok{opacity:0;animation:okpop 6s ease-out infinite}
+.scene .ok circle{fill:var(--honey)}.scene .ok path{fill:none;stroke:var(--card);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+@keyframes march{to{stroke-dashoffset:-22}}
+@keyframes draw{0%{stroke-dashoffset:320;opacity:1}55%,85%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes okpop{0%,55%{opacity:0}62%,88%{opacity:1}100%{opacity:0}}
+/* 5 */
+.scene .blk{fill:var(--card);stroke:currentColor;stroke-width:1.5;opacity:.9}
+.scene .wire,.scene .axis{fill:none;stroke:currentColor;stroke-width:1.5;opacity:.3}
+.scene .sig{fill:none;stroke:var(--honey-ink);stroke-width:3;stroke-linecap:round;stroke-dasharray:14 306;animation:flow 2.4s linear infinite}
+.scene .ref{stroke:currentColor;stroke-width:1;stroke-dasharray:4 4;opacity:.4}
+.scene .resp{fill:none;stroke:var(--honey);stroke-width:2.5;stroke-dasharray:320;animation:draw 5s ease-out infinite}
+@keyframes flow{to{stroke-dashoffset:-320}}
+/* 6 */
+.scene .cloud{fill:currentColor;opacity:.12;animation:drift 14s linear infinite}.scene .c2{animation-duration:20s;animation-delay:-8s}
+.scene .horizon{stroke:currentColor;stroke-width:1.5;opacity:.3}
+.scene .runway{stroke:currentColor;stroke-width:2;opacity:.35}.scene .cl{stroke:currentColor;stroke-width:2;stroke-dasharray:5 6;opacity:.35;animation:march 1s linear infinite}
+.scene .plane{fill:var(--honey);animation:fly 6s ease-in-out infinite}
+@keyframes drift{from{transform:translateX(330px)}to{transform:translateX(-300px)}}
+@keyframes fly{0%,100%{transform:translate(212px,70px) rotate(-4deg)}50%{transform:translate(222px,58px) rotate(3deg)}}
+@media (max-width:620px){.art{min-height:150px}}
 .course-card .body{padding:22px 24px 24px;display:flex;flex-direction:column;flex:1}
 .meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .meta span{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--alt);color:var(--soft)}
@@ -272,32 +336,32 @@
   </div>
   <div class="courses">
     <article class="course-card" data-course="uav-engineering" data-category="engineering" data-search="drone engineering design airframe propulsion components systems build">
-      <div class="art t1"><span class="ico"><svg viewBox="0 0 28 28"><path d='M14 4v6M14 18v6M4 14h6M18 14h6'/><circle cx='14' cy='14' r='4'/></svg></span><small>Course 01</small></div>
+      <div class="art t1"><svg class="scene" viewBox="0 0 320 150" aria-hidden="true" focusable="false" preserveAspectRatio="xMaxYMid meet"><path class="grid" d="M-240 30H320M-240 60H320M-240 90H320M-240 120H320M-200 0V150M-160 0V150M-120 0V150M-80 0V150M-40 0V150M0 0V150M40 0V150M80 0V150M120 0V150M160 0V150M200 0V150M240 0V150M280 0V150"/><g class="quad" transform="translate(200 92)"><g class="part p1"><path class="arm" d="M-14 -8L-52 -26"/><ellipse class="rotor" cx="-56" cy="-28" rx="22" ry="4" style="animation-delay:-0.1s"/></g><g class="part p2"><path class="arm" d="M14 -8L52 -26"/><ellipse class="rotor" cx="56" cy="-28" rx="22" ry="4" style="animation-delay:-0.2s"/></g><g class="part p3"><path class="arm" d="M-14 8L-44 22"/><ellipse class="rotor" cx="-48" cy="24" rx="22" ry="4" style="animation-delay:-0.3s"/></g><g class="part p4"><path class="arm" d="M14 8L44 22"/><ellipse class="rotor" cx="48" cy="24" rx="22" ry="4" style="animation-delay:-0.05s"/></g><rect class="body" x="-18" y="-11" width="36" height="22" rx="7"/><circle class="led" r="3"/></g><text class="dim" x="118" y="140">ARM 245 mm</text></svg><span class="ico"><svg viewBox="0 0 28 28"><path d='M14 4v6M14 18v6M4 14h6M18 14h6'/><circle cx='14' cy='14' r='4'/></svg></span><small>Course 01</small></div>
       <div class="body"><div class="meta"><span>Engineering</span><span>Foundation → intermediate</span></div><h3>UAV Engineering &amp; Design</h3><p>How drones are designed and built, from airframes and propulsion to power systems, components and testing.</p><ul class="learn"><li>Airframe fundamentals</li><li>System components</li><li>Design principles</li></ul>
       <a class="more" href="course.html?c=uav-engineering">View course →</a></div>
     </article>
     <article class="course-card" data-course="aerial-imaging" data-category="imaging" data-search="drone photography aerial cinematography camera composition exposure lighting photo video creative">
-      <div class="art t2"><span class="ico"><svg viewBox="0 0 28 28"><rect x='3' y='8' width='22' height='15' rx='3'/><circle cx='14' cy='15.5' r='4.5'/><path d='M10 8l2-3h4l2 3'/></svg></span><small>Course 02</small></div>
+      <div class="art t2"><svg class="scene" viewBox="0 0 320 150" aria-hidden="true" focusable="false" preserveAspectRatio="xMaxYMid meet"><path class="hill far" d="M-240 112Q-180 96 -120 110T0 120Q60 92 120 112T240 100T320 108V150H-240Z"/><path class="hill" d="M-240 130Q-160 112 -80 128T0 136Q80 108 160 128T320 122V150H-240Z"/><circle class="sun" cx="262" cy="48" r="14"/><g class="vf"><path d="M150 52h-12v12M226 52h12v12M150 116h-12v-12M226 116h12v-12"/><circle class="rec" cx="152" cy="62" r="3.5"/></g><g class="cam"><rect x="-14" y="-5" width="28" height="10" rx="4"/><path d="M-26 -9h18M8 -9h18"/><path class="beam" d="M0 5L-22 62H22Z"/></g><rect class="flash" x="138" y="52" width="100" height="64"/></svg><span class="ico"><svg viewBox="0 0 28 28"><rect x='3' y='8' width='22' height='15' rx='3'/><circle cx='14' cy='15.5' r='4.5'/><path d='M10 8l2-3h4l2 3'/></svg></span><small>Course 02</small></div>
       <div class="body"><div class="meta"><span>Imaging &amp; data</span><span>All levels</span></div><h3>Aerial Photography &amp; Cinematography</h3><p>Plan and capture great aerial images using composition, camera settings, movement and careful flight preparation.</p><ul class="learn"><li>Camera fundamentals</li><li>Composition &amp; movement</li><li>Shot planning</li></ul>
       <a class="more" href="course.html?c=aerial-imaging">View course →</a></div>
     </article>
     <article class="course-card" data-course="rpa-l-theory" data-category="piloting" data-search="RPA-L theory remote pilot licence aviation law airspace meteorology human factors operational procedures">
-      <div class="art t3"><span class="ico"><svg viewBox="0 0 28 28"><circle cx='14' cy='14' r='10'/><circle cx='14' cy='14' r='5'/><path d='M14 14l7-7'/></svg></span><small>Course 03</small></div>
+      <div class="art t3"><svg class="scene" viewBox="0 0 320 150" aria-hidden="true" focusable="false" preserveAspectRatio="xMaxYMid meet"><g transform="translate(196 84)"><circle class="ring" r="60"/><circle class="ring" r="40"/><circle class="ring" r="20"/><path class="ring" d="M-70 0H70M0 -70V70"/><path class="sweep" d="M0 0L60 0A60 60 0 0 0 52 -30Z"/><g class="blip b1"><circle cx="34" cy="-22" r="3.5"/></g><g class="blip b2"><circle cx="-26" cy="30" r="3.5"/></g><g class="orbit"><path class="uav" d="M40 0l-6 -4v8z"/></g></g><text class="dim" x="84" y="140">CTR · 2,500 ft</text></svg><span class="ico"><svg viewBox="0 0 28 28"><circle cx='14' cy='14' r='10'/><circle cx='14' cy='14' r='5'/><path d='M14 14l7-7'/></svg></span><small>Course 03</small></div>
       <div class="body"><div class="meta"><span>Piloting &amp; regulation</span><span>Foundation</span></div><h3>Remote Pilot Licence (RPA-L) Theory</h3><p>Aviation principles, airspace, weather, human factors and safe procedures. The exact syllabus depends on the licensing framework that applies to you.</p><ul class="learn"><li>Aviation knowledge</li><li>Airspace awareness</li><li>Operational safety</li></ul>
       <a class="more" href="course.html?c=rpa-l-theory">View course →</a></div>
     </article>
     <article class="course-card" data-course="specific-category" data-category="piloting" data-search="specific category specialist category UAV UAS risk assessment operational authorisation procedures compliance SORA">
-      <div class="art t1"><span class="ico"><svg viewBox="0 0 28 28"><path d='M14 3l10 4v6c0 6-4 10-10 12C8 23 4 19 4 13V7z'/><path d='M10 14l3 3 5-6'/></svg></span><small>Course 04</small></div>
+      <div class="art t1"><svg class="scene" viewBox="0 0 320 150" aria-hidden="true" focusable="false" preserveAspectRatio="xMaxYMid meet"><path class="zone" d="M110 30L250 24L292 80L246 132L120 128L96 80Z"/><path class="nofly" d="M178 62m-14 0a14 14 0 1 0 28 0a14 14 0 1 0 -28 0"/><path class="nofly x" d="M170 54l16 16M186 54l-16 16"/><path class="route" d="M122 112L150 96L156 52L210 40L232 72L270 92"/><g class="wp"><circle cx="122" cy="112" r="4"/><circle cx="156" cy="52" r="4"/><circle cx="210" cy="40" r="4"/><circle cx="270" cy="92" r="4"/></g><g class="ok"><circle cx="270" cy="92" r="11"/><path d="M265 92l4 4 7-8"/></g></svg><span class="ico"><svg viewBox="0 0 28 28"><path d='M14 3l10 4v6c0 6-4 10-10 12C8 23 4 19 4 13V7z'/><path d='M10 14l3 3 5-6'/></svg></span><small>Course 04</small></div>
       <div class="body"><div class="meta"><span>Piloting &amp; regulation</span><span>Experience dependent</span></div><h3>Specific Category UAV Operations</h3><p>Planning and safety for operations beyond the open category, including risk, mitigations and paperwork where needed.</p><ul class="learn"><li>Operational risk</li><li>Safety mitigations</li><li>Mission documentation</li></ul>
       <a class="more" href="course.html?c=specific-category">View course →</a></div>
     </article>
     <article class="course-card" data-course="systems-engineering" data-category="engineering" data-search="UAV system engineering systems architecture integration sensors payloads communications power data validation">
-      <div class="art t2"><span class="ico"><svg viewBox="0 0 28 28"><rect x='3' y='4' width='8' height='8' rx='2'/><rect x='17' y='4' width='8' height='8' rx='2'/><rect x='10' y='17' width='8' height='8' rx='2'/><path d='M7 12v3h14v-3M14 15v2'/></svg></span><small>Course 05</small></div>
+      <div class="art t2"><svg class="scene" viewBox="0 0 320 150" aria-hidden="true" focusable="false" preserveAspectRatio="xMaxYMid meet"><rect class="blk" x="100" y="30" width="58" height="30" rx="7"/><rect class="blk" x="196" y="30" width="58" height="30" rx="7"/><text class="lbl" x="129" y="49">PID</text><text class="lbl" x="225" y="49">UAV</text><path class="wire" d="M62 45H100M158 45H196M254 45H292M274 45V84H129V60"/><path class="sig" d="M62 45H100M158 45H196M254 45H274V84H129V60"/><path class="axis" d="M70 140V96M70 140H300"/><path class="ref" d="M70 108H300"/><path class="resp" d="M70 140C96 140 104 100 124 98S150 112 168 108S200 106 220 108S260 108 300 108"/></svg><span class="ico"><svg viewBox="0 0 28 28"><rect x='3' y='4' width='8' height='8' rx='2'/><rect x='17' y='4' width='8' height='8' rx='2'/><rect x='10' y='17' width='8' height='8' rx='2'/><path d='M7 12v3h14v-3M14 15v2'/></svg></span><small>Course 05</small></div>
       <div class="body"><div class="meta"><span>Engineering</span><span>Intermediate → advanced</span></div><h3>UAV Systems Engineering</h3><p>Model, simulate and control UAVs in MATLAB and Simulink, from PID to model predictive control, reinforcement learning, SLAM and swarms.</p><ul class="learn"><li>Modelling &amp; simulation</li><li>Classical, optimal &amp; nonlinear control</li><li>Planning, estimation &amp; swarms</li></ul>
       <a class="more" href="course.html?c=systems-engineering">View course →</a></div>
     </article>
     <article class="course-card" data-course="ppl-theory" data-category="piloting" data-search="PPL private pilot licence aeroplane EASA theory principles of flight aircraft instruments air law communication meteorology navigation performance">
-      <div class="art t3"><span class="ico"><svg viewBox="0 0 28 28"><path d='M14 4v20M4 15l10-3 10 3M10 24l4-1.5 4 1.5'/></svg></span><small>Course 06</small></div>
+      <div class="art t3"><svg class="scene" viewBox="0 0 320 150" aria-hidden="true" focusable="false" preserveAspectRatio="xMaxYMid meet"><path class="cloud c1" d="M40 46a10 10 0 0 1 18-6a12 12 0 0 1 22 4a8 8 0 0 1 0 16H44a8 8 0 0 1-4-14z"/><path class="cloud c2" d="M200 30a8 8 0 0 1 14-5a10 10 0 0 1 18 3a7 7 0 0 1 0 13h-30a7 7 0 0 1-2-11z"/><path class="horizon" d="M-240 112H320"/><path class="runway" d="M150 112L120 150M170 112L200 150"/><path class="cl" d="M160 116V150"/><g class="plane"><path d="M-30 0L22 -2Q32 0 22 2L-30 2Z"/><path d="M-4 -1L-12 -18H-4L8 -1Z"/><path d="M-4 1L-12 18H-4L8 1Z"/><path d="M-26 -1L-32 -10H-27L-20 -1Z"/></g></svg><span class="ico"><svg viewBox="0 0 28 28"><path d='M14 4v20M4 15l10-3 10 3M10 24l4-1.5 4 1.5'/></svg></span><small>Course 06</small></div>
       <div class="body"><div class="meta"><span>Piloting &amp; regulation</span><span>Foundation</span></div><h3>Private Pilot Licence PPL(A) Theory</h3><p>The theory subjects for the aeroplane private pilot licence, from how a wing flies to instruments, air law, weather and navigation.</p><ul class="learn"><li>Principles of flight &amp; aircraft</li><li>Air law, radio &amp; weather</li><li>Navigation &amp; flight planning</li></ul>
       <a class="more" href="course.html?c=ppl-theory">View course →</a></div>
     </article>
