@@ -414,7 +414,7 @@
             el('span', { cls: 'kicker', text: user.email }), el('h1', { text: 'My learning' }),
             cards.length ? el('div', { cls: 'lms-grid' }, cards) : el('p', {}, 'You have no courses yet. ', el('a', { href: 'education.html', text: 'Browse the courses' }), '.'),
             el('div', { cls: 'actions lms-gap' },
-              r[0] ? el('a', { cls: 'btn main', href: 'admin.html', text: 'Manage courses' }) : null,
+              r[0] ? el('a', { cls: 'btn main', href: 'admin.html', text: 'Admin dashboard' }) : null,
               el('button', { cls: 'btn quiet', type: 'button', text: 'Sign out', onclick: function () { db.auth.signOut().then(function () { location.replace('education.html'); }); } }))));
         });
       });
@@ -429,6 +429,7 @@
       return isAdmin(s.user).then(function (ok) {
         if (!ok) { location.replace('account.html'); return; }
         if (params.get('view') === 'students') return adminStudents();
+        if (params.get('view') !== 'courses' && !params.get('c')) return adminDashboard();
         return db.from('courses').select('id,title').order('position').then(must).then(function (list) { adminCourse(list, params.get('c') || list[0].id, null); });
       });
     }).catch(fail);
@@ -437,7 +438,7 @@
   function adminTabs(current) {
     var tab = function (key, href, text) { return el('a', { href: href, text: text, 'aria-current': current === key ? 'page' : null }); };
     return el('nav', { cls: 'lms-tabs', 'aria-label': 'Admin sections' },
-      tab('courses', 'admin.html', 'Courses'), tab('students', 'admin.html?view=students', 'Students'));
+      tab('dashboard', 'admin.html', 'Dashboard'), tab('courses', 'admin.html?view=courses', 'Courses'), tab('students', 'admin.html?view=students', 'Students'));
   }
 
   // ---------- admin: students ----------
@@ -527,6 +528,310 @@
           body)),
         el('p', { cls: 'lms-soft', text: 'Refunds remove a course here automatically. Full payment details are in your Mollie dashboard.' })));
       draw();
+    });
+  }
+
+  // ---------- admin: dashboard ----------
+  var DAY = 864e5;
+  function niceMax(v) {
+    if (v <= 0) return 1;
+    var p = Math.pow(10, Math.floor(Math.log10(v))), n = v / p;
+    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p;
+  }
+  function startOf(d, unit) {
+    d = new Date(d);
+    d.setHours(0, 0, 0, 0);
+    if (unit === 'week') d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+    if (unit === 'month') d.setDate(1);
+    return d;
+  }
+  function nextOf(d, unit) {
+    d = new Date(d);
+    if (unit === 'day') d.setDate(d.getDate() + 1);
+    else if (unit === 'week') d.setDate(d.getDate() + 7);
+    else d.setMonth(d.getMonth() + 1);
+    return d;
+  }
+  function bucketLabel(d, unit) {
+    return unit === 'month' ? d.toLocaleDateString('en-GB', { month: 'short', year: '2-digit' }) : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  }
+  function ago(iso) {
+    if (!iso) return 'Never';
+    var d = Math.floor((Date.now() - new Date(iso)) / DAY);
+    return d <= 0 ? 'Today' : d === 1 ? 'Yesterday' : d < 30 ? d + ' days ago' : day(iso);
+  }
+
+  // Column chart in plain HTML: crisp at any width, hover or focus a column for its value.
+  function colChart(title, points, fmt, emptyText, whole) {
+    var top = Math.max.apply(null, points.map(function (p) { return p.value; }).concat([0]));
+    var max = whole && top <= 10 ? Math.max(2, Math.ceil(top / 2) * 2) : niceMax(top);
+    var every = Math.ceil(points.length / 8);
+    var plot = el('div', { cls: 'hhd-plot' },
+      [1, 0.5, 0].map(function (f) { return el('i', { cls: 'hhd-grid', style: 'bottom:' + (f * 100) + '%' }, el('span', { text: fmt(max * f) })); }),
+      el('div', { cls: 'hhd-cols' }, points.map(function (p, i) {
+        var h = p.value ? Math.max(1.5, p.value / max * 100) : 0;
+        return el('div', { cls: 'hhd-col', tabindex: 0, 'aria-label': p.label + ': ' + fmt(p.value) },
+          el('i', { style: 'height:' + h + '%' }),
+          el('span', { cls: 'hhd-tip' }, el('b', { text: fmt(p.value) }), el('small', { text: p.label + (p.note ? ' · ' + p.note : '') })),
+          el('small', { cls: 'hhd-x', text: i % every === 0 ? p.label : '' }));
+      })));
+    var empty = !points.some(function (p) { return p.value; });
+    return el('section', { cls: 'hhd-card' },
+      el('h2', { text: title }),
+      empty ? el('p', { cls: 'hhd-empty', text: emptyText }) : plot,
+      el('table', { cls: 'sr-only' }, el('caption', { text: title }), el('tbody', {}, points.map(function (p) { return el('tr', {}, el('th', { text: p.label }), el('td', { text: fmt(p.value) })); }))));
+  }
+
+  function adminDashboard() {
+    return Promise.all([
+      db.rpc('admin_students'),
+      db.from('courses').select('id,title,price_cents,currency,published').order('position').then(must)
+    ]).then(function (r) {
+      if (r[0].error && /admin_students/.test(r[0].error.message || '')) {
+        show(el('div', { cls: 'wrap lms-page' }, el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Dashboard' }), adminTabs('dashboard'),
+          notice('The student data is not switched on yet. In Supabase, open SQL Editor and run supabase/admin_students.sql once.', 'bad')));
+        return;
+      }
+      var allRows = must(r[0]), courses = r[1];
+      var state = { range: '90', staff: false, q: '', filter: '', sort: 'signed_up', dir: -1 };
+      try { var saved = JSON.parse(localStorage.getItem('hh-dash') || '{}'); if (saved.range) state.range = saved.range; } catch (e) { /* storage blocked */ }
+      var root = el('div', { cls: 'wrap lms-page hhd' });
+      var dialog = el('dialog', { cls: 'hhd-dialog' });
+      var loadedAt = new Date();
+
+      function rowsNow() { return allRows.filter(function (s) { return state.staff || !s.is_admin; }); }
+      function enrolsOf(rows) {
+        return [].concat.apply([], rows.map(function (s) { return s.courses.map(function (c) { c.student = s; return c; }); }));
+      }
+      function pctOf(c) { return c.total ? Math.round(100 * c.done / c.total) : 0; }
+      function cur(list) {
+        var t = {};
+        list.forEach(function (e) { if (e.amount_cents) t[e.currency || 'usd'] = (t[e.currency || 'usd'] || 0) + e.amount_cents; });
+        return t;
+      }
+      function moneyOf(t) {
+        var keys = Object.keys(t);
+        return keys.length ? keys.map(function (c) { return money({ currency: c, price_cents: t[c] }); }).join(' + ') : money({ currency: mainCur, price_cents: 0 });
+      }
+      var mainCur = (function () {
+        var t = cur(enrolsOf(allRows)), best = (courses[0] && courses[0].currency) || 'usd';
+        Object.keys(t).forEach(function (c) { if (!t[best] || t[c] > t[best]) best = c; });
+        return best;
+      })();
+      function fmtMoney(v) { return money({ currency: mainCur, price_cents: Math.round(v) }).replace(/\.00$/, ''); }
+      function inWin(iso, from, to) { if (!iso) return false; var t = new Date(iso).getTime(); return t >= from && t < to; }
+
+      function window_() {
+        var now = Date.now();
+        if (state.range === 'all') {
+          var first = now;
+          allRows.forEach(function (s) { first = Math.min(first, new Date(s.signed_up).getTime()); });
+          return { from: first, to: now + 1, prev: null };
+        }
+        var days = +state.range;
+        return { from: now - days * DAY, to: now + 1, prev: now - 2 * days * DAY };
+      }
+
+      function kpi(label, value, sub, cur_, prev, fmt) {
+        var delta = null;
+        if (prev !== null && prev !== undefined) {
+          if (prev === 0 && cur_ === 0) delta = el('span', { cls: 'hhd-delta flat', text: 'No change' });
+          else if (prev === 0) delta = el('span', { cls: 'hhd-delta up', text: '▲ New' });
+          else {
+            var ch = Math.round((cur_ - prev) / prev * 100);
+            delta = el('span', { cls: 'hhd-delta ' + (ch > 0 ? 'up' : ch < 0 ? 'down' : 'flat'), text: (ch > 0 ? '▲ ' : ch < 0 ? '▼ ' : '') + Math.abs(ch) + '%' });
+          }
+          delta.title = 'Previous period: ' + (fmt ? fmt(prev) : prev);
+        }
+        return el('div', { cls: 'hhd-kpi' }, el('span', { text: label }), el('b', { text: value }), el('small', {}, delta, sub ? el('em', { text: sub }) : null));
+      }
+
+      function buckets(w) {
+        var span = (w.to - w.from) / DAY, unit = span <= 31 ? 'day' : span <= 120 ? 'week' : 'month';
+        var list = [], d = startOf(w.from, unit);
+        while (d.getTime() < w.to) { var n = nextOf(d, unit); list.push({ from: d.getTime(), to: n.getTime(), label: bucketLabel(d, unit), value: 0 }); d = n; }
+        return { unit: unit, list: list };
+      }
+      function fill(b, items, dateKey, valueFn) {
+        items.forEach(function (it) {
+          var t = new Date(it[dateKey]).getTime();
+          b.list.forEach(function (x) { if (t >= x.from && t < x.to) x.value += valueFn(it); });
+        });
+        return b.list;
+      }
+
+      function studentDialog(s) {
+        var spent = cur(s.courses);
+        dialog.textContent = '';
+        dialog.appendChild(el('div', { cls: 'hhd-dialog-head' },
+          el('div', {}, el('h2', { text: s.full_name || '(no name)' }), el('a', { href: 'mailto:' + s.email, text: s.email })),
+          el('button', { cls: 'btn quiet', type: 'button', text: 'Close', onclick: function () { dialog.close(); } })));
+        dialog.appendChild(el('dl', { cls: 'hhd-facts' },
+          el('div', {}, el('dt', { text: 'Signed up' }), el('dd', { text: day(s.signed_up) })),
+          el('div', {}, el('dt', { text: 'Last sign-in' }), el('dd', { text: ago(s.last_sign_in) })),
+          el('div', {}, el('dt', { text: 'Spent' }), el('dd', { text: moneyOf(spent) })),
+          el('div', {}, el('dt', { text: 'Courses' }), el('dd', { text: String(s.courses.length) }))));
+        dialog.appendChild(s.courses.length ? el('div', { cls: 'hhd-owned' }, s.courses.map(function (c) {
+          return el('div', { cls: 'hhd-owned-row' },
+            el('div', {}, el('b', { text: c.title }), el('small', { text: paid(c) + ' · bought ' + day(c.enrolled_at) + (c.payment_id ? ' · ' + c.payment_id : '') })),
+            el('div', { cls: 'hhd-prog' }, bar(pctOf(c)), el('small', { text: c.done + ' of ' + c.total + ' lessons · ' + pctOf(c) + '%' })));
+        })) : el('p', { cls: 'lms-soft', text: 'This student has not bought or started a course yet.' }));
+        dialog.showModal();
+      }
+
+      function render() {
+        try { localStorage.setItem('hh-dash', JSON.stringify({ range: state.range })); } catch (e) { /* storage blocked */ }
+        var rows = rowsNow(), enrols = enrolsOf(rows), w = window_();
+        var inNow = function (iso) { return inWin(iso, w.from, w.to); }, inPrev = function (iso) { return w.prev !== null && inWin(iso, w.prev, w.from); };
+        var sum = function (list) { return list.reduce(function (a, e) { return a + (e.amount_cents || 0); }, 0); };
+        var salesNow = enrols.filter(function (e) { return inNow(e.enrolled_at); }), salesPrev = enrols.filter(function (e) { return inPrev(e.enrolled_at); });
+        var paidNow = salesNow.filter(function (e) { return e.amount_cents; }), paidPrev = salesPrev.filter(function (e) { return e.amount_cents; });
+        var newNow = rows.filter(function (s) { return inNow(s.signed_up); }).length, newPrev = rows.filter(function (s) { return inPrev(s.signed_up); }).length;
+        var activeNow = rows.filter(function (s) { return inNow(s.last_sign_in); }).length;
+        var avgProg = enrols.length ? Math.round(enrols.reduce(function (a, e) { return a + pctOf(e); }, 0) / enrols.length) : 0;
+        var finished = enrols.filter(function (e) { return e.total && e.done >= e.total; }).length;
+        var learners = rows.filter(function (s) { return s.courses.length; }).length;
+        var rangeName = { '30': 'last 30 days', '90': 'last 90 days', '365': 'last 12 months', all: 'all time' }[state.range];
+
+        var seg = el('div', { cls: 'hhd-seg', role: 'group', 'aria-label': 'Time range' }, [['30', '30 days'], ['90', '90 days'], ['365', '12 months'], ['all', 'All time']].map(function (o) {
+          return el('button', { type: 'button', 'aria-pressed': String(state.range === o[0]), text: o[1], onclick: function () { state.range = o[0]; render(); } });
+        }));
+        var staff = el('label', { cls: 'hhd-check' }, el('input', { type: 'checkbox', checked: state.staff, onchange: function (e) { state.staff = e.target.checked; render(); } }), ' Include admin accounts');
+        var refresh = el('button', { cls: 'btn quiet', type: 'button', text: 'Refresh', onclick: function () { adminDashboard(); } });
+
+        var revB = buckets(w), sigB = buckets(w);
+        var revPts = fill(revB, salesNow.filter(function (e) { return (e.currency || mainCur) === mainCur; }), 'enrolled_at', function (e) { return e.amount_cents || 0; });
+        var salesCount = buckets(w); fill(salesCount, salesNow, 'enrolled_at', function () { return 1; });
+        revPts.forEach(function (p, i) { var n = salesCount.list[i].value; p.note = n + (n === 1 ? ' sale' : ' sales'); });
+        var sigPts = fill(sigB, rows.filter(function (s) { return inNow(s.signed_up); }), 'signed_up', function () { return 1; });
+        var per = { day: 'day', week: 'week', month: 'month' }[revB.unit];
+
+        // course performance
+        var perf = courses.map(function (c) {
+          var list = enrols.filter(function (e) { return e.course_id === c.id; });
+          return { c: c, sold: list.length, paidCount: list.filter(function (e) { return e.amount_cents; }).length, rev: cur(list), revMain: sum(list.filter(function (e) { return (e.currency || mainCur) === mainCur; })),
+            avg: list.length ? Math.round(list.reduce(function (a, e) { return a + pctOf(e); }, 0) / list.length) : 0,
+            done: list.filter(function (e) { return e.total && e.done >= e.total; }).length };
+        });
+        var topRev = Math.max.apply(null, perf.map(function (p) { return p.revMain; }).concat([1]));
+
+        // lists
+        var recent = enrols.slice().sort(function (a, b) { return new Date(b.enrolled_at) - new Date(a.enrolled_at); }).slice(0, 6);
+        var stuck = enrols.filter(function (e) { return e.done === 0 && Date.now() - new Date(e.enrolled_at) > 7 * DAY; })
+          .sort(function (a, b) { return new Date(a.enrolled_at) - new Date(b.enrolled_at); }).slice(0, 6);
+        var quiet = rows.filter(function (s) { return s.courses.length && s.courses.some(function (c) { return c.done < c.total; }) && (!s.last_sign_in || Date.now() - new Date(s.last_sign_in) > 30 * DAY); });
+
+        var person = function (s, extra) {
+          return el('li', {}, el('button', { type: 'button', cls: 'hhd-person', onclick: function () { studentDialog(s); } },
+            el('span', { cls: 'hhd-avatar', text: ((s.full_name || s.email || '?').trim()[0] || '?').toUpperCase() }),
+            el('span', {}, el('b', { text: s.full_name || s.email }), el('small', { text: extra }))));
+        };
+
+        // students table
+        var search = el('input', { type: 'search', placeholder: 'Search name or email', 'aria-label': 'Search students', value: state.q });
+        var filterSel = el('select', { 'aria-label': 'Show' }, [['', 'All students'], ['paying', 'Bought a course'], ['none', 'No course yet'], ['stuck', 'Bought, not started'], ['quiet', 'Inactive 30+ days']].map(function (o) {
+          return el('option', { value: o[0], text: o[1] });
+        }));
+        filterSel.value = state.filter;
+        var tbody = el('tbody'), count = el('p', { cls: 'lms-count', role: 'status' });
+        var spentMain = function (s) { return s.courses.reduce(function (a, c) { return a + ((c.currency || mainCur) === mainCur ? (c.amount_cents || 0) : 0); }, 0); };
+        var progOf = function (s) { return s.courses.length ? Math.round(s.courses.reduce(function (a, c) { return a + pctOf(c); }, 0) / s.courses.length) : -1; };
+        var keyFns = { name: function (s) { return (s.full_name || s.email).toLowerCase(); }, signed_up: function (s) { return new Date(s.signed_up).getTime(); },
+          last: function (s) { return s.last_sign_in ? new Date(s.last_sign_in).getTime() : 0; }, spent: spentMain, progress: progOf };
+        function tableRows() {
+          var q = state.q.trim().toLowerCase();
+          return rows.filter(function (s) {
+            if (q && ((s.full_name || '') + ' ' + s.email).toLowerCase().indexOf(q) === -1) return false;
+            if (state.filter === 'paying') return s.courses.length > 0;
+            if (state.filter === 'none') return !s.courses.length;
+            if (state.filter === 'stuck') return s.courses.some(function (c) { return c.done === 0; });
+            if (state.filter === 'quiet') return !s.last_sign_in || Date.now() - new Date(s.last_sign_in) > 30 * DAY;
+            return true;
+          }).sort(function (a, b) { var ka = keyFns[state.sort](a), kb = keyFns[state.sort](b); return (ka > kb ? 1 : ka < kb ? -1 : 0) * state.dir; });
+        }
+        function drawTable() {
+          var list = tableRows();
+          tbody.textContent = '';
+          count.textContent = list.length + ' of ' + rows.length + ' students';
+          list.forEach(function (s) {
+            var p = progOf(s);
+            tbody.appendChild(el('tr', { tabindex: 0, onclick: function () { studentDialog(s); }, onkeydown: function (e) { if (e.key === 'Enter') studentDialog(s); } },
+              el('td', { 'data-label': 'Student' }, el('b', { text: s.full_name || '(no name)' }), el('span', { cls: 'lms-soft', text: s.email }), s.is_admin ? el('small', { cls: 'lms-tag', text: 'Admin' }) : null),
+              el('td', { 'data-label': 'Signed up', text: day(s.signed_up) }),
+              el('td', { 'data-label': 'Last active', text: ago(s.last_sign_in) }),
+              el('td', { 'data-label': 'Courses', text: s.courses.length ? s.courses.map(function (c) { return c.title; }).join(', ') : '—' }),
+              el('td', { 'data-label': 'Spent', cls: 'num', text: moneyOf(cur(s.courses)) }),
+              el('td', { 'data-label': 'Progress' }, p < 0 ? el('span', { cls: 'lms-soft', text: '—' }) : el('div', { cls: 'hhd-prog' }, bar(p), el('small', { text: p + '%' })))));
+          });
+          [].forEach.call(thead.querySelectorAll('button'), function (b) {
+            var on = b.dataset.k === state.sort;
+            b.parentNode.setAttribute('aria-sort', on ? (state.dir > 0 ? 'ascending' : 'descending') : 'none');
+            b.lastChild.textContent = on ? (state.dir > 0 ? ' ▲' : ' ▼') : '';
+          });
+        }
+        var thead = el('thead', {}, el('tr', {}, [['name', 'Student'], ['signed_up', 'Signed up'], ['last', 'Last active'], [null, 'Courses'], ['spent', 'Spent'], ['progress', 'Progress']].map(function (h) {
+          return el('th', { scope: 'col', cls: h[0] === 'spent' ? 'num' : null }, h[0] ? el('button', { type: 'button', 'data-k': h[0], onclick: function () {
+            if (state.sort === h[0]) state.dir = -state.dir; else { state.sort = h[0]; state.dir = h[0] === 'name' ? 1 : -1; }
+            drawTable();
+          } }, h[1], el('span')) : h[1]);
+        })));
+        search.addEventListener('input', function () { state.q = search.value; drawTable(); });
+        filterSel.addEventListener('change', function () { state.filter = filterSel.value; drawTable(); });
+
+        document.title = 'Dashboard | Holy Hornet';
+        root.textContent = '';
+        root.appendChild(el('div', { cls: 'hhd-head' },
+          el('div', {}, el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Dashboard' })),
+          el('div', { cls: 'hhd-tools' }, seg, refresh)));
+        root.appendChild(adminTabs('dashboard'));
+        root.appendChild(el('p', { cls: 'hhd-sub' }, 'Showing the ' + rangeName + '. Updated ' + loadedAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) + '. ', staff));
+
+        var cmp = w.prev !== null;
+        root.appendChild(el('div', { cls: 'hhd-kpis' },
+          kpi('Revenue', moneyOf(cur(paidNow)), moneyOf(cur(enrolsOf(rows))) + ' all time', sum(paidNow), cmp ? sum(paidPrev) : null, fmtMoney),
+          kpi('Courses sold', String(salesNow.length), paidNow.length + ' paid', salesNow.length, cmp ? salesPrev.length : null),
+          kpi('New students', String(newNow), rows.length + ' accounts in total', newNow, cmp ? newPrev : null),
+          kpi('Active students', String(activeNow), 'signed in during this period', activeNow, null),
+          kpi('Average progress', avgProg + '%', learners + ' learners with a course', avgProg, null),
+          kpi('Courses finished', String(finished), enrols.length ? Math.round(finished / enrols.length * 100) + '% of enrolments' : 'no enrolments yet', finished, null)));
+
+        root.appendChild(el('div', { cls: 'hhd-two' },
+          colChart('Revenue per ' + per + (Object.keys(cur(paidNow)).length > 1 ? ' (' + mainCur.toUpperCase() + ' only)' : ''), revPts, fmtMoney, 'No sales in this period yet.'),
+          colChart('New students per ' + per, sigPts, function (v) { return String(Math.round(v)); }, 'No sign-ups in this period.', true)));
+
+        root.appendChild(el('section', { cls: 'hhd-card' }, el('h2', { text: 'Courses (all time)' }),
+          el('div', { cls: 'lms-table-wrap' }, el('table', { cls: 'lms-table hhd-courses' },
+            el('thead', {}, el('tr', {}, ['Course', 'Price', 'Students', 'Revenue', 'Avg progress', 'Finished'].map(function (h, i) { return el('th', { scope: 'col', cls: i && i !== 4 ? 'num' : null, text: h }); }))),
+            el('tbody', {}, perf.map(function (p) {
+              return el('tr', {},
+                el('td', { 'data-label': 'Course' }, el('b', { text: p.c.title }), p.c.published ? null : el('small', { cls: 'lms-tag', text: 'Hidden' })),
+                el('td', { 'data-label': 'Price', cls: 'num', text: p.c.price_cents ? money(p.c) : 'Free' }),
+                el('td', { 'data-label': 'Students', cls: 'num', text: String(p.sold) }),
+                el('td', { 'data-label': 'Revenue', cls: 'num' }, el('span', { text: moneyOf(p.rev) }), el('i', { cls: 'hhd-share', style: 'width:' + Math.round(p.revMain / topRev * 100) + '%' })),
+                el('td', { 'data-label': 'Avg progress' }, p.sold ? el('div', { cls: 'hhd-prog' }, bar(p.avg), el('small', { text: p.avg + '%' })) : el('span', { cls: 'lms-soft', text: '—' })),
+                el('td', { 'data-label': 'Finished', cls: 'num', text: String(p.done) }));
+            }))))));
+
+        root.appendChild(el('div', { cls: 'hhd-three' },
+          el('section', { cls: 'hhd-card' }, el('h2', { text: 'Latest purchases' }),
+            recent.length ? el('ul', { cls: 'hhd-people' }, recent.map(function (e) { return person(e.student, e.title + ' · ' + paid(e) + ' · ' + ago(e.enrolled_at)); })) : el('p', { cls: 'hhd-empty', text: 'No purchases yet.' })),
+          el('section', { cls: 'hhd-card' }, el('h2', { text: 'Bought but not started' }),
+            stuck.length ? el('ul', { cls: 'hhd-people' }, stuck.map(function (e) { return person(e.student, e.title + ' · bought ' + ago(e.enrolled_at)); })) : el('p', { cls: 'hhd-empty', text: 'Everyone who bought a course has started it.' })),
+          el('section', { cls: 'hhd-card' }, el('h2', { text: 'Gone quiet (30+ days)' }),
+            quiet.length ? el('ul', { cls: 'hhd-people' }, quiet.slice(0, 6).map(function (s) { var a = ago(s.last_sign_in); return person(s, 'Last sign-in ' + (/^\d/.test(a) ? a : a.toLowerCase())); })) : el('p', { cls: 'hhd-empty', text: 'No learners have gone quiet.' }))));
+
+        root.appendChild(el('section', { cls: 'hhd-card' },
+          el('div', { cls: 'hhd-card-head' }, el('h2', { text: 'Students' }), el('a', { cls: 'btn quiet', href: 'admin.html?view=students', text: 'Full list and CSV' })),
+          el('div', { cls: 'lms-filters' }, search, filterSel), count,
+          el('div', { cls: 'lms-table-wrap' }, el('table', { cls: 'lms-table hhd-students' }, thead, tbody)),
+          el('p', { cls: 'lms-soft', text: 'Click a student for their courses, payments and progress. Refunds remove a course automatically.' })));
+        root.appendChild(dialog);
+        drawTable();
+      }
+
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
+      show(root);
+      render();
     });
   }
 
