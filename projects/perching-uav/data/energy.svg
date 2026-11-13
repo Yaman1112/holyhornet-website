@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="sans-serif" font-size="11">
+<text x="360.0" y="18" text-anchor="middle" font-size="13">Energy for a monitoring task (SIMULATED)</text>
+<line x1="60" y1="260" x2="660" y2="260" stroke="#888"/>
+<text x="120.0" y="276" text-anchor="middle">0.25 h</text>
+<rect x="75.0" y="257.91575597559057" width="27.0" height="2.084244024409435" fill="#2a6fdb"/>
+<text x="88.5" y="254.91575597559057" text-anchor="middle" font-size="9">59.6</text>
+<rect x="105.0" y="259.9636306411848" width="27.0" height="0.03636935881519819" fill="#e8833a"/>
+<text x="118.5" y="256.9636306411848" text-anchor="middle" font-size="9">1.04</text>
+<rect x="135.0" y="259.9769194453673" width="27.0" height="0.02308055463272193" fill="#3aa76d"/>
+<text x="148.5" y="256.9769194453673" text-anchor="middle" font-size="9">0.66</text>
+<text x="240.0" y="276" text-anchor="middle">1 h</text>
+<rect x="195.0" y="251.6665209560945" width="27.0" height="8.333479043905509" fill="#2a6fdb"/>
+<text x="208.5" y="248.6665209560945" text-anchor="middle" font-size="9">238.3</text>
+<rect x="225.0" y="259.9346050952073" width="27.0" height="0.06539490479271214" fill="#e8833a"/>
+<text x="238.5" y="256.9346050952073" text-anchor="middle" font-size="9">1.87</text>
+<rect x="255.0" y="259.9478938993898" width="27.0" height="0.05210610061023587" fill="#3aa76d"/>
+<text x="268.5" y="256.9478938993898" text-anchor="middle" font-size="9">1.49</text>
+<text x="360.0" y="276" text-anchor="middle">4 h</text>
+<rect x="315.0" y="226.66608382437795" width="27.0" height="33.333916175622036" fill="#2a6fdb"/>
+<text x="328.5" y="223.66608382437795" text-anchor="middle" font-size="9">953.2</text>
+<rect x="345.0" y="259.81815320592403" width="27.0" height="0.18184679407599097" fill="#e8833a"/>
+<text x="358.5" y="256.81815320592403" text-anchor="middle" font-size="9">5.2</text>
+<rect x="375.0" y="259.83144201010646" width="27.0" height="0.1685579898935147" fill="#3aa76d"/>
+<text x="388.5" y="256.83144201010646" text-anchor="middle" font-size="9">4.82</text>
+<text x="480.0" y="276" text-anchor="middle">12 h</text>
+<rect x="435.0" y="159.9982514731339" width="27.0" height="100.00174852686611" fill="#2a6fdb"/>
+<text x="448.5" y="156.9982514731339" text-anchor="middle" font-size="9">2859.6</text>
+<rect x="465.0" y="259.50796453987516" width="27.0" height="0.4920354601248448" fill="#e8833a"/>
+<text x="478.5" y="256.50796453987516" text-anchor="middle" font-size="9">14.07</text>
+<rect x="495.0" y="259.52160304943084" width="27.0" height="0.47839695056914544" fill="#3aa76d"/>
+<text x="508.5" y="256.52160304943084" text-anchor="middle" font-size="9">13.68</text>
+<text x="600.0" y="276" text-anchor="middle">24 h</text>
+<rect x="555.0" y="60.0" width="27.0" height="200.0" fill="#2a6fdb"/>
+<text x="568.5" y="57.0" text-anchor="middle" font-size="9">5719.1</text>
+<rect x="585.0" y="259.0428563934885" width="27.0" height="0.957143606511514" fill="#e8833a"/>
+<text x="598.5" y="256.0428563934885" text-anchor="middle" font-size="9">27.37</text>
+<rect x="615.0" y="259.05614519767096" width="27.0" height="0.9438548023290377" fill="#3aa76d"/>
+<text x="628.5" y="256.05614519767096" text-anchor="middle" font-size="9">26.99</text>
+<rect x="60" y="28" width="10" height="10" fill="#2a6fdb"/><text x="74" y="37">continuous hover</text>
+<rect x="210" y="28" width="10" height="10" fill="#e8833a"/><text x="224" y="37">perching</text>
+<rect x="360" y="28" width="10" height="10" fill="#3aa76d"/><text x="374" y="37">conventional landing</text>
+<text x="14" y="160.0" transform="rotate(-90 14 160.0)" text-anchor="middle">Wh</text>
+<text x="660" y="312" text-anchor="end" fill="#a33">SIMULATED</text></svg>
