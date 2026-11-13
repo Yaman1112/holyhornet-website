@@ -185,7 +185,6 @@
 .service:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
 .service h3{font-size:26px;line-height:1.2;margin-bottom:6px}
 .service p{color:var(--soft);font-size:17px;margin-bottom:14px}
-.fleet{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .craft{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;transition:transform .2s,box-shadow .2s}
 .craft:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
 .craft .pic{aspect-ratio:4/3;border-bottom:1px solid var(--line)}
@@ -223,8 +222,7 @@
 @media (max-width:980px){
   .hero .wrap,.faq-wrap,.sys{grid-template-columns:1fr;gap:40px}
   .sys{gap:20px}
-  .fleet{grid-template-columns:1fr 1fr}
-  .promise ul{grid-template-columns:1fr;gap:14px}
+    .promise ul{grid-template-columns:1fr;gap:14px}
 }
 @media (max-width:620px){
   .hero{padding:40px 0 48px}
@@ -234,8 +232,7 @@
   .tele dl div{padding:6px 9px}
   .chip.tl{top:18px;left:20px}
   .lock{width:60px;height:60px;animation:none}
-  .services,.fleet{grid-template-columns:1fr}
-  .service{grid-template-columns:1fr;gap:14px;padding:24px}
+  .services,  .service{grid-template-columns:1fr;gap:14px;padding:24px}
   .sys-copy{padding:28px 22px}
   .radar{min-height:340px}
 }
@@ -258,7 +255,6 @@
   <button class="toggle" aria-expanded="false" aria-controls="nav">Menu</button>
   <nav class="nav" id="nav">
     <a aria-current="page" href="index.html">Home</a>
-    <a href="fleet.html">Fleet</a>
     <a href="solutions.html">Solutions</a>
     <a href="industries.html">Industries</a>
     <a href="systems.html">Systems</a>
@@ -320,22 +316,6 @@
       <span><h3>Reconnaissance</h3><p>Get a quick, quiet look at unfamiliar ground so your team knows what's ahead.</p><span class="more">Learn more →</span></span></a>
   </div>
 </div></section>
-
-<section class="sec tint" id="fleet"><div class="wrap">
-  <div class="head"><span class="kicker">Our fleet · 23 aircraft</span><h2>The right aircraft for the job</h2><p>From agile FPV aircraft to 50 kg heavy lifters and farm sprayers. Here are four favourites.</p></div>
-  <div class="fleet">
-    <a class="craft" href="fleet.html#fpv-5"><div class="pic frame"><span class="ref">HH-FPV / 01</span><span class="cls">FPV</span><img src="assets/fleet/fpv-5.webp" alt="Swift 5 FPV drone" loading="lazy"></div>
-      <div class="txt"><span class="pill">FPV</span><h3>Swift 5</h3><p>Light and agile at 381 g, a great all-rounder for training and freestyle.</p><dl class="mini"><div><dt>Top speed</dt><dd>130 km/h</dd></div><div><dt>Flight time</dt><dd>About 14 min</dd></div></dl><span class="more">View details →</span></div></a>
-    <a class="craft" href="fleet.html#fpv-18"><div class="pic frame"><span class="ref">HH-HL / 04</span><span class="cls">Heavy-lift</span><img src="assets/fleet/fpv-18.webp" alt="Atlas 18 heavy-lift FPV drone" loading="lazy"></div>
-      <div class="txt"><span class="pill">Heavy-lift FPV</span><h3>Atlas 18</h3><p>The biggest quad in the range, on a 12S system.</p><dl class="mini"><div><dt>Max payload</dt><dd>13 kg</dd></div><div><dt>Flight time</dt><dd>About 12 min</dd></div></dl><span class="more">View details →</span></div></a>
-    <a class="craft" href="fleet.html#t30-x8-rtk"><div class="pic frame"><span class="ref">HH-IN / 07</span><span class="cls">Industrial</span><img src="assets/fleet/t30-x8-rtk.webp" alt="Vanguard 30 Octo RTK eight-rotor industrial drone" loading="lazy"></div>
-      <div class="txt"><span class="pill">Industrial</span><h3>Vanguard 30 Octo RTK</h3><p>Eight motors and centimetre-level positioning for heavy, precise jobs.</p><dl class="mini"><div><dt>Payload</dt><dd>30 kg</dd></div><div><dt>Flight time</dt><dd>Up to 45 min</dd></div></dl><span class="more">View details →</span></div></a>
-    <a class="craft" href="fleet.html#ag30-x4"><div class="pic frame"><span class="ref">HH-AG / 03</span><span class="cls">Agriculture</span><img src="assets/fleet/ag30-x4.webp" alt="Terra 30 agricultural spraying drone" loading="lazy"></div>
-      <div class="txt"><span class="pill">Agriculture</span><h3>Terra 30</h3><p>30 L sprayer with terrain-following radar for large fields.</p><dl class="mini"><div><dt>Spray tank</dt><dd>30 L</dd></div><div><dt>Spray width</dt><dd>6–10 m</dd></div></dl><span class="more">View details →</span></div></a>
-  </div>
-  <div class="actions" style="margin-top:32px"><a class="btn quiet" href="fleet.html">See all 23 aircraft</a></div>
-</div></section>
-
 <section class="sec" id="systems"><div class="wrap">
   <div class="head"><span class="kicker">The whole system</span><h2>From airframe to useful data</h2><p>The drone is only one part. We plan the cameras, radio links, pilots and software together, so everything works as one.</p></div>
   <div class="sys">
@@ -407,7 +387,7 @@
 <footer><div class="wrap">
   <div class="foot">
     <div><a class="mark" href="index.html" aria-label="Holy Hornet UAV Systems, home"><img src="assets/logo-mark.png" width="111" height="44" alt=""><span><b>Holy Hornet</b><small>UAV Systems</small></span></a><p>Advanced UAV solutions for a safer tomorrow. Independent. Technical. Mission-focused.</p></div>
-    <div><h4>Explore</h4><a href="fleet.html">Fleet</a><a href="solutions.html">Solutions</a><a href="industries.html">Industries</a><a href="systems.html">Systems</a></div>
+    <div><h4>Explore</h4><a href="solutions.html">Solutions</a><a href="industries.html">Industries</a><a href="systems.html">Systems</a></div>
     <div><h4>Company</h4><a href="about.html">About</a><a href="education.html">Education</a><a href="contact.html">Contact</a></div>
     <div><h4>Say hello</h4><a href="mailto:info@holyhornet.com">info@holyhornet.com</a><a href="contact.html">Request a quote</a></div>
   </div>

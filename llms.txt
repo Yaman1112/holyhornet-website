@@ -9,7 +9,6 @@
 ## Pages
 
 - [Home](https://holyhornet.com/): Holy Hornet designs, integrates and operates UAV systems for surveillance, inspection, mapping, logistics, agriculture and counter-drone defence across Europe.
-- [Fleet](https://holyhornet.com/fleet.html): Compare 23 UAVs: agile FPV aircraft, heavy-lift drones carrying up to 50 kg and farm sprayers, with full specs.
 - [Solutions](https://holyhornet.com/solutions.html): UAV strategy and consultancy, systems integration, mission planning, drone operations, payload and sensor integration, and team training from Holy Hornet.
 - [Industries](https://holyhornet.com/industries.html): Drone capability for infrastructure, energy, public safety, security and counter-drone, agriculture, media, logistics, research and environmental survey.
 - [Systems](https://holyhornet.com/systems.html): 26 Holy Hornet UAV simulation and control projects: a 102-drone swarm formation show, multi-UAV path planning with Grey Wolf Optimiser, RRT* planning, PID, LQR, MPC, NMPC, backstepping, sliding-mode and fuzzy flight control, SLAM, reinforcement learning, counter-UAS tracking and full hexacopter, octocopter and wind-turbine inspection models.
@@ -25,58 +24,6 @@
 - UAV operations: Professional flights and data collection, carried out with the right authorisations and within the rules.
 - Payload & sensor integration: Day, night, thermal, mapping and specialist sensors matched to what the mission needs to see.
 - Training & capability: Practical training, operator workflows and system familiarisation for your own team.
-
-## Fleet
-
-23 aircraft in 5 categories. Full specifications: https://holyhornet.com/fleet.html
-
-### FPV aircraft
-
-Classic X-frame FPV quads for training, inspection, fast filming and light carrying jobs.
-
-- [Swift 5](https://holyhornet.com/fleet.html#fpv-5): 5-inch standard FPV. Light and agile at 381 g. A great all-rounder for training and freestyle. (Top speed: 130 km/h; Max payload: 0.6 kg; Flight time: About 14 min; Take-off weight: 1.5 kg)
-- [Swift 7](https://holyhornet.com/fleet.html#fpv-7): 7-inch standard FPV. Efficient 7-inch quad that carries up to 2 kg for line inspection and light tasks. (Top speed: 130 km/h; Max payload: 2.0 kg; Flight time: About 7 min; Take-off weight: 3.5 kg)
-- [Swift 10](https://holyhornet.com/fleet.html#fpv-10): 10-inch standard FPV. Large 10-inch quad weighing just 800 g, carrying up to 4 kg. (Top speed: 140 km/h; Max payload: 4.0 kg; Flight time: About 9 min; Take-off weight: 6.5 kg)
-- [Swift 10 Mk4](https://holyhornet.com/fleet.html#fpv-10a): 10-inch FPV on Mark4 V2 frame. The Swift 10 on a Mark4 V2 frame with 3115 motors, for equipment carrying. (Top speed: 140 km/h; Max payload: 4.0 kg; Flight time: About 9 min; Take-off weight: 6.5 kg)
-
-### Heavy-lift FPV aircraft
-
-Big-propeller FPV quads that carry 6–13 kg for transport and industrial jobs.
-
-- [Atlas 13](https://holyhornet.com/fleet.html#fpv-13): 13-inch heavy-lift FPV. 8S, 90 A heavy-lift quad carrying up to 8 kg. (Top speed: 130 km/h; Max payload: 8 kg; Flight time: About 11 min; Take-off weight: 11.3 kg)
-- [Atlas 13 Mk4](https://holyhornet.com/fleet.html#fpv-13a): 13-inch heavy-lift FPV, Mark4 frame. Mark4-frame version of the Atlas 13 with extra power headroom. (Top speed: 130 km/h; Max payload: 7 kg; Flight time: About 11 min; Take-off weight: 11.3 kg)
-- [Atlas 15](https://holyhornet.com/fleet.html#fpv-15): 15-inch heavy-lift FPV. 15-inch quad carrying up to 10 kg for logistics and survey kit. (Top speed: 130 km/h; Max payload: 10 kg; Flight time: About 12 min; Take-off weight: 13 kg)
-- [Atlas 18](https://holyhornet.com/fleet.html#fpv-18): 18-inch heavy-lift FPV. The biggest quad, on a 12S system, carrying up to 13 kg. (Top speed: 130 km/h; Max payload: 13 kg; Flight time: About 12 min; Take-off weight: 19 kg)
-
-### Six-axis heavy FPV aircraft
-
-Six motors mean redundancy: the aircraft can keep flying safely if one motor fails.
-
-- [Titan 11](https://holyhornet.com/fleet.html#fpv-11m): 11-inch six-axis heavy FPV. Six-rotor redundancy with the longest FPV flight time, around 16 minutes. (Top speed: 140 km/h; Max payload: 6 kg; Flight time: About 16 min; Take-off weight: 11.5 kg)
-- [Titan 13](https://holyhornet.com/fleet.html#fpv-13m): 13-inch six-axis heavy FPV. Redundant six-rotor platform carrying up to 10 kg. (Top speed: 140 km/h; Max payload: 10 kg; Flight time: About 14 min; Take-off weight: 15 kg)
-- [Titan 15](https://holyhornet.com/fleet.html#fpv-15m): 15-inch six-axis heavy FPV. Industrial six-rotor platform with an 11.5 kg payload and 19.5 kg take-off weight. (Top speed: 130 km/h; Max payload: 11.5 kg; Flight time: About 12 min; Take-off weight: 19.5 kg)
-
-### Industrial patrol & logistics drones
-
-Foldable GPS multirotors for patrol, delivery and heavy lifting, with route planning and one-click return.
-
-- [Vanguard 5 Quad](https://holyhornet.com/fleet.html#t5-x4): 4-rotor, 5 kg payload. Foldable patrol and logistics drone with 53 minutes of flight time when empty. (Max payload: 5 kg; Flight time: 53 min empty / 24 min with 4 kg; Take-off weight: 9 kg; Protection: IP56)
-- [Vanguard 5 Hex](https://holyhornet.com/fleet.html#t5-x6): 6-rotor, 5 kg payload. Compact six-rotor with motor redundancy and a fold-away frame. (Max payload: 5 kg; Flight time: 30 min empty / 15 min with 5 kg; Take-off weight: 12 kg; Protection: IP56)
-- [Vanguard 15 Hex](https://holyhornet.com/fleet.html#t15-x6): 6-rotor, 15 kg payload. Mid-size hexacopter for logistics and emergency rescue, rated IP64. (Max payload: 15 kg; Flight time: 25 min empty / 10 min with 15 kg; Take-off weight: 34 kg; Protection: IP64)
-- [Vanguard 20 Quad](https://holyhornet.com/fleet.html#t20-x4): 4-rotor, 20 kg payload. Long-endurance lifter: 29 minutes in the air even with 20 kg on board. (Max payload: 20 kg; Flight time: 56 min empty / 29 min with 20 kg; Take-off weight: 40 kg; Protection: IP56)
-- [Vanguard 30 Hex](https://holyhornet.com/fleet.html#t30-x6): 6-rotor, 30 kg payload. Professional heavy lifter for logistics and rescue, with swarm flight support. (Max payload: 30 kg; Flight time: 45 min empty / 20 min with 30 kg; Take-off weight: 49 kg; Protection: IP64)
-- [Vanguard 30 Octo](https://holyhornet.com/fleet.html#t30-x8): Coaxial 8-rotor, 30 kg payload. Eight motors on four arms for full power redundancy, with 30-inch folding props. (Max payload: 30 kg; Flight time: 45 min empty / 18 min with 20 kg; Take-off weight: 55 kg; Protection: IP56)
-- [Vanguard 30 Octo RTK](https://holyhornet.com/fleet.html#t30-x8-rtk): Coaxial 8-rotor with dual RTK. The Vanguard 30 Octo with dual-RTK positioning, accurate to a few centimetres. (Max payload: 30 kg; Flight time: 45 min empty / 18 min with 20 kg; Take-off weight: 55 kg; Positioning: Dual RTK ±0.05 m)
-- [Vanguard 50 Quad](https://holyhornet.com/fleet.html#t50-x4): 4-rotor, 50 kg payload. Flagship heavy-lift transporter: 50 kg payload and 110 kg take-off weight. (Max payload: 50 kg; Flight time: 60 min empty / 18 min with 50 kg; Take-off weight: 110 kg; Protection: IP56)
-
-### Agricultural drones
-
-Spraying and spreading drones with sealed bodies, dual nozzles and terrain-following radar.
-
-- [Terra 16](https://holyhornet.com/fleet.html#ag16-x4): 16 L agricultural drone. Light folding sprayer that one person can carry and set up. (Spray tank: 16 L; Spreader: 33 L; Flight time: 20 min empty / 10 min full; Take-off weight: 42 kg)
-- [Terra 20](https://holyhornet.com/fleet.html#ag20-x4): 20 L agricultural drone. Upgraded sprayer with a front camera and room for radar. (Spray tank: 20 L; Spreader: 35 L; Flight time: 20 min empty / 10 min full; Take-off weight: 44 kg)
-- [Terra 30](https://holyhornet.com/fleet.html#ag30-x4): 30 L agricultural drone. Large-area sprayer with obstacle-avoidance and terrain radar as standard. (Spray tank: 30 L; Spreader: 50 L; Flight time: 15 min empty / 8 min full; Take-off weight: 68 kg)
-- [Terra 50](https://holyhornet.com/fleet.html#ag50-x4): 50 L agricultural drone. Flagship farm drone with an 80 L spreader and 99 kg take-off weight. (Spray tank: 50 L; Spreader: 80 L; Flight time: 28 min empty / 7 min full; Take-off weight: 99 kg)
 
 ## Courses
 

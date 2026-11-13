@@ -49,20 +49,6 @@
   }, 500);
 })();
 
-// Category filter chips (fleet page)
-(function () {
-  var chips = document.querySelectorAll('.chip[data-f]'), groups = document.querySelectorAll('.group');
-  chips.forEach(function (c) {
-    c.addEventListener('click', function () {
-      var f = c.dataset.f;
-      chips.forEach(function (x) { x.classList.toggle('on', x === c); x.setAttribute('aria-pressed', x === c); });
-      groups.forEach(function (g) { g.hidden = f !== 'all' && g.dataset.g !== f; });
-      var bar = document.querySelector('.filters');
-      if (bar) window.scrollTo({ top: bar.offsetTop - 76 });
-    });
-  });
-})();
-
 // Course search and filter (education page)
 (function () {
   var search = document.querySelector('#courseSearch');
