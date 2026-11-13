@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Projects | Holy Hornet UAV Systems</title>
-<meta name="description" content="Holy Hornet UAV projects. Try the Perching UAV simulator in your browser: a drone that attaches to steel surfaces, switches its motors off and works as a sensor station.">
+<meta name="description" content="Holy Hornet UAV projects you can try in your browser: the Perching UAV simulator, the SkyShield live demo and the Autonomous UAV Lab, a quadrotor that maps, localises, plans and flies by itself.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://holyhornet.com/projects.html">
 <meta name="theme-color" content="#1d211f">
@@ -15,7 +15,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Holy Hornet UAV Systems">
 <meta property="og:title" content="Projects | Holy Hornet UAV Systems">
-<meta property="og:description" content="Holy Hornet UAV projects. Try the Perching UAV simulator in your browser: a drone that attaches to steel surfaces, switches its motors off and works as a sensor station.">
+<meta property="og:description" content="Holy Hornet UAV projects you can try in your browser: the Perching UAV simulator, the SkyShield live demo and the Autonomous UAV Lab, a quadrotor that maps, localises, plans and flies by itself.">
 <meta property="og:url" content="https://holyhornet.com/projects.html">
 <meta property="og:image" content="https://holyhornet.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -24,7 +24,7 @@
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Projects | Holy Hornet UAV Systems">
-<meta name="twitter:description" content="Holy Hornet UAV projects. Try the Perching UAV simulator in your browser: a drone that attaches to steel surfaces, switches its motors off and works as a sensor station.">
+<meta name="twitter:description" content="Holy Hornet UAV projects you can try in your browser: the Perching UAV simulator, the SkyShield live demo and the Autonomous UAV Lab, a quadrotor that maps, localises, plans and flies by itself.">
 <meta name="twitter:image" content="https://holyhornet.com/assets/og-image.jpg">
 <script type="application/ld+json">
 {
@@ -35,7 +35,7 @@
    "@id": "https://holyhornet.com/projects.html#webpage",
    "url": "https://holyhornet.com/projects.html",
    "name": "Projects | Holy Hornet UAV Systems",
-   "description": "Holy Hornet UAV projects. Try the Perching UAV simulator in your browser: a drone that attaches to steel surfaces, switches its motors off and works as a sensor station.",
+   "description": "Holy Hornet UAV projects you can try in your browser: the Perching UAV simulator, the SkyShield live demo and the Autonomous UAV Lab, a quadrotor that maps, localises, plans and flies by itself.",
    "inLanguage": "en",
    "isPartOf": {
     "@id": "https://holyhornet.com/#website"
@@ -118,6 +118,13 @@
 @keyframes pv-st3{0%,48%{opacity:0}50%,80%{opacity:1}82%,100%{opacity:0}}
 @keyframes pv-st4{0%,82%{opacity:0}84%,100%{opacity:1}}
 @media (prefers-reduced-motion:reduce){.pv .drone,.pv .rotor,.pv .pad,.pv .wave,.pv .st{animation:none}.pv .st.s3{opacity:1}}
+.feature + .feature{margin-top:24px}
+.feature .fig.screen{background:#0d131b}
+.lab-path{stroke-dasharray:7 5;animation:lab-dash 3s linear infinite}
+@keyframes lab-dash{to{stroke-dashoffset:-48}}
+.lab-drone{animation:lab-fly 6s ease-in-out infinite alternate}
+@keyframes lab-fly{from{transform:translate(0,0)}to{transform:translate(64px,-70px)}}
+@media (prefers-reduced-motion:reduce){.lab-path,.lab-drone{animation:none}}
 @media (max-width:900px){.feature{grid-template-columns:1fr}.feature .fig{min-height:220px}.feature h2{font-size:28px}.feature .pbody{padding:24px}}
 </style>
 </head>
@@ -207,6 +214,45 @@
         <a class="btn main" href="/projects/skyshield/">Open the live demo</a>
       </div>
       <p class="note">Runs entirely in your browser, nothing to install. A development prototype: the sensors are simulated and no field performance has been measured yet.</p>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig screen" href="/projects/uav-lab/lab/#slam" aria-label="Open the Autonomous UAV Lab">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 600 340" role="img" aria-label="A drone flies through a 3D voxel map of buildings it is building from its own sensors">
+        <defs><linearGradient id="lab-vx" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd27a"/><stop offset="1" stop-color="#4a78b8"/></linearGradient></defs>
+        <g stroke="#1e2a38" stroke-width="1">
+          <path d="M40 300 L300 190 L560 300 L300 335 Z" fill="#111a24"/>
+          <path d="M105 273 L365 324 M170 245 L430 313 M235 218 L495 304 M365 218 L105 300 M430 245 L170 313 M495 273 L235 324"/>
+        </g>
+        <g fill="url(#lab-vx)" opacity=".9">
+          <path d="M150 250 l40 -16 v-70 l-40 16z"/><path d="M190 234 l34 12 v-70 l-34 -12z" opacity=".75"/><path d="M150 180 l40 -16 l34 12 l-40 16z" opacity=".95"/>
+          <path d="M330 230 l46 -18 v-96 l-46 18z"/><path d="M376 212 l40 14 v-96 l-40 -14z" opacity=".75"/><path d="M330 134 l46 -18 l40 14 l-46 18z" opacity=".95"/>
+          <path d="M430 275 l30 -12 v-52 l-30 12z"/><path d="M460 263 l26 9 v-52 l-26 -9z" opacity=".75"/>
+          <path d="M240 290 l22 -9 v-40 l-22 9z"/><path d="M262 281 l18 6 v-40 l-18 -6z" opacity=".75"/>
+        </g>
+        <g fill="#9fb4cc" opacity=".55"><circle cx="120" cy="292" r="1.6"/><circle cx="140" cy="300" r="1.6"/><circle cx="210" cy="306" r="1.6"/><circle cx="300" cy="316" r="1.6"/><circle cx="350" cy="300" r="1.6"/><circle cx="410" cy="306" r="1.6"/><circle cx="500" cy="296" r="1.6"/><circle cx="270" cy="300" r="1.6"/></g>
+        <path class="lab-path" d="M92 296 C140 280 200 262 250 246 S330 238 300 200 S300 150 382 112 S470 98 520 84" fill="none" stroke="#ffb020" stroke-width="2.5"/>
+        <path d="M92 296 C140 282 196 266 248 250 S326 240 298 204" fill="none" stroke="#38d9e8" stroke-width="3"/>
+        <g fill="#ff5ca8"><circle cx="190" cy="196" r="4"/><circle cx="376" cy="150" r="4"/><circle cx="416" cy="170" r="4"/></g>
+        <g fill="#38d9e8"><circle cx="160" cy="215" r="3"/><circle cx="340" cy="170" r="3"/><circle cx="350" cy="200" r="3"/><circle cx="445" cy="235" r="3"/></g>
+        <g class="lab-drone">
+          <ellipse cx="298" cy="204" rx="16" ry="9" fill="#4aa3ff" opacity=".25"/>
+          <g transform="translate(298 200)" stroke="#e8eef5" stroke-width="2"><path d="M-12 -5 L12 5 M-12 5 L12 -5"/><g fill="none"><ellipse cx="-12" cy="-5" rx="6" ry="2"/><ellipse cx="12" cy="5" rx="6" ry="2"/><ellipse cx="-12" cy="5" rx="6" ry="2"/><ellipse cx="12" cy="-5" rx="6" ry="2"/></g></g>
+          <path d="M298 204 L355 236 L360 205 Z" fill="#ffe08a" opacity=".18"/>
+        </g>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">Autonomy · Interactive simulation</span>
+      <h2>Autonomous UAV Lab: see, map, localise, fly</h2>
+      <p>A quadrotor that enters an unknown 3D world, builds a map from its own LiDAR and camera, estimates where it is, plans a safe route and flies it. Watch the map grow and the estimate track the truth, change the drone, its sensors and its controller, and send it new goals.</p>
+      <ul class="facts"><li>3D EKF-SLAM with known and new landmarks</li><li>Minimum-snap trajectories + LQR</li><li>11 laboratories · 15 test scenarios</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/uav-lab/lab/#slam">Open the lab</a>
+        <a class="btn quiet" href="/projects/uav-lab/">See what&rsquo;s inside</a>
+      </div>
+      <p class="note">Runs entirely in your browser, nothing to install; the first launch downloads about 40 MB. A research simulation: results come from simulated sensors and environments, and some of the hardest test scenarios still fail.</p>
     </div>
   </article>
   <div class="next"><b>More projects are on their way.</b><span>Tell us about the job you have in mind.</span><a class="more" href="contact.html">Start a project &rarr;</a></div>
