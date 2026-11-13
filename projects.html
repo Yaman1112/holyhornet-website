@@ -143,6 +143,19 @@
 @keyframes mv-land{0%{transform:translate(-110px,-66px)}45%{transform:translate(0,-34px)}62%{transform:translate(0,-34px)}80%,100%{transform:translate(0,0)}}
 @keyframes mv-ring{0%{transform:scale(2.2)}60%,100%{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.mv .drive,.mv .uav,.mv .ring,.mv .lane{animation:none}}
+.ai{background:#12201b}
+.ai .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
+.ai .land{fill:#2f4a33}
+.ai .sea{fill:#123a4d}
+.ai .lbl{fill:#8f988f;font:600 10px/1 var(--sans);letter-spacing:.08em}
+.ai .cow{fill:#e0a955}
+.ai .turtle{fill:#7fd492}
+.ai .lane{stroke:#efb446;stroke-width:1.2;fill:none;stroke-dasharray:4 4;opacity:.7}
+.ai .ping{fill:none;stroke:#ef6f61;stroke-width:1.5;animation:ai-ping 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.ai .stray{animation:ai-stray 6s ease-in-out infinite alternate}
+@keyframes ai-ping{from{transform:scale(.4);opacity:1}to{transform:scale(2.2);opacity:0}}
+@keyframes ai-stray{from{transform:translate(0,0)}to{transform:translate(26px,-18px)}}
+@media (prefers-reduced-motion:reduce){.ai .ping,.ai .stray{animation:none}}
 </style>
 </head>
 <body>
@@ -295,6 +308,31 @@
         <a class="btn main" href="/projects/moving-ecosystem/">Open the simulator</a>
       </div>
       <p class="note">Runs entirely in your browser, nothing to install; the first launch downloads about 10 MB. A research simulation: every result comes from simulated vehicles, sensors and weather, and nothing has flown yet.</p>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig ai" href="/projects/aicn/" aria-label="Open the AICN animal intelligence platform">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Illustration: a herd on land with one animal straying and flagged, and sea turtles in the water under a drone survey route">
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <path class="land" d="M0 40 L170 40 C150 90 175 140 150 210 L0 210 Z"/>
+        <path class="sea" d="M170 40 L320 40 L320 210 L150 210 C175 140 150 90 170 40 Z"/>
+        <g><circle class="cow" cx="50" cy="120" r="4"/><circle class="cow" cx="62" cy="128" r="4"/><circle class="cow" cx="45" cy="135" r="4"/><circle class="cow" cx="70" cy="114" r="4"/><circle class="cow" cx="58" cy="142" r="4"/></g>
+        <g class="stray"><circle class="cow" cx="100" cy="110" r="4"/><circle class="ping" cx="100" cy="110" r="7"/></g>
+        <path class="lane" d="M205 70H300V95H205V120H300V145H205V170H300"/>
+        <circle class="turtle" cx="240" cy="100" r="3.5"/><circle class="turtle" cx="270" cy="150" r="3.5"/><circle class="turtle" cx="225" cy="160" r="3.5"/>
+        <text class="lbl" x="14" y="24">LIVESTOCK · MARINE · ONE PLATFORM</text>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">AI · Conservation · Interactive platform</span>
+      <h2>AICN: animal intelligence for farms and coasts in Tanzania and Zanzibar</h2>
+      <p>One platform for two jobs: protecting livestock with smart collars, drones and AI, and monitoring sea turtles, dolphins, dugongs and reefs with aerial drones and an underwater robot. Collars keep working without signal and upload later; the AI flags straying, inactive or possibly unwell animals as observations for a farmer or vet to check, never as a diagnosis. Drone missions are planned, checked and approved by an operator. Nest locations stay protected. Sign in as a farmer, a vet, a marine researcher or a drone pilot, make an animal stray or fall ill in the digital twin, and watch the platform notice.</p>
+      <ul class="facts"><li>Livestock + marine on one platform</li><li>10 roles, offline-first data</li><li>Digital twin with drones and an ROV</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/aicn/">Open the platform</a>
+      </div>
+      <p class="note">The full backend runs in your browser, nothing to install; the first start downloads about 25 MB. Every animal, collar, drone and nest is simulated: nothing here is a field measurement yet.</p>
     </div>
   </article>
   <div class="next"><b>More projects are on their way.</b><span>Tell us about the job you have in mind.</span><a class="more" href="contact.html">Start a project &rarr;</a></div>
