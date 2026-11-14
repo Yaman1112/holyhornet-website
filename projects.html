@@ -165,6 +165,17 @@
 .sg .ring{fill:none;stroke:#fbbf24;stroke-width:1.2;animation:ai-ping 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
 @keyframes sg-fly{0%{offset-distance:0%}100%{offset-distance:100%}}
 @media (prefers-reduced-motion:reduce){.sg .u,.sg .ring{animation:none}}
+.st{background:#0a1418}
+.st .gd{stroke:#34d399;stroke-opacity:.07;stroke-width:1;fill:none}
+.st .col{fill:url(#st-col)}
+.st .wind{stroke:#7dd3fc;stroke-width:1.2;fill:none;opacity:.55;stroke-dasharray:6 6;animation:st-wind 3s linear infinite}
+.st .trk{fill:none;stroke:#34d399;stroke-width:1.5;stroke-linecap:round;opacity:.85}
+.st .glider{fill:#fff;animation:st-fly 10s linear infinite}
+.st .est{fill:none;stroke:#fbbf24;stroke-width:1.2;stroke-dasharray:3 3}
+.st .lbl{fill:#8fa8a0;font:600 10px/1 var(--sans);letter-spacing:.08em}
+@keyframes st-fly{0%{offset-distance:0%}100%{offset-distance:100%}}
+@keyframes st-wind{to{stroke-dashoffset:-24}}
+@media (prefers-reduced-motion:reduce){.st .glider,.st .wind{animation:none}}
 .ai{background:#12201b}
 .ai .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
 .ai .land{fill:#2f4a33}
@@ -407,6 +418,31 @@
         <a class="btn main" href="/projects/falcon-intelligence/">Open the platform</a>
       </div>
       <p class="note">The full backend runs in your browser, nothing to install; the first start downloads about 25 MB and everything resets on reload. Every falcon, record and flight is synthetic, no real tracker is connected yet, and the platform has no trained AI model: its analysis is rules and statistics.</p>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig st" href="/projects/skytherm/" aria-label="Open HolyHornet SkyTherm">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Animation: a glider flies into a thermal that leans with the wind, circles upward around the estimated centre and leaves at the top">
+        <defs><linearGradient id="st-col" x1="0" x2="0" y1="1" y2="0"><stop offset="0" stop-color="#34d399" stop-opacity=".02"/><stop offset=".5" stop-color="#34d399" stop-opacity=".16"/><stop offset="1" stop-color="#34d399" stop-opacity=".03"/></linearGradient></defs>
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <path class="col" d="M150 200 C150 150 170 90 180 30 L230 30 C222 90 205 150 200 200 Z"/>
+        <path class="wind" d="M14 70H70M14 110H60M14 150H66"/>
+        <ellipse class="est" cx="182" cy="116" rx="30" ry="8"/>
+        <path class="trk" d="M30 190 C80 186 120 182 150 176 C190 170 196 156 170 150 C140 144 140 132 172 128 C206 124 208 108 180 104 C152 100 154 88 186 84 C218 80 220 64 194 60 C170 56 176 44 214 40 L300 30"/>
+        <path class="glider" d="M-7 0 L7 0 M0 -2 L0 3" stroke="#fff" stroke-width="2" style="offset-path:path('M30 190 C80 186 120 182 150 176 C190 170 196 156 170 150 C140 144 140 132 172 128 C206 124 208 108 180 104 C152 100 154 88 186 84 C218 80 220 64 194 60 C170 56 176 44 214 40 L300 30')"/>
+        <text class="lbl" x="14" y="24">DETECT · CENTRE · CLIMB · NO MOTOR</text>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">Soaring autonomy · Research simulator</span>
+      <h2>SkyTherm: a drone that climbs on rising air instead of its battery</h2>
+      <p>A research platform for an autonomous glider that finds thermals and uses them in place of the motor. It has a full 6-degree-of-freedom flight model, an atmosphere with drifting thermals, wind shear and gusts, and on-board estimators that locate a thermal's centre with its uncertainty. A soaring autopilot explains every decision it makes, and a 3-D digital twin replays each flight. Run the milestone and watch the glider find a drifting thermal, centre it and climb, then compare it with plain gliding and motor flight. Research experiments, a published validation report and a separate dynamic-soaring optimiser are included.</p>
+      <ul class="facts"><li>6-DOF flight, drifting thermals, wind shear</li><li>Every autopilot decision explained</li><li>17 validation checks, results published</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/skytherm/">Open the simulator</a>
+      </div>
+      <p class="note">The full Python backend runs in your browser, nothing to install; the first start downloads about 30 MB. A research simulation: every result is simulated, nothing has flown yet, and simulated energy savings are not measured savings.</p>
     </div>
   </article>
   <div class="next"><b>More projects are on their way.</b><span>Tell us about the job you have in mind.</span><a class="more" href="contact.html">Start a project &rarr;</a></div>
