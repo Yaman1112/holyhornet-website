@@ -624,6 +624,46 @@
     return g;
   };
 
+  // One cylinder of a four-stroke piston engine. stroke runs 0 to 4 (intake, compression, power, exhaust);
+  // with no stroke given it runs by itself.
+  F.fourstroke = function (p) {
+    var ph = p.stroke === undefined ? (p._t || 0) * 0.45 : +p.stroke, cyc = ((ph % 4) + 4) % 4;
+    if (p.stroke !== undefined && +p.stroke >= 4) cyc = 3.999;
+    var idx = Math.floor(cyc), frac = cyc - idx, th = cyc * Math.PI, g = [];
+    var cx = 330, ccy = 420, r = 44, rod = 150, headY = 150, wL = cx - 80, wR = cx + 80;
+    var pinX = cx + r * Math.sin(th), pinY = ccy - r * Math.cos(th);
+    var wristY = ccy - (r * Math.cos(th) + Math.sqrt(rod * rod - r * r * Math.sin(th) * Math.sin(th))), crown = wristY - 28;
+    var names = ['Intake', 'Compression', 'Power', 'Exhaust'];
+    var says = ['Piston moves down, intake valve open: fuel-air mixture is drawn in', 'Both valves closed, piston moves up: the mixture is compressed',
+      'Spark plugs fire: burning gas pushes the piston down', 'Exhaust valve open, piston moves up: burnt gas is pushed out'];
+    var gas = [C.sky, C.sky, C.honey, C.soft][idx], gasOp = [0.18 + 0.2 * frac, 0.38 + 0.4 * frac, 0.85 - 0.5 * frac, 0.4 - 0.2 * frac][idx];
+    var inOpen = idx === 0 ? Math.sin(frac * Math.PI) : 0, exOpen = idx === 3 ? Math.sin(frac * Math.PI) : 0;
+    // ports
+    g.push(P('M' + (wL - 110) + ' ' + (headY - 52) + 'H' + (cx - 40) + 'V' + headY, { stroke: C.dim, w: 26 }), P('M' + (wR + 110) + ' ' + (headY - 52) + 'H' + (cx + 40) + 'V' + headY, { stroke: C.dim, w: 26 }));
+    if (inOpen > 0.05) g.push(arrow(wL - 105, headY - 52, cx - 62, headY - 52, C.sky, 5), T(cx - 70, headY - 80, 'Fuel-air mixture in', { col: C.sky, size: 18, weight: 700, anchor: 'end' }));
+    if (exOpen > 0.05) g.push(arrow(cx + 62, headY - 52, wR + 105, headY - 52, C.red, 5), T(cx + 70, headY - 80, 'Exhaust out', { col: C.red, size: 18, weight: 700 }));
+    // gas, cylinder, piston
+    g.push(S('rect', { x: wL, y: headY, width: wR - wL, height: Math.max(2, crown - headY), fill: gas, opacity: f(gasOp) }));
+    g.push(P('M' + wL + ' ' + (ccy - 70) + 'V' + headY + 'H' + wR + 'V' + (ccy - 70), { stroke: C.ink, w: 6 }));
+    g.push(S('rect', { x: wL + 5, y: crown, width: wR - wL - 10, height: 56, rx: 6, fill: C.ink }), L(wL + 5, crown + 14, wR - 5, crown + 14, C.bg, 3), L(wL + 5, crown + 24, wR - 5, crown + 24, C.bg, 3));
+    // connecting rod and crankshaft
+    g.push(S('circle', { cx: cx, cy: ccy, r: r + 22, fill: C.panel, stroke: C.dim, 'stroke-width': 3 }), L(cx, wristY, pinX, pinY, C.soft, 12), L(cx, ccy, pinX, pinY, C.honey, 14),
+      S('circle', { cx: cx, cy: wristY, r: 8, fill: C.bg, stroke: C.soft, 'stroke-width': 3 }), S('circle', { cx: pinX, cy: pinY, r: 9, fill: C.honey }), S('circle', { cx: cx, cy: ccy, r: 11, fill: C.ink }));
+    // valves and spark plugs
+    var valve = function (x, open, col) { var y = headY + open * 16; return S('g', {}, [L(x, headY - 40, x, y, col, 5), L(x - 20, y, x + 20, y, col, 7)]); };
+    g.push(valve(cx - 40, inOpen, inOpen > 0.05 ? C.sky : C.ink), valve(cx + 40, exOpen, exOpen > 0.05 ? C.red : C.ink));
+    g.push(S('rect', { x: cx - 7, y: headY - 34, width: 14, height: 36, rx: 3, fill: C.soft }));
+    if (idx === 2 && frac < 0.3) { for (var k = 0; k < 8; k++) { var a = rad(k * 45 + 20); g.push(L(cx + 6 * Math.cos(a), headY + 12 + 6 * Math.sin(a), cx + 20 * Math.cos(a), headY + 12 + 20 * Math.sin(a), C.honey, 4)); } }
+    g.push(label(cx, headY - 80, 'Spark plugs', C.soft, 16, 'middle'), label(wL - 12, crown + 34, 'Piston', C.soft, 16, 'end'), label(cx + r + 34, ccy + 6, 'Crankshaft', C.soft, 16), label(wL - 12, headY + 22, 'Intake valve', C.soft, 16, 'end'), label(wR + 12, headY + 22, 'Exhaust valve', C.soft, 16));
+    // stroke list
+    names.forEach(function (n, i) {
+      var y = 150 + i * 68, on = i === idx;
+      g.push(S('rect', { x: 610, y: y, width: 290, height: 54, rx: 14, fill: on ? C.honey : C.panel }), T(642, y + 35, String(i + 1), { col: on ? C.bg : C.honey, size: 24, weight: 700, anchor: 'middle' }), T(672, y + 35, n, { col: on ? C.bg : C.ink, size: 24, weight: 700 }));
+    });
+    g.push(T(480, 505, says[idx], { col: C.ink, size: 19, anchor: 'middle', weight: 600 }));
+    return g;
+  };
+
   // ---------- render ----------
   function draw(name, params) {
     var fn = F[name], svg = S('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': params.alt || name, preserveAspectRatio: 'xMidYMid meet' });
@@ -654,7 +694,7 @@
   function figure(spec, caption) {
     var s = parseSpec(spec), box = h('figure', 'hhf'), holder = h('div', 'hhf-art'), vals = {}, t0 = performance.now();
     Object.keys(s.args).forEach(function (k) { var tw = tweenOf(s.args[k]); vals[k] = tw ? tw[1] : s.args[k]; });
-    var animated = /^(aerofoil|forms|vortex|spin|crosswind|title)$/.test(s.name);
+    var animated = /^(aerofoil|forms|vortex|spin|crosswind|title)$/.test(s.name) || (s.name === 'fourstroke' && s.args.stroke === undefined);
     function render() { var p = {}; Object.keys(vals).forEach(function (k) { p[k] = vals[k]; }); p._t = (performance.now() - t0) / 1000; holder.textContent = ''; holder.appendChild(draw(s.name, p)); }
     box.appendChild(holder);
     var ctl = h('div', 'hhf-controls');
