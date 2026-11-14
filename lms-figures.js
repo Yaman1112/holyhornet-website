@@ -664,6 +664,60 @@
     return g;
   };
 
+  // Two magnetos firing two spark plugs in each of four cylinders. fail=L or fail=R shows one magneto failed.
+  F.ignition = function (p) {
+    var fail = String(p.fail || ''), g = [], t = p._t || 0, xs = [180, 380, 580, 780];
+    var mags = [{ k: 'L', x: 300, col: C.honey, name: 'Left magneto', dx: -30 }, { k: 'R', x: 660, col: C.sky, name: 'Right magneto', dx: 30 }];
+    mags.forEach(function (m) {
+      var dead = fail === m.k;
+      xs.forEach(function (x) { g.push(P('M' + m.x + ' 400C' + m.x + ' 330 ' + (x + m.dx) + ' 330 ' + (x + m.dx) + ' 262', { stroke: dead ? C.dim : m.col, w: 4, dash: dead ? '6 10' : null })); });
+    });
+    xs.forEach(function (x, i) {
+      g.push(S('rect', { x: x - 62, y: 90, width: 124, height: 150, rx: 16, fill: C.panel, stroke: C.ink, 'stroke-width': 3 }), T(x, 150, String(i + 1), { size: 44, anchor: 'middle', weight: 700 }), label(x, 182, 'Cylinder', C.soft, 16, 'middle'));
+      mags.forEach(function (m) {
+        var dead = fail === m.k, px = x + m.dx, on = !dead && Math.sin(t * 6 + i * 1.6) > 0.2;
+        g.push(S('rect', { x: px - 7, y: 232, width: 14, height: 32, rx: 4, fill: dead ? C.dim : m.col }));
+        if (!dead) g.push(S('circle', { cx: px, cy: 222, r: on || !p._t ? 9 : 5, fill: m.col, opacity: on || !p._t ? 1 : 0.5 }));
+      });
+    });
+    mags.forEach(function (m) {
+      var dead = fail === m.k;
+      g.push(S('rect', { x: m.x - 105, y: 400, width: 210, height: 64, rx: 14, fill: dead ? C.panel : m.col, stroke: dead ? C.red : null, 'stroke-width': dead ? 3 : null }),
+        T(m.x, 440, dead ? m.name + ' failed' : m.name, { col: dead ? C.red : C.bg, size: dead ? 19 : 22, anchor: 'middle', weight: 700 }));
+    });
+    g.push(label(480, 60, 'Two spark plugs in every cylinder, one fed by each magneto', C.soft, 19, 'middle'));
+    g.push(pill(480, 510, fail ? 'One magneto still fires all four cylinders, with a small loss of power' : 'Both magnetos working: two sparks in every cylinder', fail ? C.red : C.honey));
+    return g;
+  };
+
+  // A float-type carburettor. ice runs 0 to 1 and builds ice at the venturi and throttle valve; heat=1 shows carburettor heat.
+  F.carb = function (p) {
+    var ice = clamp(+p.ice || 0, 0, 1), heat = +p.heat > 0.5, t = p._t || 0, g = [], cx = 520, air = heat ? C.red : C.sky;
+    var wall = function (sg) { return 'M' + (cx + sg * 95) + ' 470V380C' + (cx + sg * 95) + ' 330 ' + (cx + sg * 42) + ' 320 ' + (cx + sg * 42) + ' 290C' + (cx + sg * 42) + ' 260 ' + (cx + sg * 95) + ' 250 ' + (cx + sg * 95) + ' 200V70'; };
+    g.push(P(wall(-1), { stroke: C.ink, w: 6 }), P(wall(1), { stroke: C.ink, w: 6 }));
+    // float chamber and fuel
+    g.push(S('rect', { x: 170, y: 250, width: 200, height: 150, rx: 12, fill: C.panel, stroke: C.ink, 'stroke-width': 3 }), S('rect', { x: 173, y: 310, width: 194, height: 87, rx: 9, fill: C.honey, opacity: 0.55 }),
+      S('rect', { x: 215, y: 290, width: 110, height: 34, rx: 8, fill: C.ink }), T(270, 314, 'Float', { col: C.bg, size: 17, anchor: 'middle', weight: 700 }));
+    g.push(P('M370 370H' + (cx - 60) + 'V296H' + (cx - 30), { stroke: C.honey, w: 7 }));
+    for (var i = 0; i < 3; i++) { var fy = ((t * 40 + i * 30) % 90); if (ice < 0.9) g.push(S('circle', { cx: cx - 8 + i * 10, cy: 286 - fy, r: 5, fill: C.honey, opacity: f(1 - fy / 90) })); }
+    // airflow
+    [-28, 0, 28].forEach(function (dx, k) { var y = 450 - ((t * 60 + k * 37) % 70); g.push(arrow(cx + dx, y, cx + dx, y - 34, air, 4)); });
+    if (ice < 0.9) g.push(arrow(cx, 120, cx, 82, air, 4));
+    // throttle valve
+    g.push(G('rotate(' + (-28) + ' ' + cx + ' 170)', [S('rect', { x: cx - 80, y: 166, width: 160, height: 8, rx: 4, fill: C.ink })]), S('circle', { cx: cx, cy: 170, r: 7, fill: C.honey }));
+    // ice
+    if (ice > 0.02) {
+      [-1, 1].forEach(function (sg) { g.push(S('ellipse', { cx: cx + sg * (40 - ice * 14), cy: 290, rx: 6 + ice * 16, ry: 22 + ice * 22, fill: '#ffffff', opacity: 0.92 })); });
+      g.push(S('ellipse', { cx: cx - 52, cy: 196, rx: 10 + ice * 16, ry: 6 + ice * 9, fill: '#ffffff', opacity: 0.92 }), S('ellipse', { cx: cx + 52, cy: 146, rx: 10 + ice * 16, ry: 6 + ice * 9, fill: '#ffffff', opacity: 0.92 }));
+      g.push(label(cx + 150, 240, 'Ice', '#ffffff', 22), L(cx + 144, 236, cx + 70, 270, '#ffffff', 2), L(cx + 144, 232, cx + 78, 160, '#ffffff', 2));
+    }
+    g.push(label(cx, 498, heat ? 'Heated air in' : 'Air in', air, 19, 'middle'), label(cx + 112, 296, 'Venturi', C.soft, 18), label(cx + 112, 176, 'Throttle valve', C.soft, 18), label(cx + 112, 100, 'To the cylinders', C.soft, 18),
+      label(270, 236, 'Float chamber', C.soft, 18, 'middle'), label(cx - 70, 426, 'Fuel nozzle', C.soft, 16, 'end'));
+    var say = heat ? 'Carburettor heat: warm air melts the ice, but gives less power' : ice > 0.05 ? 'Ice narrows the venturi: less air reaches the engine and RPM falls' : 'Air speeds up in the venturi, its pressure drops and fuel is drawn in';
+    g.push(pill(480, 30, say, heat ? C.red : ice > 0.05 ? C.sky : C.honey));
+    return g;
+  };
+
   // ---------- render ----------
   function draw(name, params) {
     var fn = F[name], svg = S('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': params.alt || name, preserveAspectRatio: 'xMidYMid meet' });
@@ -694,7 +748,7 @@
   function figure(spec, caption) {
     var s = parseSpec(spec), box = h('figure', 'hhf'), holder = h('div', 'hhf-art'), vals = {}, t0 = performance.now();
     Object.keys(s.args).forEach(function (k) { var tw = tweenOf(s.args[k]); vals[k] = tw ? tw[1] : s.args[k]; });
-    var animated = /^(aerofoil|forms|vortex|spin|crosswind|title)$/.test(s.name) || (s.name === 'fourstroke' && s.args.stroke === undefined);
+    var animated = /^(aerofoil|forms|vortex|spin|crosswind|title)$/.test(s.name) || (s.name === 'fourstroke' && s.args.stroke === undefined) || s.name === 'ignition' || s.name === 'carb';
     function render() { var p = {}; Object.keys(vals).forEach(function (k) { p[k] = vals[k]; }); p._t = (performance.now() - t0) / 1000; holder.textContent = ''; holder.appendChild(draw(s.name, p)); }
     box.appendChild(holder);
     var ctl = h('div', 'hhf-controls');
