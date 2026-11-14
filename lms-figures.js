@@ -809,7 +809,11 @@
   // ? Optional explanation, shown with the answers.
   // All ::quiz blocks on a page form one quiz: the answers show once every question has been answered.
   var quizItems = [];
-  function quizLive() { quizItems = quizItems.filter(function (q) { return document.body.contains(q.box); }); return quizItems; }
+  // A question is built before the lesson text is put on the page, so only drop one that was on the page and has since left it.
+  function quizLive() {
+    quizItems = quizItems.filter(function (q) { var on = document.body.contains(q.box); if (on) q.seen = true; return on || !q.seen; });
+    return quizItems;
+  }
   function quizFooter() {
     var items = quizLive();
     if (!items.length) return;
@@ -848,7 +852,7 @@
     box.appendChild(legend);
     box.appendChild(h('p', 'hhq-q', lines[0] || ''));
     expl.hidden = true;
-    var item = { box: box, picked: null, right: right, reveal: null, reset: null }, rows = [];
+    var item = { box: box, picked: null, right: right, reveal: null, reset: null, seen: false }, rows = [];
     opts.forEach(function (text, i) {
       var row = h('label', 'hhq-opt'), input = document.createElement('input');
       input.type = 'radio'; input.name = group; input.value = i;
