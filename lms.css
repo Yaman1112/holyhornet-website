@@ -195,6 +195,24 @@
 .hhf-controls{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:10px}
 .hhf-slider{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--soft)}
 .hhf-slider input{width:200px;accent-color:#efb446}
+.hhq{margin:18px 0;padding:16px 18px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);max-width:860px;min-width:0}
+.hhq legend{padding:0 8px;color:var(--soft);font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.hhq-q{margin:0 0 12px;font-weight:700;font-size:18px}
+.hhq-opts{display:grid;gap:8px}
+.hhq-opt{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.hhq-opt input{margin-top:4px;accent-color:#efb446}
+.hhq-opt:hover{border-color:#efb446}
+.hhq-opt.is-right{border-color:#5fae45;background:rgba(95,174,69,.14)}
+.hhq-opt.is-wrong{border-color:#d9603f;background:rgba(217,96,63,.14)}
+.hhq-opt.is-right span::after{content:" ✓";font-weight:700}
+.hhq-opt.is-wrong span::after{content:" ✗";font-weight:700}
+.hhq-opt input:disabled{cursor:default}
+.hhq-why{margin:12px 0 0;font-size:15px}
+.hhq-why.good{color:#5fae45}
+.hhq-why.bad{color:#d9603f}
+.hhq-foot{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.hhq-note{margin:0;color:var(--soft);font-size:15px}
+.hhq-score{margin:0 0 10px;font-size:20px;font-weight:700}
 @media (max-width:620px){
   .hhv-txt{display:none}
   .hhv-chip{font-size:11px;max-width:60%}

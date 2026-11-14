@@ -8,6 +8,12 @@
    name key=value ... | Scene title | Narration spoken and shown as captions.
    (one scene per line)
 
+   ::quiz Question text
+   - a wrong option
+   * the right option
+   ? Optional explanation shown with the answers.
+   (one block per question; the answers show once every question on the page is answered)
+
    A value written a>b is animated from a to b during a video scene; in a figure it becomes a slider.
    Everything is drawn here as SVG, so there are no image files to host. */
 (function () {
@@ -796,6 +802,81 @@
     return root;
   }
 
+  // ---------- quiz questions in a lesson ----------
+  // ::quiz Question text
+  // - a wrong option
+  // * the right option
+  // ? Optional explanation, shown with the answers.
+  // All ::quiz blocks on a page form one quiz: the answers show once every question has been answered.
+  var quizItems = [];
+  function quizLive() { quizItems = quizItems.filter(function (q) { return document.body.contains(q.box); }); return quizItems; }
+  function quizFooter() {
+    var items = quizLive();
+    if (!items.length) return;
+    var last = items[items.length - 1], foot = last.box.querySelector('.hhq-foot');
+    items.forEach(function (q) { var f = q.box.querySelector('.hhq-foot'); if (f && q !== last) f.remove(); });
+    if (!foot) { foot = h('div', 'hhq-foot'); foot.setAttribute('aria-live', 'polite'); last.box.appendChild(foot); }
+    var done = items.filter(function (q) { return q.picked !== null; }).length, all = done === items.length;
+    foot.textContent = '';
+    if (!all) { foot.appendChild(h('p', 'hhq-note', done + ' of ' + items.length + ' answered. Answer every question to see the right answers.')); return; }
+    var score = items.filter(function (q) { return q.picked === q.right; }).length;
+    foot.appendChild(h('p', 'hhq-score', 'You scored ' + score + ' out of ' + items.length + '.'));
+    var again = h('button', 'btn quiet', 'Try again');
+    again.type = 'button';
+    again.addEventListener('click', function () {
+      quizLive().forEach(function (q) { q.reset(); });
+      quizFooter();
+      items[0].box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    foot.appendChild(again);
+  }
+  function quizUpdate() {
+    var items = quizLive(), all = items.every(function (q) { return q.picked !== null; });
+    if (all) items.forEach(function (q) { q.reveal(); });
+    quizFooter();
+  }
+  function quiz(block) {
+    var lines = String(block || '').split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+    var opts = [], right = -1, why = '';
+    lines.slice(1).forEach(function (ln) {
+      var mark = ln.charAt(0), text = ln.slice(1).trim();
+      if (mark === '?') why = text;
+      else if (mark === '*' || mark === '-') { if (mark === '*') right = opts.length; opts.push(text); }
+    });
+    var n = quizLive().length + 1, group = 'hhq' + n + '-' + Math.random().toString(36).slice(2, 7);
+    var box = h('fieldset', 'hhq'), legend = h('legend', '', 'Question ' + n), list = h('div', 'hhq-opts'), expl = h('p', 'hhq-why');
+    box.appendChild(legend);
+    box.appendChild(h('p', 'hhq-q', lines[0] || ''));
+    expl.hidden = true;
+    var item = { box: box, picked: null, right: right, reveal: null, reset: null }, rows = [];
+    opts.forEach(function (text, i) {
+      var row = h('label', 'hhq-opt'), input = document.createElement('input');
+      input.type = 'radio'; input.name = group; input.value = i;
+      input.addEventListener('change', function () { item.picked = i; quizUpdate(); });
+      row.appendChild(input); row.appendChild(h('span', '', text));
+      list.appendChild(row); rows.push({ row: row, input: input });
+    });
+    item.reveal = function () {
+      rows.forEach(function (r, i) {
+        r.input.disabled = true;
+        r.row.classList.toggle('is-right', i === right);
+        r.row.classList.toggle('is-wrong', i === item.picked && i !== right);
+      });
+      expl.textContent = (item.picked === right ? 'Correct. ' : 'Not quite. The right answer is: ' + (opts[right] || '') + '. ') + why;
+      expl.className = 'hhq-why ' + (item.picked === right ? 'good' : 'bad');
+      expl.hidden = false;
+    };
+    item.reset = function () {
+      item.picked = null;
+      rows.forEach(function (r) { r.input.disabled = false; r.input.checked = false; r.row.classList.remove('is-right', 'is-wrong'); });
+      expl.hidden = true;
+    };
+    box.appendChild(list); box.appendChild(expl);
+    quizItems.push(item);
+    setTimeout(quizFooter, 0);
+    return box;
+  }
+
   // Splits a lesson body into its video (if any) and the rest.
   function splitBody(body) {
     var blocks = String(body || '').split(/\n\s*\n/), vid = null, rest = [];
@@ -807,5 +888,5 @@
     return { video: vid, body: rest.join('\n\n') };
   }
 
-  window.HHFig = { draw: draw, figure: figure, video: video, splitBody: splitBody, names: Object.keys(F) };
+  window.HHFig = { draw: draw, figure: figure, video: video, quiz: quiz, splitBody: splitBody, names: Object.keys(F) };
 })();

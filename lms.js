@@ -241,7 +241,8 @@
     return el('div', { cls: 'lms-text' }, body.split(/\n\s*\n/).filter(function (b) { return b.trim(); }).map(function (b) {
       b = b.trim();
       if (b.slice(0, 2) === '::') {
-        // ::figure blocks are drawn by lms-figures.js; ::video is taken out before this runs
+        // ::figure and ::quiz blocks are drawn by lms-figures.js; ::video is taken out before this runs
+        if (b.slice(0, 7) === '::quiz ' && window.HHFig && window.HHFig.quiz) return window.HHFig.quiz(b.slice(7));
         if (b.slice(0, 9) !== '::figure ' || !window.HHFig) return null;
         var fl = b.split('\n');
         return window.HHFig.figure(fl[0].slice(9), fl.slice(1).join(' ').trim());
