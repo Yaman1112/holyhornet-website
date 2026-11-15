@@ -379,6 +379,7 @@
 
   function authForm(mode) {
     var next = safeNext(params.get('next'));
+    if (mode === 'up') { joinForm(next); return; }
     var afterSignIn = next === 'account.html' ? 'account.html?welcome=1' : 'account.html?next=' + encodeURIComponent(next);
     var name = field('Full name', { type: 'text', required: true, autocomplete: 'name', maxlength: 120 });
     var mail = field('Email', { type: 'email', required: true, autocomplete: 'email' });
@@ -403,7 +404,7 @@
       el('span', { cls: 'kicker', text: 'My learning' }), el('h1', { text: titles[mode] }),
       el('form', { onsubmit: submit }, mode === 'up' ? name : null, mail, mode !== 'reset' ? pw : null, msg,
         el('button', { cls: 'btn main', type: 'submit', text: mode === 'in' ? 'Sign in' : mode === 'up' ? 'Create account' : 'Send reset link' })),
-      el('p', { cls: 'lms-swap' }, mode !== 'in' ? swap('in', 'I already have an account') : null, mode !== 'up' ? swap('up', 'Create an account') : null, mode === 'in' ? swap('reset', 'Forgot password?') : null)));
+      el('p', { cls: 'lms-swap' }, mode !== 'in' ? swap('in', 'I already have an account') : null, mode !== 'up' ? el('a', { cls: 'lms-link', href: 'account.html?mode=up' + (params.get('next') ? '&next=' + encodeURIComponent(params.get('next')) : ''), text: 'Become a member' }) : null, mode === 'in' ? swap('reset', 'Forgot password?') : null)));
   }
 
   // ---------- "About you" details (supabase/student_details.sql) ----------
@@ -512,10 +513,14 @@
   function myLearning(user, info) {
       return Promise.all([
         isAdmin(user),
+        membership(),
+        simulatorsList(),
         db.from('enrollments').select('course_id').eq('user_id', user.id).then(must),
         db.from('progress').select('lesson_id').eq('user_id', user.id).then(must)
       ]).then(function (r) {
         var done = {};
+        var mem = r[1], simsAll = r[2];
+        r = [r[0], r[3], r[4]];
         r[2].forEach(function (p) { done[p.lesson_id] = true; });
         return Promise.all(r[1].map(function (e) { return loadCourse(e.course_id); })).then(function (courses) {
           var cards = courses.filter(Boolean).map(function (c) {
@@ -523,8 +528,10 @@
             return el('a', { cls: 'lms-mine', href: learnLink(c, firstOpenLesson(c, done)) }, el('small', { text: c.category }), el('h3', { text: c.title }), bar(pct), el('span', { text: pct + '% complete' }));
           });
           show(el('section', { cls: 'wrap lms-page' },
-            el('span', { cls: 'kicker', text: user.email }), el('h1', { text: 'My learning' }),
+            el('span', { cls: 'kicker', text: user.email }), el('h1', { text: 'My account' }),
+            membershipPanel(mem, simsAll),
             aboutSummary(info),
+            el('h2', { cls: 'mem-h2', text: 'My courses' }),
             cards.length ? el('div', { cls: 'lms-grid' }, cards) : el('p', {}, 'You have no courses yet. ', el('a', { href: 'education.html', text: 'Browse the courses' }), '.'),
             el('div', { cls: 'actions lms-gap' },
               r[0] ? el('a', { cls: 'btn main', href: 'admin.html', text: 'Admin dashboard' }) : null,
@@ -534,117 +541,138 @@
   }
 
 
-  // ---------- Simulations access (supabase/simulations_access.sql, functions/_middleware.js) ----------
+  // ---------- Membership (supabase/membership.sql, functions/_middleware.js) ----------
+  ABOUT.account_type = [['individual', 'Individual'], ['company', 'Company'], ['education', 'University or school'], ['public', 'Government or public body'], ['other', 'Other']];
+  ABOUT.interests = [['simulations', 'Simulators'], ['courses', 'Courses and training'], ['consultancy', 'Consultancy and projects'], ['operations', 'Drone operations']];
+  var STATUS_LABEL = { pending: 'Under review', active: 'Active', blocked: 'Blocked' };
+  function membership() {
+    return db.rpc('my_membership').then(function (r) { return r.error ? null : r.data; });
+  }
+  function simulatorsList() {
+    return db.from('simulators').select('id,title,position').order('position').then(function (r) { return r.error ? [] : (r.data || []); });
+  }
+  function simLink(id) { return id === 'uav-lab' ? '/projects/uav-lab/lab/#slam' : '/projects/' + id + '/'; }
   function simNext() {
     var n = params.get('next') || '';
     return /^\/(simulations(\.html)?|projects\/[\w\-./]*)(\?[\w=&%.\-]*)?$/.test(n) ? n : '/simulations';
   }
-  function accessPage() {
-    var wrap = function () { return el('div', { cls: 'wrap lms-page lms-narrow lms-access' }, [].slice.call(arguments)); };
-    var back = 'access.html?next=' + encodeURIComponent(simNext());
-    if (!db) { show(wrap(el('h1', { text: 'Simulations' }), notice('Accounts are not switched on yet.', 'bad'))); return; }
-    session().then(function (sess) {
-      if (!sess) {
-        show(wrap(
-          el('span', { cls: 'kicker', text: 'Simulations' }),
-          el('h1', { text: 'Sign in to see the simulations' }),
-          el('p', { cls: 'lms-lead', text: 'Our simulators are open to registered users. Sign in or create a free account with your email, then we will review your request.' }),
-          el('div', { cls: 'actions' },
-            el('a', { cls: 'btn main', href: 'account.html?next=' + encodeURIComponent(back), text: 'Sign in' }),
-            el('a', { cls: 'btn quiet', href: 'account.html?mode=up&next=' + encodeURIComponent(back), text: 'Create an account' }))));
-        return;
-      }
-      syncAccessCookie(sess);
-      return db.rpc('request_sim_access').then(function (res) {
-        if (res.error) {
-          show(wrap(el('h1', { text: 'Simulations' }), notice('Simulation access is being set up. Please try again a little later.', 'bad')));
-          return;
-        }
-        var st = res.data;
-        if (st === 'approved') { location.replace(simNext()); return; }
-        var again = el('button', { cls: 'btn quiet', type: 'button', text: 'Check again', onclick: function () { location.reload(); } });
-        if (st === 'blocked') {
-          show(wrap(el('span', { cls: 'kicker', text: 'Simulations' }), el('h1', { text: 'Access not available' }),
-            el('p', { cls: 'lms-lead', text: 'This account cannot open the simulations. If you think this is a mistake, get in touch.' }),
-            el('div', { cls: 'actions' }, el('a', { cls: 'btn main', href: 'contact.html', text: 'Contact us' }))));
-          return;
-        }
-        show(wrap(el('span', { cls: 'kicker', text: 'Simulations' }), el('h1', { text: 'Your request is in' }),
-          el('div', { cls: 'lms-wait' }, el('span', { cls: 'lms-wait-dot' }),
-            el('div', {}, el('b', { text: 'Waiting for approval' }), el('span', { text: 'Signed in as ' + sess.user.email + '. You can open the simulators as soon as Holy Hornet approves your account.' }))),
-          el('div', { cls: 'actions' }, again, el('a', { cls: 'btn quiet', href: 'account.html', text: 'My account' }))));
-      });
-    }).catch(fail);
+  function accessPage() { location.replace('/simulations'); }
+
+  // The join form: one account for the whole site, with what we need to review the request.
+  function joinForm(next) {
+    var opt = function (key, required, label) {
+      return el('label', { cls: 'lms-field' }, el('span', { text: label }),
+        el('select', { name: key, required: required || null }, el('option', { value: '', text: required ? 'Choose one' : 'Choose one (optional)' }),
+          ABOUT[key].map(function (o) { return el('option', { value: o[0], text: o[1] }); })));
+    };
+    var msg = el('div');
+    var consent = el('input', { type: 'checkbox', name: 'consent', required: true });
+    var news = el('input', { type: 'checkbox', name: 'news_ok' });
+    var form = el('form', { cls: 'lms-about join', onsubmit: function (e) {
+      e.preventDefault();
+      var f = function (k) { var x = form.elements[k]; return x ? String(x.value).trim() : ''; };
+      var interests = [].filter.call(form.querySelectorAll('input[name=interest]:checked'), Boolean).map(function (x) { return x.value; });
+      if (!interests.length) { msg.textContent = ''; msg.appendChild(notice('Tick at least one thing you are interested in.', 'bad')); return; }
+      var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+      var data = { full_name: f('full_name'), country: f('country'), phone: f('phone'), account_type: f('account_type'), organisation: f('organisation'),
+        occupation: f('occupation'), experience: f('experience'), heard_from: f('heard_from'), use_case: f('use_case'), interests: interests.join(','), news_ok: news.checked };
+      var back = location.origin + location.pathname.replace(/[^/]*$/, '') + 'account.html';
+      db.auth.signUp({ email: f('email'), password: form.elements.password.value, options: { data: data, emailRedirectTo: back } }).then(must).then(function (d) {
+        if (d.session) { location.replace(next && next !== 'account.html' ? next : 'account.html'); return; }
+        show(el('div', { cls: 'wrap lms-page lms-narrow lms-access' }, el('span', { cls: 'kicker', text: 'Membership' }), el('h1', { text: 'Check your inbox' }),
+          el('div', { cls: 'lms-wait' }, el('span', { cls: 'lms-wait-dot' }), el('div', {}, el('b', { text: 'Confirm your email address' }),
+            el('span', { text: 'We sent a link to ' + f('email') + '. After you confirm, our team reviews your membership and switches on the simulators and courses that fit your request.' }))),
+          el('a', { cls: 'btn quiet', href: 'account.html', text: 'Back to sign in' })));
+      }).catch(function (err) { btn.disabled = false; msg.textContent = ''; msg.appendChild(notice(err.message, 'bad')); });
+    } },
+      el('fieldset', {}, el('legend', { text: 'Your account' }),
+        field('Full name', { type: 'text', name: 'full_name', required: true, autocomplete: 'name', maxlength: 120 }),
+        el('div', { cls: 'lms-pair' },
+          field('Work email', { type: 'email', name: 'email', required: true, autocomplete: 'email' }),
+          field('Password (8+ characters)', { type: 'password', name: 'password', required: true, minlength: 8, autocomplete: 'new-password' })),
+        el('div', { cls: 'lms-pair' },
+          field('Country', { type: 'text', name: 'country', required: true, autocomplete: 'country-name', maxlength: 80 }),
+          field('Phone (optional)', { type: 'tel', name: 'phone', autocomplete: 'tel', maxlength: 40 }))),
+      el('fieldset', {}, el('legend', { text: 'Your organisation' }),
+        opt('account_type', true, 'You are joining as'),
+        el('div', { cls: 'lms-pair' },
+          field('Organisation (optional for individuals)', { type: 'text', name: 'organisation', autocomplete: 'organization', maxlength: 120 }),
+          field('Job title or studies', { type: 'text', name: 'occupation', required: true, autocomplete: 'organization-title', maxlength: 120 })),
+        opt('experience', true, 'Your experience with drones and aviation')),
+      el('fieldset', {}, el('legend', { text: 'What you need' }),
+        el('div', { cls: 'lms-field' }, el('span', { text: 'I am interested in' }),
+          el('div', { cls: 'join-checks' }, ABOUT.interests.map(function (o) {
+            return el('label', { cls: 'join-check' }, el('input', { type: 'checkbox', name: 'interest', value: o[0] }), el('span', { text: o[1] }));
+          }))),
+        field('How will you use Holy Hornet?', { rows: 3, name: 'use_case', required: true, maxlength: 1000, placeholder: 'For example: evaluating counter-drone tracking for an airport, training our pilots, a student project…' }),
+        opt('heard_from', false, 'How did you hear about us?'),
+        el('label', { cls: 'lms-check' }, news, el('span', { text: 'Email me about new simulators and courses.' })),
+        el('label', { cls: 'lms-check' }, consent, el('span', { text: 'I agree that Holy Hornet stores these details to review my membership and contact me about it.' }))),
+      msg,
+      el('div', { cls: 'actions' }, el('button', { cls: 'btn main', type: 'submit', text: 'Request membership' }),
+        el('a', { cls: 'btn quiet', href: 'account.html' + (next && next !== 'account.html' ? '?next=' + encodeURIComponent(next) : ''), text: 'I already have an account' })));
+    document.title = 'Become a member | Holy Hornet';
+    show(el('div', { cls: 'wrap lms-page lms-about-page' },
+      el('span', { cls: 'kicker', text: 'Membership' }), el('h1', { text: 'Become a member' }),
+      el('p', { cls: 'lms-lead', text: 'One account for everything on holyhornet.com: simulators, courses and projects. Tell us a little about yourself and our team will review your request and open the parts that fit.' }),
+      el('ol', { cls: 'join-steps' }, el('li', {}, el('b', { text: 'Apply' }), el('span', { text: 'Create your account below' })),
+        el('li', {}, el('b', { text: 'Confirm' }), el('span', { text: 'Click the link in your email' })),
+        el('li', {}, el('b', { text: 'Get access' }), el('span', { text: 'We review and open your simulators and courses' }))),
+      form));
   }
 
+  function membershipPanel(mem, sims) {
+    if (!mem) return null;
+    var st = mem.status;
+    var open = sims.filter(function (s) { return mem.sims.indexOf(s.id) !== -1; });
+    var head = el('div', { cls: 'mem-head' },
+      el('div', {}, el('small', { text: 'Membership' }), el('b', { text: mem.is_admin ? 'Administrator' : 'Holy Hornet member' })),
+      el('span', { cls: 'sim-pill ' + (mem.is_admin ? 'active' : st), text: mem.is_admin ? 'Full access' : STATUS_LABEL[st] || st }));
+    var body;
+    if (st === 'pending') body = el('p', { cls: 'lms-soft', text: 'Thanks for joining. Our team is reviewing your membership and will switch on the simulators and courses that fit your request.' });
+    else if (st === 'blocked') body = el('p', { cls: 'lms-soft' }, 'This membership is not active. ', el('a', { href: 'contact.html', text: 'Contact us' }), ' if you think this is a mistake.');
+    else body = el('div', {}, el('h3', { text: 'Your simulators' }),
+      open.length ? el('div', { cls: 'mem-sims' }, open.map(function (s) { return el('a', { href: simLink(s.id) }, el('span', { text: s.title }), el('i', { text: 'Open →' })); }))
+        : el('p', { cls: 'lms-soft' }, 'No simulators are switched on for you yet. ', el('a', { href: 'contact.html?need=Simulations', text: 'Ask for access' }), '.'));
+    return el('section', { cls: 'mem-panel' }, head, body);
+  }
 
   // ---------- the Simulations page itself ----------
   function simSignOut() { return db.auth.signOut().then(function () { location.replace('/simulations'); }); }
-  function simAfterSignIn(box, user) {
-    syncAccessCookie(null);
-    return db.auth.getSession().then(function (r) {
-      syncAccessCookie(r.data.session);
-      return db.rpc('request_sim_access');
-    }).then(function (res) {
-      var st = res.error ? 'error' : res.data;
-      if (st === 'approved') {
-        var last = 0;
-        try { last = +sessionStorage.getItem('hh-sim-hop') || 0; sessionStorage.setItem('hh-sim-hop', String(Date.now())); } catch (e) { /* storage blocked */ }
-        if (Date.now() - last > 15000) { location.replace(simNext()); return; }
-        box.textContent = '';
-        box.appendChild(el('div', {}, el('h2', { text: 'You are approved' }), el('p', { cls: 'lms-soft', text: 'Your browser did not keep the sign-in cookie the simulators need. Allow cookies for holyhornet.com, then try again.' }),
-          el('a', { cls: 'btn main', href: '/simulations', text: 'Open the simulators' })));
-        return;
-      }
-      box.textContent = '';
-      var who = el('p', { cls: 'lms-soft sim-who' }, 'Signed in as ' + user.email + ' · ', el('button', { cls: 'lms-link', type: 'button', text: 'Sign out', onclick: simSignOut }));
-      if (st === 'blocked') {
-        box.appendChild(el('div', {}, el('h2', { text: 'Access not available' }), el('p', { cls: 'lms-soft', text: 'This account cannot open the simulators. If you think this is a mistake, get in touch.' }),
-          el('a', { cls: 'btn main', href: 'contact.html', text: 'Contact us' }), who));
-      } else if (st === 'error') {
-        box.appendChild(el('div', {}, el('h2', { text: 'Almost there' }), notice('Simulation access is being set up. Please try again a little later.', 'bad'), who));
-      } else {
-        box.appendChild(el('div', {},
-          el('div', { cls: 'lms-wait' }, el('span', { cls: 'lms-wait-dot' }),
-            el('div', {}, el('b', { text: 'Waiting for approval' }), el('span', { text: 'Your request is in. You can open every simulator as soon as Holy Hornet approves your account.' }))),
-          el('button', { cls: 'btn quiet', type: 'button', text: 'Check again', onclick: function () { location.reload(); } }), who));
-      }
-    });
+  function simHop() {
+    var last = 0;
+    try { last = +sessionStorage.getItem('hh-sim-hop') || 0; sessionStorage.setItem('hh-sim-hop', String(Date.now())); } catch (e) { /* storage blocked */ }
+    return Date.now() - last > 15000;
   }
   function simAuthPanel(box) {
-    var mode = 'in';
+    var reset = false;
     function render(msgText, kind) {
-      var name = field('Full name', { type: 'text', required: true, autocomplete: 'name', maxlength: 120 });
       var mail = field('Email', { type: 'email', required: true, autocomplete: 'email' });
-      var pw = field('Password', { type: 'password', required: true, minlength: 8, autocomplete: mode === 'up' ? 'new-password' : 'current-password' });
+      var pw = field('Password', { type: 'password', required: true, minlength: 8, autocomplete: 'current-password' });
       var msg = el('div');
       if (msgText) msg.appendChild(notice(msgText, kind));
       var v = function (f) { return f.querySelector('input').value.trim(); };
-      var tab = function (m, text) { return el('button', { type: 'button', role: 'tab', 'aria-selected': String(mode === m), text: text, onclick: function () { mode = m; render(); } }); };
       var form = el('form', { onsubmit: function (e) {
         e.preventDefault();
         var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
         var done = function (err) { btn.disabled = false; msg.textContent = ''; msg.appendChild(notice(err.message, 'bad')); };
-        if (mode === 'in') {
-          db.auth.signInWithPassword({ email: v(mail), password: pw.querySelector('input').value }).then(must).then(function (d) { return simAfterSignIn(box, d.user); }).catch(done);
-        } else if (mode === 'up') {
-          db.auth.signUp({ email: v(mail), password: pw.querySelector('input').value, options: { data: { full_name: v(name) }, emailRedirectTo: location.origin + '/simulations' } }).then(must).then(function (d) {
-            if (d.session) return simAfterSignIn(box, d.user);
-            mode = 'in'; render('Check your email and click the link to confirm your account. Then sign in here to ask for access.', 'good');
+        if (!reset) {
+          db.auth.signInWithPassword({ email: v(mail), password: pw.querySelector('input').value }).then(must).then(function (d) {
+            syncAccessCookie(d.session);
+            location.replace(simNext());
           }).catch(done);
         } else {
           db.auth.resetPasswordForEmail(v(mail), { redirectTo: location.origin + '/account.html' }).then(must).then(function () { btn.disabled = false; msg.textContent = ''; msg.appendChild(notice('If that address has an account, a reset link is on its way.', 'good')); }).catch(done);
         }
-      } },
-        mode === 'up' ? name : null, mail, mode !== 'reset' ? pw : null, msg,
-        el('button', { cls: 'btn main', type: 'submit', text: mode === 'in' ? 'Sign in' : mode === 'up' ? 'Create account' : 'Send reset link' }));
+      } }, mail, reset ? null : pw, msg, el('button', { cls: 'btn main', type: 'submit', text: reset ? 'Send reset link' : 'Sign in' }));
       box.textContent = '';
-      box.appendChild(el('h2', { text: mode === 'up' ? 'Create your account' : mode === 'in' ? 'Sign in to open the simulators' : 'Reset your password' }));
-      box.appendChild(el('p', { cls: 'lms-soft', text: mode === 'up' ? 'Free with your email. We review each request before the simulators open.' : 'Members can open every simulator. New here? Create an account and ask for access.' }));
-      box.appendChild(el('div', { cls: 'sim-tabs', role: 'tablist' }, tab('in', 'Sign in'), tab('up', 'Create account')));
+      box.appendChild(el('span', { cls: 'kicker', text: 'Members' }));
+      box.appendChild(el('h2', { text: reset ? 'Reset your password' : 'Sign in to open the simulators' }));
+      box.appendChild(el('p', { cls: 'lms-soft', text: 'One Holy Hornet account gives you simulators and courses. Our team opens each one for you after reviewing your membership.' }));
       box.appendChild(form);
-      if (mode === 'in') box.appendChild(el('button', { cls: 'lms-link sim-forgot', type: 'button', text: 'Forgot password?', onclick: function () { mode = 'reset'; render(); } }));
-      if (mode === 'reset') box.appendChild(el('button', { cls: 'lms-link sim-forgot', type: 'button', text: 'Back to sign in', onclick: function () { mode = 'in'; render(); } }));
+      box.appendChild(el('button', { cls: 'lms-link sim-forgot', type: 'button', text: reset ? 'Back to sign in' : 'Forgot password?', onclick: function () { reset = !reset; render(); } }));
+      box.appendChild(el('div', { cls: 'sim-join' }, el('span', { text: 'New to Holy Hornet?' }),
+        el('a', { cls: 'btn quiet', href: 'account.html?mode=up&next=simulations.html', text: 'Become a member' })));
     }
     render();
   }
@@ -653,7 +681,13 @@
     if (!box) return;
     if (!db) { box.textContent = ''; box.appendChild(notice('Accounts are not switched on yet.', 'bad')); return; }
     session().then(function (sess) {
-      if (sess) return simAfterSignIn(box, sess.user);
+      if (sess && simHop()) { syncAccessCookie(sess); location.replace(simNext()); return; }
+      if (sess) {
+        box.textContent = '';
+        box.appendChild(el('div', {}, el('h2', { text: 'You are signed in' }), el('p', { cls: 'lms-soft', text: 'Your browser did not keep the sign-in cookie the simulators need. Allow cookies for holyhornet.com, then try again.' }),
+          el('a', { cls: 'btn main', href: '/simulations', text: 'Open the simulators' })));
+        return;
+      }
       simAuthPanel(box);
     }).catch(function (e) { box.textContent = ''; box.appendChild(notice(e.message, 'bad')); });
   }
@@ -661,73 +695,179 @@
     if (!db) return;
     session().then(function (sess) {
       if (!sess) return;
-      var bar = document.getElementById('sim-bar');
-      if (bar) bar.appendChild(el('p', { cls: 'lms-soft sim-who' }, 'Signed in as ' + sess.user.email + ' · ', el('button', { cls: 'lms-link', type: 'button', text: 'Sign out', onclick: simSignOut })));
-      return isAdmin(sess.user).then(function (ok) { if (ok) adminSims(document.getElementById('sim-admin')); });
+      return Promise.all([membership(), simulatorsList()]).then(function (r) {
+        var mem = r[0] || { status: 'pending', sims: [], is_admin: false }, sims = r[1];
+        var locked = params.get('locked');
+        var bar = document.getElementById('sim-bar');
+        var openCount = mem.sims.length;
+        var line = mem.is_admin ? 'Administrator: every simulator is open.'
+          : mem.status === 'pending' ? 'Your membership is under review. We will open simulators for you once it is approved.'
+          : mem.status === 'blocked' ? 'Your membership is not active.'
+          : openCount + ' of ' + sims.length + ' simulators are open in your membership.';
+        if (bar) bar.appendChild(el('div', { cls: 'sim-status ' + (mem.is_admin ? 'active' : mem.status) },
+          el('span', { cls: 'sim-pill ' + (mem.is_admin ? 'active' : mem.status), text: mem.is_admin ? 'Admin' : STATUS_LABEL[mem.status] || mem.status }),
+          el('span', { text: line }),
+          el('span', { cls: 'sim-who' }, sess.user.email + ' · ', el('a', { href: 'account.html', text: 'My account' }), ' · ', el('button', { cls: 'lms-link', type: 'button', text: 'Sign out', onclick: simSignOut }))));
+        [].forEach.call(document.querySelectorAll('article.feature'), function (art) {
+          var a = art.querySelector('a[href^="/projects/"]');
+          var m = a && /^\/projects\/([a-z0-9-]+)\//.exec(a.getAttribute('href'));
+          if (!m) return;
+          var id = m[1];
+          if (mem.is_admin || mem.sims.indexOf(id) !== -1) return;
+          art.classList.add('sim-locked');
+          if (locked === id) { art.classList.add('sim-flag'); setTimeout(function () { art.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300); }
+          [].forEach.call(art.querySelectorAll('a[href^="/projects/"]'), function (x) { x.removeAttribute('href'); x.setAttribute('aria-disabled', 'true'); x.tabIndex = -1; });
+          var tag = art.querySelector('.live-tag'); if (tag) tag.textContent = 'Locked';
+          var acts = art.querySelector('.actions');
+          var note = el('div', { cls: 'sim-lockline' }, el('b', { text: mem.status === 'pending' ? 'Opens after your membership is approved' : 'Not part of your membership yet' }),
+            el('a', { cls: 'btn quiet', href: 'contact.html?need=Simulations&sim=' + encodeURIComponent(id), text: 'Ask for access' }));
+          if (acts) acts.replaceWith(note); else art.querySelector('.pbody').appendChild(note);
+        });
+        if (mem.is_admin) {
+          db.rpc('admin_members').then(function (x) {
+            if (x.error) return;
+            var waiting = (x.data || []).filter(function (q) { return q.status === 'pending'; }).length;
+            var box = document.getElementById('sim-admin');
+            if (box && waiting) box.appendChild(el('a', { cls: 'sim-banner', href: 'admin.html?view=members' }, el('b', { text: waiting + (waiting === 1 ? ' new member is' : ' new members are') + ' waiting for review' }), el('span', { text: 'Open Members →' })));
+          });
+        }
+      });
     }).catch(function () {});
   }
 
-  function adminSims(target) {
-    return db.rpc('admin_sim_requests').then(function (res) {
-      var head = [el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Simulations access' }), adminTabs('simulations')];
-      if (res.error) {
-        if (target) return;
-        show(el('div', { cls: 'wrap lms-page' }, head, notice('Simulation access is not switched on yet. In Supabase, open SQL Editor and run supabase/simulations_access.sql once.', 'bad')));
+  // ---------- admin: members ----------
+  function adminMembers() {
+    return Promise.all([db.rpc('admin_members'), simulatorsList(), db.from('courses').select('id,title').order('position').then(must)]).then(function (r) {
+      var head = [el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Members' }), adminTabs('members')];
+      if (r[0].error) {
+        show(el('div', { cls: 'wrap lms-page' }, head, notice('Membership is not switched on yet. In Supabase, open SQL Editor and run supabase/membership.sql once.', 'bad')));
         return;
       }
-      var rows = res.data || [];
-      var state = { f: rows.some(function (r) { return r.status === 'pending'; }) ? 'pending' : 'all', q: '' };
-      var count = function (k) { return rows.filter(function (r) { return k === 'all' || r.status === k; }).length; };
-      var body = el('tbody'), info = el('p', { cls: 'lms-count', role: 'status' });
+      var rows = r[0].data || [], sims = r[1], courses = r[2];
+      var simTitle = {}; sims.forEach(function (s) { simTitle[s.id] = s.title; });
+      var courseTitle = {}; courses.forEach(function (c) { courseTitle[c.id] = c.title; });
+      var state = { f: rows.some(function (x) { return x.status === 'pending'; }) ? 'pending' : 'all', q: '' };
+      var count = function (k) { return rows.filter(function (x) { return k === 'all' || x.status === k; }).length; };
       var chips = el('div', { cls: 'hhd-seg', role: 'group', 'aria-label': 'Show' });
-      var search = el('input', { type: 'search', placeholder: 'Search name or email', 'aria-label': 'Search' });
-      var label = { pending: 'Waiting', approved: 'Approved', blocked: 'Blocked' };
-      function set(r, st, btn) {
-        btn.disabled = true;
-        db.rpc('admin_set_sim_access', { target: r.user_id, new_status: st }).then(must).then(function () {
-          r.status = st; r.decided_at = new Date().toISOString(); draw();
-        }).catch(function (e) { btn.disabled = false; alert(e.message); });
+      var search = el('input', { type: 'search', placeholder: 'Search name, email or organisation', 'aria-label': 'Search members' });
+      var body = el('tbody'), info = el('p', { cls: 'lms-count', role: 'status' });
+      var dialog = el('dialog', { cls: 'hhd-dialog mem-dialog' });
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
+      var stat = function (n, label, cls) { return el('div', { cls: 'hhd-kpi' }, el('span', { text: label }), el('b', { cls: cls || null, text: String(n) })); };
+      var kpis = el('div', { cls: 'hhd-kpis mem-kpis' });
+
+      function access(x) { return x.sims.length + (x.sims.length === 1 ? ' simulator' : ' simulators') + ' · ' + x.courses.length + (x.courses.length === 1 ? ' course' : ' courses'); }
+      function call(fn, args, btn) {
+        if (btn) btn.disabled = true;
+        return db.rpc(fn, args).then(must).catch(function (e) { alert(e.message); throw e; }).finally(function () { if (btn) btn.disabled = false; });
+      }
+      function manage(x) {
+        var d = x.details || {};
+        function paint() {
+          dialog.textContent = '';
+          var line = function (k, v) { return v ? el('div', {}, el('dt', { text: k }), el('dd', { text: v })) : null; };
+          var setStatus = function (st, text, cls) {
+            var b = el('button', { cls: 'btn ' + cls, type: 'button', text: text, disabled: x.status === st || null });
+            b.addEventListener('click', function () { call('admin_set_member', { target: x.user_id, new_status: st }, b).then(function () { x.status = st; x.decided_at = new Date().toISOString(); paint(); draw(); }); });
+            return b;
+          };
+          var toggle = function (kind, id, label, on, lockedPaid) {
+            var input = el('input', { type: 'checkbox', checked: on, disabled: lockedPaid || null });
+            input.addEventListener('change', function () {
+              var allow = input.checked;
+              call('admin_set_access', { target: x.user_id, kind: kind, item: id, allow: allow }).then(function () {
+                var list = kind === 'sim' ? x.sims : x.courses;
+                if (kind === 'sim') { if (allow) list.push(id); else list.splice(list.indexOf(id), 1); }
+                else { if (allow) list.push({ id: id, paid: false }); else x.courses = list.filter(function (c) { return c.id !== id; }); }
+                if (allow && x.status === 'pending') x.status = 'active';
+                paint(); draw();
+              }).catch(function () { input.checked = !allow; });
+            });
+            return el('label', { cls: 'mem-toggle' + (on ? ' on' : '') }, input, el('span', { text: label }), lockedPaid ? el('small', { text: 'Paid' }) : null);
+          };
+          var note = el('textarea', { rows: 2, maxlength: 2000, placeholder: 'Private note about this member', value: x.admin_note || '' });
+          var saveNote = el('button', { cls: 'btn quiet', type: 'button', text: 'Save note' });
+          saveNote.addEventListener('click', function () { call('admin_set_note', { target: x.user_id, note: note.value }, saveNote).then(function () { x.admin_note = note.value; saveNote.textContent = 'Saved'; }); });
+          var allSims = el('button', { cls: 'lms-link', type: 'button', text: 'All on' });
+          allSims.addEventListener('click', function () {
+            var todo = sims.filter(function (s) { return x.sims.indexOf(s.id) === -1; });
+            Promise.all(todo.map(function (s) { return call('admin_set_access', { target: x.user_id, kind: 'sim', item: s.id, allow: true }); })).then(function () {
+              todo.forEach(function (s) { x.sims.push(s.id); }); if (x.status === 'pending') x.status = 'active'; paint(); draw();
+            });
+          });
+          var noSims = el('button', { cls: 'lms-link', type: 'button', text: 'All off' });
+          noSims.addEventListener('click', function () {
+            var todo = x.sims.slice();
+            Promise.all(todo.map(function (id) { return call('admin_set_access', { target: x.user_id, kind: 'sim', item: id, allow: false }); })).then(function () { x.sims = []; paint(); draw(); });
+          });
+          dialog.appendChild(el('div', { cls: 'hhd-dialog-head' },
+            el('div', {}, el('h2', { text: x.full_name || '(no name)' }), el('a', { href: 'mailto:' + x.email, text: x.email }),
+              el('div', { cls: 'mem-badges' }, el('span', { cls: 'sim-pill ' + x.status, text: STATUS_LABEL[x.status] || x.status }), x.confirmed ? null : el('span', { cls: 'sim-pill', text: 'Email not confirmed' }), x.is_admin ? el('span', { cls: 'sim-pill active', text: 'Admin' }) : null)),
+            el('button', { cls: 'btn quiet', type: 'button', text: 'Close', onclick: function () { dialog.close(); } })));
+          dialog.appendChild(el('div', { cls: 'mem-actions' }, setStatus('active', 'Activate', 'main'), setStatus('blocked', 'Block', 'quiet'), setStatus('pending', 'Back to review', 'quiet')));
+          dialog.appendChild(el('dl', { cls: 'hhd-about' },
+            line('Joining as', aboutLabel('account_type', d.account_type)), line('Organisation', d.organisation),
+            line('Job title or studies', d.occupation), line('Country', [d.city, d.country].filter(Boolean).join(', ')),
+            line('Phone', d.phone), line('Experience', aboutLabel('experience', d.experience)),
+            line('Interested in', (d.interests || '').split(',').filter(Boolean).map(function (k) { return aboutLabel('interests', k); }).join(', ')),
+            line('Heard about us', aboutLabel('heard_from', d.heard_from)), line('Course news', d.news_ok ? 'Yes' : (x.details ? 'No' : '')),
+            line('Signed up', day(x.signed_up)), line('Last sign-in', x.last_sign_in ? day(x.last_sign_in) : 'Never')));
+          if (d.use_case || d.notes) dialog.appendChild(el('blockquote', { cls: 'mem-use' }, el('small', { text: 'How they will use Holy Hornet' }), el('p', { text: d.use_case || d.notes })));
+          dialog.appendChild(el('section', { cls: 'mem-grid' },
+            el('div', {}, el('div', { cls: 'mem-grid-head' }, el('h3', { text: 'Simulators' }), el('span', {}, allSims, ' · ', noSims)),
+              el('div', { cls: 'mem-toggles' }, sims.map(function (s) { return toggle('sim', s.id, s.title, x.sims.indexOf(s.id) !== -1, false); }))),
+            el('div', {}, el('div', { cls: 'mem-grid-head' }, el('h3', { text: 'Courses' })),
+              el('div', { cls: 'mem-toggles' }, courses.map(function (c) {
+                var has = x.courses.filter(function (k) { return k.id === c.id; })[0];
+                return toggle('course', c.id, c.title, !!has, has && has.paid);
+              })))));
+          dialog.appendChild(el('div', { cls: 'mem-note' }, el('h3', { text: 'Private note' }), note, saveNote));
+        }
+        paint();
+        if (!dialog.open) dialog.showModal();
       }
       function draw() {
+        kpis.textContent = '';
+        kpis.appendChild(stat(count('all'), 'Members'));
+        kpis.appendChild(stat(count('pending'), 'Waiting for review'));
+        kpis.appendChild(stat(count('active'), 'Active'));
+        kpis.appendChild(stat(count('blocked'), 'Blocked'));
+        kpis.appendChild(stat(rows.filter(function (x) { return x.sims.length; }).length, 'With simulators'));
+        kpis.appendChild(stat(rows.filter(function (x) { return x.courses.length; }).length, 'With courses'));
         chips.textContent = '';
-        [['pending', 'Waiting'], ['approved', 'Approved'], ['blocked', 'Blocked'], ['all', 'All']].forEach(function (o) {
+        [['pending', 'Waiting'], ['active', 'Active'], ['blocked', 'Blocked'], ['all', 'All']].forEach(function (o) {
           chips.appendChild(el('button', { type: 'button', 'aria-pressed': String(state.f === o[0]), text: o[1] + ' (' + count(o[0]) + ')', onclick: function () { state.f = o[0]; draw(); } }));
         });
         var q = state.q.trim().toLowerCase();
-        var list = rows.filter(function (r) { return (state.f === 'all' || r.status === state.f) && (!q || (r.full_name + ' ' + r.email).toLowerCase().indexOf(q) !== -1); });
-        info.textContent = list.length + ' of ' + rows.length + ' requests';
-        body.textContent = '';
-        list.forEach(function (r) {
-          var d = r.details || {};
-          var btn = function (st, text, cls) { var b = el('button', { cls: 'btn ' + cls, type: 'button', text: text }); b.addEventListener('click', function () { set(r, st, b); }); return b; };
-          body.appendChild(el('tr', {},
-            el('td', { 'data-label': 'Person' }, el('b', { text: r.full_name || '(no name)' }), el('span', { cls: 'lms-soft', text: r.email + (d.country ? ' · ' + d.country : '') }),
-              d.experience || d.organisation ? el('small', { cls: 'lms-soft', text: [aboutLabel('experience', d.experience), d.organisation].filter(Boolean).join(' · ') }) : null),
-            el('td', { 'data-label': 'Asked', text: day(r.requested_at) }),
-            el('td', { 'data-label': 'Status' }, el('span', { cls: 'sim-pill ' + r.status, text: label[r.status] || r.status }), r.decided_at ? el('small', { cls: 'lms-soft', text: ' ' + day(r.decided_at) }) : null),
-            el('td', { 'data-label': 'Action', cls: 'sim-actions' },
-              r.status !== 'approved' ? btn('approved', 'Approve', 'main') : null,
-              r.status !== 'blocked' ? btn('blocked', 'Block', 'quiet') : null,
-              r.status === 'blocked' ? btn('pending', 'Move to waiting', 'quiet') : null)));
+        var list = rows.filter(function (x) {
+          var d = x.details || {};
+          return (state.f === 'all' || x.status === state.f) && (!q || (x.full_name + ' ' + x.email + ' ' + (d.organisation || '')).toLowerCase().indexOf(q) !== -1);
         });
-        if (!list.length) body.appendChild(el('tr', {}, el('td', { colspan: 4, cls: 'lms-soft', text: state.f === 'pending' ? 'Nobody is waiting for approval.' : 'No requests here.' })));
+        info.textContent = list.length + ' of ' + rows.length + ' members';
+        body.textContent = '';
+        list.forEach(function (x) {
+          var d = x.details || {};
+          var open = function () { manage(x); };
+          body.appendChild(el('tr', { tabindex: 0, onclick: open, onkeydown: function (e) { if (e.key === 'Enter') open(); } },
+            el('td', { 'data-label': 'Member' }, el('b', { text: x.full_name || '(no name)' }), el('span', { cls: 'lms-soft', text: x.email }),
+              el('small', { cls: 'lms-soft', text: [aboutLabel('account_type', d.account_type), d.organisation, d.country].filter(Boolean).join(' · ') })),
+            el('td', { 'data-label': 'Status' }, el('span', { cls: 'sim-pill ' + x.status, text: STATUS_LABEL[x.status] || x.status })),
+            el('td', { 'data-label': 'Joined', text: day(x.signed_up) }),
+            el('td', { 'data-label': 'Access', text: access(x) }),
+            el('td', { 'data-label': '', cls: 'sim-actions' }, el('button', { cls: 'btn ' + (x.status === 'pending' ? 'main' : 'quiet'), type: 'button', text: x.status === 'pending' ? 'Review' : 'Manage', onclick: function (e) { e.stopPropagation(); open(); } }))));
+        });
+        if (!list.length) body.appendChild(el('tr', {}, el('td', { colspan: 5, cls: 'lms-soft', text: state.f === 'pending' ? 'Nobody is waiting for review.' : 'No members here.' })));
       }
       search.addEventListener('input', function () { state.q = search.value; draw(); });
-      var panel = [
-        el('p', { cls: 'hhd-sub', text: 'People who sign in on holyhornet.com/simulations appear here. Approved people can open every simulator; blocked or waiting people cannot.' }),
-        el('div', { cls: 'lms-filters' }, chips, search), info,
-        el('div', { cls: 'lms-table-wrap' }, el('table', { cls: 'lms-table sim-table' },
-          el('thead', {}, el('tr', {}, ['Person', 'Asked', 'Status', 'Action'].map(function (h) { return el('th', { scope: 'col', text: h }); }))), body))];
-      if (target) {
-        var waitingNow = count('pending');
-        target.textContent = '';
-        target.appendChild(el('details', { cls: 'sim-adminbox hhd', open: waitingNow > 0 || null },
-          el('summary', {}, el('b', { text: 'Admin · Simulation access' }), el('span', { cls: 'sim-pill pending', text: waitingNow + ' waiting' }), el('a', { href: 'admin.html?view=simulations', text: 'Open in admin' })),
-          el('div', { cls: 'sim-adminbody' }, panel)));
-      } else {
-        document.title = 'Simulations access | Holy Hornet';
-        show(el('div', { cls: 'wrap lms-page hhd' }, head, panel));
-      }
+      document.title = 'Members | Holy Hornet';
+      show(el('div', { cls: 'wrap lms-page hhd' }, head,
+        el('p', { cls: 'hhd-sub', text: 'Everyone who creates an account appears here. Review each request, then switch on the simulators and courses they may open.' }),
+        kpis,
+        el('section', { cls: 'hhd-card' },
+          el('div', { cls: 'lms-filters' }, chips, search), info,
+          el('div', { cls: 'lms-table-wrap' }, el('table', { cls: 'lms-table sim-table mem-table' },
+            el('thead', {}, el('tr', {}, ['Member', 'Status', 'Joined', 'Access', ''].map(function (h) { return el('th', { scope: 'col', text: h }); }))), body))),
+        dialog));
       draw();
     });
   }
@@ -740,7 +880,7 @@
       return isAdmin(s.user).then(function (ok) {
         if (!ok) { location.replace('account.html'); return; }
         if (params.get('view') === 'students') return adminStudents();
-        if (params.get('view') === 'simulations') return adminSims();
+        if (params.get('view') === 'members' || params.get('view') === 'simulations') return adminMembers();
         if (params.get('view') !== 'courses' && !params.get('c')) return adminDashboard();
         return db.from('courses').select('id,title').order('position').then(must).then(function (list) { adminCourse(list, params.get('c') || list[0].id, null); });
       });
@@ -750,7 +890,7 @@
   function adminTabs(current) {
     var tab = function (key, href, text) { return el('a', { href: href, text: text, 'aria-current': current === key ? 'page' : null }); };
     return el('nav', { cls: 'lms-tabs', 'aria-label': 'Admin sections' },
-      tab('dashboard', 'admin.html', 'Dashboard'), tab('courses', 'admin.html?view=courses', 'Courses'), tab('students', 'admin.html?view=students', 'Students'), tab('simulations', 'admin.html?view=simulations', 'Simulations'));
+      tab('dashboard', 'admin.html', 'Dashboard'), tab('members', 'admin.html?view=members', 'Members'), tab('courses', 'admin.html?view=courses', 'Courses'), tab('students', 'admin.html?view=students', 'Students'));
   }
 
   // ---------- admin: students ----------
@@ -907,7 +1047,7 @@
         return;
       }
       var allRows = must(r[0]), courses = r[1], waiting = 0;
-      db.rpc('admin_sim_requests').then(function (x) { if (!x.error) { waiting = (x.data || []).filter(function (q) { return q.status === 'pending'; }).length; if (waiting) render(); } });
+      db.rpc('admin_members').then(function (x) { if (!x.error) { waiting = (x.data || []).filter(function (q) { return q.status === 'pending'; }).length; if (waiting) render(); } });
       var state = { range: '90', staff: false, q: '', filter: '', sort: 'signed_up', dir: -1 };
       try { var saved = JSON.parse(localStorage.getItem('hh-dash') || '{}'); if (saved.range) state.range = saved.range; } catch (e) { /* storage blocked */ }
       var root = el('div', { cls: 'wrap lms-page hhd' });
@@ -1108,7 +1248,7 @@
           el('div', {}, el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Dashboard' })),
           el('div', { cls: 'hhd-tools' }, seg, refresh)));
         root.appendChild(adminTabs('dashboard'));
-        if (waiting) root.appendChild(el('a', { cls: 'sim-banner', href: 'admin.html?view=simulations' }, el('b', { text: waiting + (waiting === 1 ? ' person is' : ' people are') + ' waiting for simulation access' }), el('span', { text: 'Review →' })));
+        if (waiting) root.appendChild(el('a', { cls: 'sim-banner', href: 'admin.html?view=members' }, el('b', { text: waiting + (waiting === 1 ? ' new member is' : ' new members are') + ' waiting for review' }), el('span', { text: 'Review →' })));
         root.appendChild(el('p', { cls: 'hhd-sub' }, 'Showing the ' + rangeName + '. Updated ' + loadedAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) + '. ', staff));
 
         var cmp = w.prev !== null;

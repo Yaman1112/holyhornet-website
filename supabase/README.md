@@ -53,6 +53,12 @@ their account page). Admins see the answers on the dashboard and in the Students
 `student_details.sql` run once in **SQL Editor** (a project built from the current `schema.sql` already has it).
 Until it is run, the site simply skips the form.
 
+### Membership (one account for the whole site)
+Run `membership.sql` once (after `student_details.sql` and `simulations_access.sql`). Everyone signs up through the
+join form (`account.html?mode=up`), which stores their organisation, role, interests and intended use. New members
+are "Under review". In `admin.html` → **Members** you activate or block each person and switch on single simulators
+and courses. `functions/_middleware.js` only lets a member open `/projects/<simulator>/` when it is switched on for them.
+
 ### Simulations access
 holyhornet.com/simulations and every simulator under /projects/ are locked by `functions/_middleware.js`
 (a Cloudflare Pages Function; `_routes.json` lists the paths). Visitors sign in, ask for access on `access.html`,
