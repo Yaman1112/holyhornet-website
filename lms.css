@@ -346,3 +346,20 @@
 .sim-actions{white-space:nowrap}.sim-actions .btn{min-height:38px;padding:0 14px;margin:2px 6px 2px 0}
 .sim-banner{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 18px;padding:14px 18px;border-radius:var(--r);border:1.5px solid var(--honey);background:var(--honey-tint);color:var(--ink);text-decoration:none}
 .sim-banner span{font-weight:700;color:var(--honey-ink)}
+
+/* ---------- simulations page: sign-in panel and admin box ---------- */
+.sim-auth h2{font-size:26px;margin:0 0 6px}
+.sim-auth .lms-field input{background:var(--bg)}
+.sim-tabs{display:flex;gap:4px;padding:3px;margin:16px 0 18px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.sim-tabs button{flex:1;border:0;background:none;color:var(--soft);font:600 15px var(--sans);padding:9px 10px;border-radius:9px;cursor:pointer}
+.sim-tabs button[aria-selected="true"]{background:var(--honey-tint);color:var(--ink);box-shadow:inset 0 0 0 1px var(--honey)}
+.sim-auth form .btn{width:100%}
+.sim-forgot{display:block;margin:12px auto 0}
+.sim-who{margin:14px 0 0;font-size:14px}
+#sim-bar .sim-who{margin:0 0 14px;text-align:right}
+.sim-adminbox{margin:0 0 24px;border:1.5px solid var(--honey);border-radius:var(--r);background:var(--card)}
+.sim-adminbox>summary{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:16px 20px;cursor:pointer;list-style:none}
+.sim-adminbox>summary::-webkit-details-marker{display:none}
+.sim-adminbox>summary b{font-size:17px}
+.sim-adminbox>summary a{margin-left:auto;font-weight:600;font-size:14px}
+.sim-adminbody{padding:0 20px 20px}

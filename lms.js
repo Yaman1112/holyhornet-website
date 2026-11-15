@@ -577,10 +577,101 @@
     }).catch(fail);
   }
 
-  function adminSims() {
+
+  // ---------- the Simulations page itself ----------
+  function simSignOut() { return db.auth.signOut().then(function () { location.replace('/simulations'); }); }
+  function simAfterSignIn(box, user) {
+    syncAccessCookie(null);
+    return db.auth.getSession().then(function (r) {
+      syncAccessCookie(r.data.session);
+      return db.rpc('request_sim_access');
+    }).then(function (res) {
+      var st = res.error ? 'error' : res.data;
+      if (st === 'approved') {
+        var last = 0;
+        try { last = +sessionStorage.getItem('hh-sim-hop') || 0; sessionStorage.setItem('hh-sim-hop', String(Date.now())); } catch (e) { /* storage blocked */ }
+        if (Date.now() - last > 15000) { location.replace(simNext()); return; }
+        box.textContent = '';
+        box.appendChild(el('div', {}, el('h2', { text: 'You are approved' }), el('p', { cls: 'lms-soft', text: 'Your browser did not keep the sign-in cookie the simulators need. Allow cookies for holyhornet.com, then try again.' }),
+          el('a', { cls: 'btn main', href: '/simulations', text: 'Open the simulators' })));
+        return;
+      }
+      box.textContent = '';
+      var who = el('p', { cls: 'lms-soft sim-who' }, 'Signed in as ' + user.email + ' · ', el('button', { cls: 'lms-link', type: 'button', text: 'Sign out', onclick: simSignOut }));
+      if (st === 'blocked') {
+        box.appendChild(el('div', {}, el('h2', { text: 'Access not available' }), el('p', { cls: 'lms-soft', text: 'This account cannot open the simulators. If you think this is a mistake, get in touch.' }),
+          el('a', { cls: 'btn main', href: 'contact.html', text: 'Contact us' }), who));
+      } else if (st === 'error') {
+        box.appendChild(el('div', {}, el('h2', { text: 'Almost there' }), notice('Simulation access is being set up. Please try again a little later.', 'bad'), who));
+      } else {
+        box.appendChild(el('div', {},
+          el('div', { cls: 'lms-wait' }, el('span', { cls: 'lms-wait-dot' }),
+            el('div', {}, el('b', { text: 'Waiting for approval' }), el('span', { text: 'Your request is in. You can open every simulator as soon as Holy Hornet approves your account.' }))),
+          el('button', { cls: 'btn quiet', type: 'button', text: 'Check again', onclick: function () { location.reload(); } }), who));
+      }
+    });
+  }
+  function simAuthPanel(box) {
+    var mode = 'in';
+    function render(msgText, kind) {
+      var name = field('Full name', { type: 'text', required: true, autocomplete: 'name', maxlength: 120 });
+      var mail = field('Email', { type: 'email', required: true, autocomplete: 'email' });
+      var pw = field('Password', { type: 'password', required: true, minlength: 8, autocomplete: mode === 'up' ? 'new-password' : 'current-password' });
+      var msg = el('div');
+      if (msgText) msg.appendChild(notice(msgText, kind));
+      var v = function (f) { return f.querySelector('input').value.trim(); };
+      var tab = function (m, text) { return el('button', { type: 'button', role: 'tab', 'aria-selected': String(mode === m), text: text, onclick: function () { mode = m; render(); } }); };
+      var form = el('form', { onsubmit: function (e) {
+        e.preventDefault();
+        var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+        var done = function (err) { btn.disabled = false; msg.textContent = ''; msg.appendChild(notice(err.message, 'bad')); };
+        if (mode === 'in') {
+          db.auth.signInWithPassword({ email: v(mail), password: pw.querySelector('input').value }).then(must).then(function (d) { return simAfterSignIn(box, d.user); }).catch(done);
+        } else if (mode === 'up') {
+          db.auth.signUp({ email: v(mail), password: pw.querySelector('input').value, options: { data: { full_name: v(name) }, emailRedirectTo: location.origin + '/simulations' } }).then(must).then(function (d) {
+            if (d.session) return simAfterSignIn(box, d.user);
+            mode = 'in'; render('Check your email and click the link to confirm your account. Then sign in here to ask for access.', 'good');
+          }).catch(done);
+        } else {
+          db.auth.resetPasswordForEmail(v(mail), { redirectTo: location.origin + '/account.html' }).then(must).then(function () { btn.disabled = false; msg.textContent = ''; msg.appendChild(notice('If that address has an account, a reset link is on its way.', 'good')); }).catch(done);
+        }
+      } },
+        mode === 'up' ? name : null, mail, mode !== 'reset' ? pw : null, msg,
+        el('button', { cls: 'btn main', type: 'submit', text: mode === 'in' ? 'Sign in' : mode === 'up' ? 'Create account' : 'Send reset link' }));
+      box.textContent = '';
+      box.appendChild(el('h2', { text: mode === 'up' ? 'Create your account' : mode === 'in' ? 'Sign in to open the simulators' : 'Reset your password' }));
+      box.appendChild(el('p', { cls: 'lms-soft', text: mode === 'up' ? 'Free with your email. We review each request before the simulators open.' : 'Members can open every simulator. New here? Create an account and ask for access.' }));
+      box.appendChild(el('div', { cls: 'sim-tabs', role: 'tablist' }, tab('in', 'Sign in'), tab('up', 'Create account')));
+      box.appendChild(form);
+      if (mode === 'in') box.appendChild(el('button', { cls: 'lms-link sim-forgot', type: 'button', text: 'Forgot password?', onclick: function () { mode = 'reset'; render(); } }));
+      if (mode === 'reset') box.appendChild(el('button', { cls: 'lms-link sim-forgot', type: 'button', text: 'Back to sign in', onclick: function () { mode = 'in'; render(); } }));
+    }
+    render();
+  }
+  function simPreviewPage() {
+    var box = document.getElementById('sim-auth');
+    if (!box) return;
+    if (!db) { box.textContent = ''; box.appendChild(notice('Accounts are not switched on yet.', 'bad')); return; }
+    session().then(function (sess) {
+      if (sess) return simAfterSignIn(box, sess.user);
+      simAuthPanel(box);
+    }).catch(function (e) { box.textContent = ''; box.appendChild(notice(e.message, 'bad')); });
+  }
+  function simFullPage() {
+    if (!db) return;
+    session().then(function (sess) {
+      if (!sess) return;
+      var bar = document.getElementById('sim-bar');
+      if (bar) bar.appendChild(el('p', { cls: 'lms-soft sim-who' }, 'Signed in as ' + sess.user.email + ' · ', el('button', { cls: 'lms-link', type: 'button', text: 'Sign out', onclick: simSignOut })));
+      return isAdmin(sess.user).then(function (ok) { if (ok) adminSims(document.getElementById('sim-admin')); });
+    }).catch(function () {});
+  }
+
+  function adminSims(target) {
     return db.rpc('admin_sim_requests').then(function (res) {
       var head = [el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Simulations access' }), adminTabs('simulations')];
       if (res.error) {
+        if (target) return;
         show(el('div', { cls: 'wrap lms-page' }, head, notice('Simulation access is not switched on yet. In Supabase, open SQL Editor and run supabase/simulations_access.sql once.', 'bad')));
         return;
       }
@@ -622,12 +713,21 @@
         if (!list.length) body.appendChild(el('tr', {}, el('td', { colspan: 4, cls: 'lms-soft', text: state.f === 'pending' ? 'Nobody is waiting for approval.' : 'No requests here.' })));
       }
       search.addEventListener('input', function () { state.q = search.value; draw(); });
-      document.title = 'Simulations access | Holy Hornet';
-      show(el('div', { cls: 'wrap lms-page hhd' }, head,
+      var panel = [
         el('p', { cls: 'hhd-sub', text: 'People who sign in on holyhornet.com/simulations appear here. Approved people can open every simulator; blocked or waiting people cannot.' }),
         el('div', { cls: 'lms-filters' }, chips, search), info,
         el('div', { cls: 'lms-table-wrap' }, el('table', { cls: 'lms-table sim-table' },
-          el('thead', {}, el('tr', {}, ['Person', 'Asked', 'Status', 'Action'].map(function (h) { return el('th', { scope: 'col', text: h }); }))), body))));
+          el('thead', {}, el('tr', {}, ['Person', 'Asked', 'Status', 'Action'].map(function (h) { return el('th', { scope: 'col', text: h }); }))), body))];
+      if (target) {
+        var waitingNow = count('pending');
+        target.textContent = '';
+        target.appendChild(el('details', { cls: 'sim-adminbox hhd', open: waitingNow > 0 || null },
+          el('summary', {}, el('b', { text: 'Admin · Simulation access' }), el('span', { cls: 'sim-pill pending', text: waitingNow + ' waiting' }), el('a', { href: 'admin.html?view=simulations', text: 'Open in admin' })),
+          el('div', { cls: 'sim-adminbody' }, panel)));
+      } else {
+        document.title = 'Simulations access | Holy Hornet';
+        show(el('div', { cls: 'wrap lms-page hhd' }, head, panel));
+      }
       draw();
     });
   }
@@ -1206,5 +1306,5 @@
     }).catch(adminError);
   }
 
-  ({ catalog: catalogue, course: coursePage, learn: learnPage, account: accountPage, admin: adminPage, access: accessPage }[page] || function () {})();
+  ({ catalog: catalogue, course: coursePage, learn: learnPage, account: accountPage, admin: adminPage, access: accessPage, simpreview: simPreviewPage, simfull: simFullPage }[page] || function () {})();
 })();

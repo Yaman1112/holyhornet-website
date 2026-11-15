@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulations | Holy Hornet UAV Systems</title>
+<meta name="description" content="Holy Hornet UAV simulations you can try in your browser: the Perching UAV simulator, the SkyShield live demo and the Autonomous UAV Lab, a quadrotor that maps, localises, plans and flies by itself.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://holyhornet.com/simulations">
+<meta name="theme-color" content="#1d211f">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Holy Hornet UAV Systems">
+<meta property="og:title" content="Simulations | Holy Hornet UAV Systems">
+<meta property="og:description" content="Holy Hornet UAV simulations you can try in your browser: the Perching UAV simulator, the SkyShield live demo and the Autonomous UAV Lab, a quadrotor that maps, localises, plans and flies by itself.">
+<meta property="og:url" content="https://holyhornet.com/simulations.html">
+<meta property="og:image" content="https://holyhornet.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Holy Hornet UAV Systems — Advanced UAV solutions for a safer tomorrow">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Simulations | Holy Hornet UAV Systems">
+<meta name="twitter:description" content="Holy Hornet UAV simulations you can try in your browser: the Perching UAV simulator, the SkyShield live demo and the Autonomous UAV Lab, a quadrotor that maps, localises, plans and flies by itself.">
+<meta name="twitter:image" content="https://holyhornet.com/assets/og-image.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://holyhornet.com/simulations.html#webpage",
+   "url": "https://holyhornet.com/simulations.html",
+   "name": "Simulations | Holy Hornet UAV Systems",
+   "description": "Holy Hornet UAV simulations you can try in your browser: the Perching UAV simulator, the SkyShield live demo and the Autonomous UAV Lab, a quadrotor that maps, localises, plans and flies by itself.",
+   "inLanguage": "en",
+   "isPartOf": {
+    "@id": "https://holyhornet.com/#website"
+   },
+   "about": {
+    "@id": "https://holyhornet.com/#organization"
+   },
+   "dateModified": "2026-11-13"
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Home",
+     "item": "https://holyhornet.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Simulations",
+     "item": "https://holyhornet.com/simulations.html"
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://holyhornet.com/#organization",
+   "name": "Holy Hornet UAV Systems",
+   "url": "https://holyhornet.com/"
+  }
+ ]
+}
+</script>
+<script>try{var t=localStorage.getItem('hh-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Source+Sans+3:wght@400;600;700&family=Barlow:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="lms.css">
+<style>
+.feature{display:grid;grid-template-columns:1.15fr 1fr;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s}
+.feature:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
+.feature .fig{margin:0;background:var(--alt);display:block;min-height:260px;position:relative}
+.feature .fig svg{display:block;width:100%;height:100%}
+.feature .pbody{padding:30px 32px 32px;display:flex;flex-direction:column}
+.feature h2{font-size:34px;line-height:1.15;margin:14px 0 10px}
+.feature p{color:var(--soft);font-size:17px}
+.facts{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.facts li{font-size:14px;font-weight:600;padding:4px 12px;border-radius:999px;border:1px solid var(--line)}
+.feature .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.feature .note{margin-top:16px;font-size:14px;color:var(--soft)}
+.feature+.feature{margin-top:20px}
+.feature .fig img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.feature .live-tag{position:absolute;top:14px;left:14px;font:700 12px var(--sans);letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:var(--honey);color:#2a1d00}
+.next{margin-top:20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding:20px 24px;border:1px dashed var(--line);border-radius:var(--r);color:var(--soft)}
+.next b{color:var(--ink)}
+/* perch animation: approach, contact, magnets on, rotors off, sensing */
+.pv .wall{fill:var(--line)}
+.pv .wall-face{fill:color-mix(in srgb,var(--honey) 35%,var(--line))}
+.pv .ground{stroke:var(--line);stroke-width:2}
+.pv .drone{animation:pv-fly 9s ease-in-out infinite}
+.pv .body{fill:var(--ink)}
+.pv .arm{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+.pv .rotor{fill:var(--honey);opacity:.75;animation:pv-rotor 9s linear infinite}
+.pv .boom{stroke:var(--soft);stroke-width:3}
+.pv .pad{fill:var(--soft);animation:pv-pad 9s linear infinite}
+.pv .wave{fill:none;stroke:var(--honey);stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center;animation:pv-wave 9s ease-out infinite}
+.pv .wave.w2{animation-delay:.5s}.pv .wave.w3{animation-delay:1s}
+.pv .path{fill:none;stroke:var(--soft);stroke-width:1.5;stroke-dasharray:4 5;opacity:.6}
+.pv .lbl{font:700 10px var(--sans);fill:var(--soft);letter-spacing:.06em}
+.pv .st{opacity:0;animation:pv-st 9s linear infinite}
+.pv .st.s2{animation-name:pv-st2}.pv .st.s3{animation-name:pv-st3}.pv .st.s4{animation-name:pv-st4}
+@keyframes pv-fly{0%{transform:translate(-120px,-50px)}30%{transform:translate(0,0)}82%{transform:translate(0,0)}100%{transform:translate(-120px,-50px)}}
+@keyframes pv-rotor{0%,40%{opacity:.85}48%,80%{opacity:.12}88%,100%{opacity:.85}}
+@keyframes pv-pad{0%,30%{fill:var(--soft)}33%,82%{fill:#5fbf86}86%,100%{fill:var(--soft)}}
+@keyframes pv-wave{0%,50%{opacity:0;transform:scale(.4)}55%{opacity:.8}75%{opacity:0;transform:scale(1.6)}100%{opacity:0}}
+@keyframes pv-st{0%,28%{opacity:1}30%,100%{opacity:0}}
+@keyframes pv-st2{0%,30%{opacity:0}32%,46%{opacity:1}48%,100%{opacity:0}}
+@keyframes pv-st3{0%,48%{opacity:0}50%,80%{opacity:1}82%,100%{opacity:0}}
+@keyframes pv-st4{0%,82%{opacity:0}84%,100%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.pv .drone,.pv .rotor,.pv .pad,.pv .wave,.pv .st{animation:none}.pv .st.s3{opacity:1}}
+.feature + .feature{margin-top:24px}
+.feature .fig.screen{background:#0d131b}
+.lab-path{stroke-dasharray:7 5;animation:lab-dash 3s linear infinite}
+@keyframes lab-dash{to{stroke-dashoffset:-48}}
+.lab-drone{animation:lab-fly 6s ease-in-out infinite alternate}
+@keyframes lab-fly{from{transform:translate(0,0)}to{transform:translate(64px,-70px)}}
+@media (prefers-reduced-motion:reduce){.lab-path,.lab-drone{animation:none}}
+@media (max-width:900px){.feature{grid-template-columns:1fr}.feature .fig{min-height:220px}.feature h2{font-size:28px}.feature .pbody{padding:24px}}
+.mv{background:#141b18}
+.mv .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
+.mv .road{stroke:#7d877f;stroke-width:1.5}
+.mv .lane{stroke:#cfd6cd;stroke-opacity:.25;stroke-width:2;stroke-dasharray:14 14;animation:mv-lane 1.2s linear infinite}
+.mv .lbl{fill:#8f988f;font:600 10px/1 var(--sans);letter-spacing:.08em}
+.mv .truck rect{fill:#3a4640;stroke:#cfd6cd;stroke-width:1.5}
+.mv .truck .pad{fill:#7fd492;fill-opacity:.35;stroke:#7fd492}
+.mv .truck circle{fill:#1d211f;stroke:#cfd6cd;stroke-width:1.5}
+.mv .drive{animation:mv-drive 9s ease-in-out infinite}
+.mv .uav{animation:mv-land 9s ease-in-out infinite}
+.mv .uav g{stroke:#efb446;stroke-width:1.8;fill:none}
+.mv .ring{fill:none;stroke:#efb446;stroke-width:1.2;opacity:.55;animation:mv-ring 9s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes mv-lane{to{stroke-dashoffset:-28}}
+@keyframes mv-drive{0%,100%{transform:translateX(-14px)}50%{transform:translateX(14px)}}
+@keyframes mv-land{0%{transform:translate(-110px,-66px)}45%{transform:translate(0,-34px)}62%{transform:translate(0,-34px)}80%,100%{transform:translate(0,0)}}
+@keyframes mv-ring{0%{transform:scale(2.2)}60%,100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.mv .drive,.mv .uav,.mv .ring,.mv .lane{animation:none}}
+.fc{background:#14110c}
+.fc .gd{stroke:#d2a24c;stroke-opacity:.07;stroke-width:1;fill:none}
+.fc .zone{fill:#d2a24c;fill-opacity:.05;stroke:#d2a24c;stroke-opacity:.45;stroke-width:1;stroke-dasharray:4 4}
+.fc .trk{fill:none;stroke:#d2a24c;stroke-width:1.6;stroke-linecap:round;opacity:.85}
+.fc .stoop{fill:none;stroke:#e06a52;stroke-width:1.8;stroke-linecap:round}
+.fc .bird{fill:#fff;animation:fc-fly 8s linear infinite}
+.fc .fix{fill:#5fb37a}
+.fc .ring{fill:none;stroke:#5fb37a;stroke-width:1.2;animation:ai-ping 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.fc .lbl{fill:#a09a8c;font:600 10px/1 var(--sans);letter-spacing:.08em}
+@keyframes fc-fly{0%{offset-distance:0%}100%{offset-distance:100%}}
+@media (prefers-reduced-motion:reduce){.fc .bird,.fc .ring{animation:none}}
+.sg{background:#0b1220}
+.sg .gd{stroke:#22d3ee;stroke-opacity:.07;stroke-width:1;fill:none}
+.sg .area{fill:#22d3ee;fill-opacity:.06;stroke:#22d3ee;stroke-opacity:.5;stroke-width:1}
+.sg .nfz{fill:#f43f5e;fill-opacity:.15;stroke:#f43f5e;stroke-width:1}
+.sg .rt{fill:none;stroke-width:1.4;stroke-dasharray:3 3;opacity:.75}
+.sg .lbl{fill:#8a9bb8;font:600 10px/1 var(--sans);letter-spacing:.08em}
+.sg .u{animation:sg-fly 9s linear infinite}
+.sg .u2{animation-delay:-3s}.sg .u3{animation-delay:-6s}
+.sg .ring{fill:none;stroke:#fbbf24;stroke-width:1.2;animation:ai-ping 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes sg-fly{0%{offset-distance:0%}100%{offset-distance:100%}}
+@media (prefers-reduced-motion:reduce){.sg .u,.sg .ring{animation:none}}
+.st{background:#0a1418}
+.st .gd{stroke:#34d399;stroke-opacity:.07;stroke-width:1;fill:none}
+.st .col{fill:url(#st-col)}
+.st .wind{stroke:#7dd3fc;stroke-width:1.2;fill:none;opacity:.55;stroke-dasharray:6 6;animation:st-wind 3s linear infinite}
+.st .trk{fill:none;stroke:#34d399;stroke-width:1.5;stroke-linecap:round;opacity:.85}
+.st .glider{fill:#fff;animation:st-fly 10s linear infinite}
+.st .est{fill:none;stroke:#fbbf24;stroke-width:1.2;stroke-dasharray:3 3}
+.st .lbl{fill:#8fa8a0;font:600 10px/1 var(--sans);letter-spacing:.08em}
+@keyframes st-fly{0%{offset-distance:0%}100%{offset-distance:100%}}
+@keyframes st-wind{to{stroke-dashoffset:-24}}
+@media (prefers-reduced-motion:reduce){.st .glider,.st .wind{animation:none}}
+.am{background:#0b1220}
+.am .gd{stroke:#60a5fa;stroke-opacity:.07;stroke-width:1;fill:none}
+.am .b{fill:#60a5fa;fill-opacity:.55}
+.am .b.hi{fill:#f87171;fill-opacity:.8}
+.am .cap{stroke:#fbbf24;stroke-width:1.4;stroke-dasharray:5 4;fill:none}
+.am .fc{fill:none;stroke:#a78bfa;stroke-width:1.5;stroke-linecap:round;opacity:.8}
+.am .now{animation:am-now 12s linear infinite}
+.am .now path{stroke:#fff;stroke-width:1.2;opacity:.75}
+.am .now circle{fill:#fff}
+.am .lbl{fill:#8a9bb8;font:600 10px/1 var(--sans);letter-spacing:.08em}
+@keyframes am-now{from{transform:translateX(22px)}to{transform:translateX(298px)}}
+@media (prefers-reduced-motion:reduce){.am .now{animation:none;transform:translateX(160px)}}
+.ai{background:#12201b}
+.ai .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
+.ai .land{fill:#2f4a33}
+.ai .sea{fill:#123a4d}
+.ai .lbl{fill:#8f988f;font:600 10px/1 var(--sans);letter-spacing:.08em}
+.ai .cow{fill:#e0a955}
+.ai .turtle{fill:#7fd492}
+.ai .lane{stroke:#efb446;stroke-width:1.2;fill:none;stroke-dasharray:4 4;opacity:.7}
+.ai .ping{fill:none;stroke:#ef6f61;stroke-width:1.5;animation:ai-ping 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.ai .stray{animation:ai-stray 6s ease-in-out infinite alternate}
+@keyframes ai-ping{from{transform:scale(.4);opacity:1}to{transform:scale(2.2);opacity:0}}
+@keyframes ai-stray{from{transform:translate(0,0)}to{transform:translate(26px,-18px)}}
+@media (prefers-reduced-motion:reduce){.ai .ping,.ai .stray{animation:none}}
+.sim-preview{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:28px;align-items:start}
+.sim-auth{position:sticky;top:96px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)}
+.live-tag.lock{background:var(--card);color:var(--ink)}
+.locked-line{margin-top:20px;font-weight:600;color:var(--ink)!important;display:flex;gap:8px;align-items:center}
+.locked-line::before{content:"";width:14px;height:14px;flex:none;border-radius:3px;background:var(--honey)}
+.sim-more{margin-top:20px;padding:22px 26px;border:1.5px dashed var(--line);border-radius:var(--r);display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline}
+.sim-more b{font:500 24px/1.2 var(--serif)}.sim-more span{color:var(--soft)}
+.feature .fig{cursor:default}
+@media (max-width:1040px){.sim-preview{grid-template-columns:minmax(0,1fr)}.sim-auth{position:static;order:-1}}
+</style>
+</head>
+<body data-page="simpreview">
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="status"><div class="wrap">
+  <span class="live"><i></i>Systems online</span>
+  <span class="hide">Ops desk open 24/7</span>
+  <span class="clock" id="utc">--:--:-- UTC</span>
+</div></div>
+
+<header><div class="wrap bar">
+  <a class="mark" href="index.html" aria-label="Holy Hornet UAV Systems, home">
+    <img src="assets/logo-mark.png" width="111" height="44" alt="">
+    <span><b>Holy Hornet</b><small>UAV Systems</small></span>
+  </a>
+  <button class="toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Home</a>
+    <a href="solutions.html">Solutions</a>
+    <a href="industries.html">Industries</a>
+    <a href="systems.html">Systems</a>
+    <a aria-current="page" href="simulations.html">Simulations</a>
+    <a href="education.html">Education</a>
+    <a href="about.html">About</a>
+    <a class="btn main" href="contact.html">Get a quote</a>
+  </nav>
+  <button class="theme" type="button" aria-label="Switch colour theme">
+    <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+  </button>
+</div></header>
+
+<main id="main">
+<section class="intro"><div class="wrap">
+  <span class="kicker">Simulations</span>
+  <h1>Our work <em>in simulation</em></h1>
+  <p class="lead">Interactive simulators of the drones and systems we design, running in your browser. Here is a look at three of them. Sign in and, once we approve your account, you can open all 9 simulators.</p>
+</div></section>
+<section class="sec first"><div class="wrap sim-preview">
+  <div class="sim-list">
+  <article class="feature">
+    <div class="fig">
+      <span class="live-tag lock">Members only</span>
+      <svg class="pv" viewBox="0 0 320 210" role="img" aria-label="Animation: a drone flies to a steel wall, attaches with a magnetic pad, stops its rotors and starts sensing">
+        <path class="path" d="M40 60 Q110 30 150 104"/>
+        <rect class="wall" x="246" y="18" width="40" height="176" rx="3"/>
+        <rect class="wall-face" x="240" y="18" width="6" height="176"/>
+        <line class="ground" x1="0" y1="198" x2="320" y2="198"/>
+        <circle class="wave" cx="160" cy="104" r="22"/><circle class="wave w2" cx="160" cy="104" r="22"/><circle class="wave w3" cx="160" cy="104" r="22"/>
+        <g class="drone">
+          <line class="arm" x1="128" y1="104" x2="194" y2="104"/>
+          <ellipse class="rotor" cx="128" cy="96" rx="22" ry="4"/><ellipse class="rotor" cx="194" cy="96" rx="22" ry="4"/>
+          <rect class="body" x="148" y="98" width="28" height="14" rx="4"/>
+          <line class="boom" x1="176" y1="105" x2="232" y2="105"/>
+          <rect class="pad" x="232" y="94" width="8" height="22" rx="2"/>
+        </g>
+        <text class="lbl st s1" x="14" y="186">APPROACH</text>
+        <text class="lbl st s2" x="14" y="186">CONTACT · MAGNETS ON · VERIFY</text>
+        <text class="lbl st s3" x="14" y="186">MOTORS OFF · SENSOR MODE</text>
+        <text class="lbl st s4" x="14" y="186">CHECKS PASSED · DETACH</text>
+      </svg>
+    </div>
+    <div class="pbody">
+      <span class="tag">Autonomy · Interactive simulation</span>
+      <h2>Perching UAV: attach, switch off, keep watching</h2>
+      <p>A drone that finds a surface it can hold on to, attaches with switchable magnets or a bar claw, proves the grip will hold, then switches its motors off and works as a sensor station for hours. Before it leaves it checks battery, wind, airspace, motors and the release; if anything fails, it stays attached and reports.</p>
+      <ul class="facts"><li>238 W hovering → 3.3 W perched</li><li>45 simulated test missions, 0 crashes</li><li>10 scenarios with fault injection</li></ul>
+      <p class="locked-line">Sign in and get approved to open this simulator.</p>
+      <p class="note">Runs entirely in your browser, nothing to install. A research prototype: every figure comes from simulation with assumed parameters; the aircraft has not flown yet.</p>
+    </div>
+  </article>
+  <article class="feature">
+    <div class="fig">
+      <span class="live-tag lock">Members only</span>
+      <img src="assets/sim/skyshield-preview.png" width="760" height="504" loading="lazy" alt="SkyShield console: a map with a restricted zone, a warning ring, sensor positions and tracked drones and birds">
+    </div>
+    <div class="pbody">
+      <span class="tag">Counter-UAS · Interactive simulation</span>
+      <h2>SkyShield: see every drone, touch nothing</h2>
+      <p>A passive drone detection and tracking system for protected sites. It fuses radar, RF, Remote ID, camera and acoustic sensors into one airspace picture, classifies each track, and warns the operator about approaches, loitering and zone intrusions. It observes only: no jamming, no spoofing, no interception.</p>
+      <ul class="facts"><li>5 sensor types fused</li><li>8 scenarios to run</li><li>Detection only</li></ul>
+      <p class="locked-line">Sign in and get approved to open this simulator.</p>
+      <p class="note">Runs entirely in your browser, nothing to install. A development prototype: the sensors are simulated and no field performance has been measured yet.</p>
+    </div>
+  </article>
+  <article class="feature">
+    <div class="fig st">
+      <span class="live-tag lock">Members only</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Animation: a glider flies into a thermal that leans with the wind, circles upward around the estimated centre and leaves at the top">
+        <defs><linearGradient id="st-col" x1="0" x2="0" y1="1" y2="0"><stop offset="0" stop-color="#34d399" stop-opacity=".02"/><stop offset=".5" stop-color="#34d399" stop-opacity=".16"/><stop offset="1" stop-color="#34d399" stop-opacity=".03"/></linearGradient></defs>
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <path class="col" d="M150 200 C150 150 170 90 180 30 L230 30 C222 90 205 150 200 200 Z"/>
+        <path class="wind" d="M14 70H70M14 110H60M14 150H66"/>
+        <ellipse class="est" cx="182" cy="116" rx="30" ry="8"/>
+        <path class="trk" d="M30 190 C80 186 120 182 150 176 C190 170 196 156 170 150 C140 144 140 132 172 128 C206 124 208 108 180 104 C152 100 154 88 186 84 C218 80 220 64 194 60 C170 56 176 44 214 40 L300 30"/>
+        <path class="glider" d="M-7 0 L7 0 M0 -2 L0 3" stroke="#fff" stroke-width="2" style="offset-path:path('M30 190 C80 186 120 182 150 176 C190 170 196 156 170 150 C140 144 140 132 172 128 C206 124 208 108 180 104 C152 100 154 88 186 84 C218 80 220 64 194 60 C170 56 176 44 214 40 L300 30')"/>
+        <text class="lbl" x="14" y="24">DETECT · CENTRE · CLIMB · NO MOTOR</text>
+      </svg>
+    </div>
+    <div class="pbody">
+      <span class="tag">Soaring autonomy · Research simulator</span>
+      <h2>SkyTherm: a drone that climbs on rising air instead of its battery</h2>
+      <p>A research platform for an autonomous glider that finds thermals and uses them in place of the motor. It has a full 6-degree-of-freedom flight model, an atmosphere with drifting thermals, wind shear and gusts, and on-board estimators that locate a thermal's centre with its uncertainty. A soaring autopilot explains every decision it makes, and a 3-D digital twin replays each flight. Run the milestone and watch the glider find a drifting thermal, centre it and climb, then compare it with plain gliding and motor flight. Research experiments, a published validation report and a separate dynamic-soaring optimiser are included.</p>
+      <ul class="facts"><li>6-DOF flight, drifting thermals, wind shear</li><li>Every autopilot decision explained</li><li>17 validation checks, results published</li></ul>
+      <p class="locked-line">Sign in and get approved to open this simulator.</p>
+      <p class="note">The full Python backend runs in your browser, nothing to install; the first start downloads about 30 MB. A research simulation: every result is simulated, nothing has flown yet, and simulated energy savings are not measured savings.</p>
+    </div>
+  </article>
+    <div class="sim-more"><b>+6 more simulators</b><span>Airport operations, fleet intelligence, moving platforms, conservation and more, for approved members.</span></div>
+  </div>
+  <aside class="sim-auth" id="sim-auth" aria-live="polite"><p class="lms-soft">Loading…</p></aside>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="foot">
+    <div><a class="mark" href="index.html" aria-label="Holy Hornet UAV Systems, home"><img src="assets/logo-mark.png" width="111" height="44" alt=""><span><b>Holy Hornet</b><small>UAV Systems</small></span></a><p>Advanced UAV solutions for a safer tomorrow. Independent. Technical. Mission-focused.</p></div>
+    <div><h4>Explore</h4><a href="solutions.html">Solutions</a><a href="industries.html">Industries</a><a href="systems.html">Systems</a><a href="simulations.html">Simulations</a></div>
+    <div><h4>Company</h4><a href="about.html">About</a><a href="education.html">Education</a><a href="contact.html">Contact</a></div>
+    <div><h4>Say hello</h4><a href="mailto:info@holyhornet.com">info@holyhornet.com</a><a href="contact.html">Request a quote</a></div>
+  </div>
+  <div class="legal">© 2026 Holy Hornet UAV Systems &amp; Consultancy</div>
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="lms-config.js"></script>
+<script src="lms.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

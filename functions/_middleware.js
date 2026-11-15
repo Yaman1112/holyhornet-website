@@ -1,5 +1,6 @@
-// Locks the Simulations page and every simulator under /projects/ (see _routes.json for the paths this runs on).
-// A visitor gets through only when they are signed in and an admin has approved them (supabase/simulations_access.sql).
+// Guards the Simulations page and every simulator under /projects/ (see _routes.json for the paths this runs on).
+// Approved visitors (and admins) get the full page and the simulators. Everyone else sees the public preview
+// (sim-preview.html: three projects and a sign-in panel) at /simulations, and is sent there from any simulator.
 // The site's own pages (lms.js) keep the visitor's Supabase access token in the hh_at cookie.
 
 const SUPABASE_URL = 'https://fmeyjkcdzpfarcyrdpon.supabase.co';
@@ -33,21 +34,32 @@ async function statusOf(token) {
   return status;
 }
 
-export async function onRequest(context) {
-  const url = new URL(context.request.url);
-  const token = cookie(context.request, 'hh_at');
-  const status = token ? await statusOf(token) : 'signed-out';
+function isPage(path) {
+  return path === '/simulations' || path === '/simulations.html' || path === '/simulations/';
+}
 
-  if (status === 'approved') {
-    const res = await context.next();
+export async function onRequest(context) {
+  const { request, env } = context;
+  const url = new URL(request.url);
+  const token = cookie(request, 'hh_at');
+  const status = token ? await statusOf(token) : 'signed-out';
+  const noStore = (res, extra) => {
     const out = new Response(res.body, res);
     out.headers.set('Cache-Control', 'private, no-store');
-    out.headers.set('X-Robots-Tag', 'noindex');
+    if (extra) Object.keys(extra).forEach((k) => out.headers.set(k, extra[k]));
     return out;
+  };
+
+  if (status === 'approved') return noStore(await context.next(), { 'X-Robots-Tag': 'noindex' });
+
+  if (isPage(url.pathname)) {
+    // same address, public content: the preview with the sign-in panel
+    const preview = await env.ASSETS.fetch(new Request(new URL('/sim-preview', url.origin), request));
+    return noStore(preview);
   }
   const next = url.pathname + url.search;
   return new Response(null, {
     status: 302,
-    headers: { Location: '/access?next=' + encodeURIComponent(next), 'Cache-Control': 'no-store' }
+    headers: { Location: '/simulations?next=' + encodeURIComponent(next), 'Cache-Control': 'no-store' }
   });
 }
