@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepFlight AI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b1322'/%3E%3Cpath d='M16 5l9 6v10l-9 6-9-6V11z' fill='none' stroke='%2338c8e0' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2338c8e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/app.css">
+<script src="js/config.js?v=1794752023"></script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div class="app">
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 32 32"><path d="M16 4l10 6v12l-10 6-10-6V10z" fill="none" stroke="#38c8e0" stroke-width="1.8"/><path d="M9 16h14M16 9v14" stroke="#38c8e0" stroke-width="1" opacity=".5"/><circle cx="16" cy="16" r="2.6" fill="#38c8e0"/></svg>
+    <div><b>DEEPFLIGHT AI</b><small>HolyHornet · Autonomy beyond GPS</small></div>
+  </div>
+  <header class="top" id="topbar">
+    <span class="chip sim">SIMULATION</span>
+    <span class="chip"><span class="k">Loc</span><span class="state" id="tb-state">—</span></span>
+    <span class="chip"><span class="k">σ<sub>h</sub></span><span class="mono" id="tb-sigma">—</span></span>
+    <span class="chip"><span class="k">Source</span><span id="tb-source">—</span></span>
+    <span class="chip"><span class="k">GNSS</span><span style="color:#b9a6ff">DENIED</span></span>
+    <span class="chip"><span class="k">Mode</span><span id="tb-mode">—</span></span>
+    <span class="chip"><span class="k">Authority</span><span id="tb-beh">—</span></span>
+    <span class="chip"><span class="k">Battery</span><span class="mono" id="tb-batt">—</span></span>
+    <span class="spacer"></span>
+    <span class="chip"><span class="k">t</span><span class="mono" id="tb-t">0.0 s</span></span>
+    <button class="btn" id="btn-assist" title="Ask questions answered from live session data">Ask DeepFlight</button>
+  </header>
+  <nav class="side" id="nav"></nav>
+  <div class="controls">
+    <select id="sel-scenario" title="Scenario"></select>
+    <input type="number" id="inp-seed" value="7" min="0" style="width:72px" title="Random seed (reproducible)">
+    <button class="btn" id="btn-new">New session</button>
+    <span class="dim">|</span>
+    <button class="btn primary" id="btn-start">Start</button>
+    <button class="btn" id="btn-pause">Pause</button>
+    <button class="btn" id="btn-reset">Reset</button>
+    <select id="sel-speed" title="Simulation speed">
+      <option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option>
+      <option value="4">4×</option><option value="8">8×</option>
+    </select>
+    <span class="dim">|</span>
+    <button class="btn" id="btn-replay" title="Replay the recorded run">Replay</button>
+    <button class="btn" id="btn-live" title="Return to live view">Live</button>
+    <div class="timeline">
+      <input type="range" id="rng-time" min="0" max="0" value="0" step="1">
+      <span class="mono muted" id="lbl-time">live</span>
+    </div>
+  </div>
+  <main id="main">
+    <div class="banner" id="op-banner">
+      <b>Operator intervention requested.</b> <span id="op-text">Localization cannot be re-established autonomously.
+      The aircraft is holding without return-to-home.</span>
+      <div class="acts">
+        <button class="btn danger" data-op="land">Land in place</button>
+        <button class="btn" data-op="restore_lights">Restore corridor lighting (simulation)</button>
+        <button class="btn" data-op="accept_estimate">Accept current estimate as reference</button>
+      </div>
+    </div>
+    <div id="views"></div>
+    <div class="disclaimer">DeepFlight AI is a research platform. All data on this page comes from a labelled simulation;
+      it is not certified avionics or collision-avoidance equipment. Ground-truth values are shown only for validation.</div>
+  </main>
+</div>
+
+<div class="assistant" id="assistant">
+  <div class="hd"><b>DeepFlight assistant</b><span class="tag">grounded · read-only</span><span class="spacer"></span>
+    <button class="btn" id="btn-assist-close">Close</button></div>
+  <div class="bd" id="assist-log">
+    <div class="muted">Answers come only from live session data, with evidence. The assistant cannot command the aircraft.</div>
+    <div class="sugg" id="assist-sugg"></div>
+  </div>
+  <form id="assist-form"><input type="text" id="assist-q" placeholder="e.g. How confident is the position estimate?" autocomplete="off"><button class="btn primary">Ask</button></form>
+</div>
+
+<script type="module" src="js/app.js?v=1794752023"></script>
+</body>
+</html>
