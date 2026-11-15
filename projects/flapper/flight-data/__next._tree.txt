@@ -1,0 +1,5 @@
+:HL["/projects/flapper/_next/static/chunks/1ku4sm3_0l5v0.css","style"]
+:HL["https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap","style"]
+2:[["children",{"s":"__PAGE__","h":160}]]
+1:[["children",{"s":"flight-data","h":96,"c":"$Q2"}]]
+0:{"b":"2n9C_XBVNOt0aotKNQApi","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
