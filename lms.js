@@ -5,7 +5,20 @@
   var page = document.body.dataset.page;
   var ready = !!(cfg.url && cfg.anonKey && window.supabase);
   var recovering = location.hash.indexOf('type=recovery') !== -1;
+  function syncAccessCookie(sess) {
+    try {
+      var base = '; Path=/; Secure; SameSite=Lax';
+      if (sess && sess.access_token) {
+        var left = sess.expires_at ? sess.expires_at - Math.floor(Date.now() / 1000) : 3600;
+        document.cookie = 'hh_at=' + encodeURIComponent(sess.access_token) + '; Max-Age=' + Math.max(60, left) + base;
+      } else document.cookie = 'hh_at=; Max-Age=0' + base;
+    } catch (e) { /* cookies blocked */ }
+  }
   var db = ready ? window.supabase.createClient(cfg.url, cfg.anonKey) : null;
+  if (db) {
+    db.auth.getSession().then(function (r) { syncAccessCookie(r.data.session); });
+    db.auth.onAuthStateChange(function (e, sess) { syncAccessCookie(sess); });
+  }
   var params = new URLSearchParams(location.search);
   var BUCKET = 'course-files';
   var MAX_FILE = 50 * 1024 * 1024;
@@ -485,7 +498,7 @@
     if (!db) { show(el('div', { cls: 'wrap lms-page lms-narrow' }, el('h1', { text: 'Student accounts open soon' }), el('p', {}, el('a', { href: 'education.html', text: 'See the courses' })))); return; }
     session().then(function (s) {
       if (s && recovering) { newPasswordForm(); return; }
-      if (!s) { authForm('in'); return; }
+      if (!s) { authForm(params.get('mode') === 'up' ? 'up' : 'in'); return; }
       var user = s.user;
       return detailsOf(user).then(function (info) {
         var next = params.get('next');
@@ -520,6 +533,105 @@
       });
   }
 
+
+  // ---------- Simulations access (supabase/simulations_access.sql, functions/_middleware.js) ----------
+  function simNext() {
+    var n = params.get('next') || '';
+    return /^\/(simulations(\.html)?|projects\/[\w\-./]*)(\?[\w=&%.\-]*)?$/.test(n) ? n : '/simulations';
+  }
+  function accessPage() {
+    var wrap = function () { return el('div', { cls: 'wrap lms-page lms-narrow lms-access' }, [].slice.call(arguments)); };
+    var back = 'access.html?next=' + encodeURIComponent(simNext());
+    if (!db) { show(wrap(el('h1', { text: 'Simulations' }), notice('Accounts are not switched on yet.', 'bad'))); return; }
+    session().then(function (sess) {
+      if (!sess) {
+        show(wrap(
+          el('span', { cls: 'kicker', text: 'Simulations' }),
+          el('h1', { text: 'Sign in to see the simulations' }),
+          el('p', { cls: 'lms-lead', text: 'Our simulators are open to registered users. Sign in or create a free account with your email, then we will review your request.' }),
+          el('div', { cls: 'actions' },
+            el('a', { cls: 'btn main', href: 'account.html?next=' + encodeURIComponent(back), text: 'Sign in' }),
+            el('a', { cls: 'btn quiet', href: 'account.html?mode=up&next=' + encodeURIComponent(back), text: 'Create an account' }))));
+        return;
+      }
+      syncAccessCookie(sess);
+      return db.rpc('request_sim_access').then(function (res) {
+        if (res.error) {
+          show(wrap(el('h1', { text: 'Simulations' }), notice('Simulation access is being set up. Please try again a little later.', 'bad')));
+          return;
+        }
+        var st = res.data;
+        if (st === 'approved') { location.replace(simNext()); return; }
+        var again = el('button', { cls: 'btn quiet', type: 'button', text: 'Check again', onclick: function () { location.reload(); } });
+        if (st === 'blocked') {
+          show(wrap(el('span', { cls: 'kicker', text: 'Simulations' }), el('h1', { text: 'Access not available' }),
+            el('p', { cls: 'lms-lead', text: 'This account cannot open the simulations. If you think this is a mistake, get in touch.' }),
+            el('div', { cls: 'actions' }, el('a', { cls: 'btn main', href: 'contact.html', text: 'Contact us' }))));
+          return;
+        }
+        show(wrap(el('span', { cls: 'kicker', text: 'Simulations' }), el('h1', { text: 'Your request is in' }),
+          el('div', { cls: 'lms-wait' }, el('span', { cls: 'lms-wait-dot' }),
+            el('div', {}, el('b', { text: 'Waiting for approval' }), el('span', { text: 'Signed in as ' + sess.user.email + '. You can open the simulators as soon as Holy Hornet approves your account.' }))),
+          el('div', { cls: 'actions' }, again, el('a', { cls: 'btn quiet', href: 'account.html', text: 'My account' }))));
+      });
+    }).catch(fail);
+  }
+
+  function adminSims() {
+    return db.rpc('admin_sim_requests').then(function (res) {
+      var head = [el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Simulations access' }), adminTabs('simulations')];
+      if (res.error) {
+        show(el('div', { cls: 'wrap lms-page' }, head, notice('Simulation access is not switched on yet. In Supabase, open SQL Editor and run supabase/simulations_access.sql once.', 'bad')));
+        return;
+      }
+      var rows = res.data || [];
+      var state = { f: rows.some(function (r) { return r.status === 'pending'; }) ? 'pending' : 'all', q: '' };
+      var count = function (k) { return rows.filter(function (r) { return k === 'all' || r.status === k; }).length; };
+      var body = el('tbody'), info = el('p', { cls: 'lms-count', role: 'status' });
+      var chips = el('div', { cls: 'hhd-seg', role: 'group', 'aria-label': 'Show' });
+      var search = el('input', { type: 'search', placeholder: 'Search name or email', 'aria-label': 'Search' });
+      var label = { pending: 'Waiting', approved: 'Approved', blocked: 'Blocked' };
+      function set(r, st, btn) {
+        btn.disabled = true;
+        db.rpc('admin_set_sim_access', { target: r.user_id, new_status: st }).then(must).then(function () {
+          r.status = st; r.decided_at = new Date().toISOString(); draw();
+        }).catch(function (e) { btn.disabled = false; alert(e.message); });
+      }
+      function draw() {
+        chips.textContent = '';
+        [['pending', 'Waiting'], ['approved', 'Approved'], ['blocked', 'Blocked'], ['all', 'All']].forEach(function (o) {
+          chips.appendChild(el('button', { type: 'button', 'aria-pressed': String(state.f === o[0]), text: o[1] + ' (' + count(o[0]) + ')', onclick: function () { state.f = o[0]; draw(); } }));
+        });
+        var q = state.q.trim().toLowerCase();
+        var list = rows.filter(function (r) { return (state.f === 'all' || r.status === state.f) && (!q || (r.full_name + ' ' + r.email).toLowerCase().indexOf(q) !== -1); });
+        info.textContent = list.length + ' of ' + rows.length + ' requests';
+        body.textContent = '';
+        list.forEach(function (r) {
+          var d = r.details || {};
+          var btn = function (st, text, cls) { var b = el('button', { cls: 'btn ' + cls, type: 'button', text: text }); b.addEventListener('click', function () { set(r, st, b); }); return b; };
+          body.appendChild(el('tr', {},
+            el('td', { 'data-label': 'Person' }, el('b', { text: r.full_name || '(no name)' }), el('span', { cls: 'lms-soft', text: r.email + (d.country ? ' · ' + d.country : '') }),
+              d.experience || d.organisation ? el('small', { cls: 'lms-soft', text: [aboutLabel('experience', d.experience), d.organisation].filter(Boolean).join(' · ') }) : null),
+            el('td', { 'data-label': 'Asked', text: day(r.requested_at) }),
+            el('td', { 'data-label': 'Status' }, el('span', { cls: 'sim-pill ' + r.status, text: label[r.status] || r.status }), r.decided_at ? el('small', { cls: 'lms-soft', text: ' ' + day(r.decided_at) }) : null),
+            el('td', { 'data-label': 'Action', cls: 'sim-actions' },
+              r.status !== 'approved' ? btn('approved', 'Approve', 'main') : null,
+              r.status !== 'blocked' ? btn('blocked', 'Block', 'quiet') : null,
+              r.status === 'blocked' ? btn('pending', 'Move to waiting', 'quiet') : null)));
+        });
+        if (!list.length) body.appendChild(el('tr', {}, el('td', { colspan: 4, cls: 'lms-soft', text: state.f === 'pending' ? 'Nobody is waiting for approval.' : 'No requests here.' })));
+      }
+      search.addEventListener('input', function () { state.q = search.value; draw(); });
+      document.title = 'Simulations access | Holy Hornet';
+      show(el('div', { cls: 'wrap lms-page hhd' }, head,
+        el('p', { cls: 'hhd-sub', text: 'People who sign in on holyhornet.com/simulations appear here. Approved people can open every simulator; blocked or waiting people cannot.' }),
+        el('div', { cls: 'lms-filters' }, chips, search), info,
+        el('div', { cls: 'lms-table-wrap' }, el('table', { cls: 'lms-table sim-table' },
+          el('thead', {}, el('tr', {}, ['Person', 'Asked', 'Status', 'Action'].map(function (h) { return el('th', { scope: 'col', text: h }); }))), body))));
+      draw();
+    });
+  }
+
   // ---------- admin ----------
   function adminPage() {
     if (!db) { show(el('div', { cls: 'wrap lms-page' }, notice('Connect Supabase first: see supabase/README.md.', 'bad'))); return; }
@@ -528,6 +640,7 @@
       return isAdmin(s.user).then(function (ok) {
         if (!ok) { location.replace('account.html'); return; }
         if (params.get('view') === 'students') return adminStudents();
+        if (params.get('view') === 'simulations') return adminSims();
         if (params.get('view') !== 'courses' && !params.get('c')) return adminDashboard();
         return db.from('courses').select('id,title').order('position').then(must).then(function (list) { adminCourse(list, params.get('c') || list[0].id, null); });
       });
@@ -537,7 +650,7 @@
   function adminTabs(current) {
     var tab = function (key, href, text) { return el('a', { href: href, text: text, 'aria-current': current === key ? 'page' : null }); };
     return el('nav', { cls: 'lms-tabs', 'aria-label': 'Admin sections' },
-      tab('dashboard', 'admin.html', 'Dashboard'), tab('courses', 'admin.html?view=courses', 'Courses'), tab('students', 'admin.html?view=students', 'Students'));
+      tab('dashboard', 'admin.html', 'Dashboard'), tab('courses', 'admin.html?view=courses', 'Courses'), tab('students', 'admin.html?view=students', 'Students'), tab('simulations', 'admin.html?view=simulations', 'Simulations'));
   }
 
   // ---------- admin: students ----------
@@ -693,7 +806,8 @@
           notice('The student data is not switched on yet. In Supabase, open SQL Editor and run supabase/admin_students.sql once.', 'bad')));
         return;
       }
-      var allRows = must(r[0]), courses = r[1];
+      var allRows = must(r[0]), courses = r[1], waiting = 0;
+      db.rpc('admin_sim_requests').then(function (x) { if (!x.error) { waiting = (x.data || []).filter(function (q) { return q.status === 'pending'; }).length; if (waiting) render(); } });
       var state = { range: '90', staff: false, q: '', filter: '', sort: 'signed_up', dir: -1 };
       try { var saved = JSON.parse(localStorage.getItem('hh-dash') || '{}'); if (saved.range) state.range = saved.range; } catch (e) { /* storage blocked */ }
       var root = el('div', { cls: 'wrap lms-page hhd' });
@@ -894,6 +1008,7 @@
           el('div', {}, el('span', { cls: 'kicker', text: 'Admin' }), el('h1', { text: 'Dashboard' })),
           el('div', { cls: 'hhd-tools' }, seg, refresh)));
         root.appendChild(adminTabs('dashboard'));
+        if (waiting) root.appendChild(el('a', { cls: 'sim-banner', href: 'admin.html?view=simulations' }, el('b', { text: waiting + (waiting === 1 ? ' person is' : ' people are') + ' waiting for simulation access' }), el('span', { text: 'Review →' })));
         root.appendChild(el('p', { cls: 'hhd-sub' }, 'Showing the ' + rangeName + '. Updated ' + loadedAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) + '. ', staff));
 
         var cmp = w.prev !== null;
@@ -1091,5 +1206,5 @@
     }).catch(adminError);
   }
 
-  ({ catalog: catalogue, course: coursePage, learn: learnPage, account: accountPage, admin: adminPage }[page] || function () {})();
+  ({ catalog: catalogue, course: coursePage, learn: learnPage, account: accountPage, admin: adminPage, access: accessPage }[page] || function () {})();
 })();

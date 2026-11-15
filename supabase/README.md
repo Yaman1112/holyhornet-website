@@ -53,6 +53,12 @@ their account page). Admins see the answers on the dashboard and in the Students
 `student_details.sql` run once in **SQL Editor** (a project built from the current `schema.sql` already has it).
 Until it is run, the site simply skips the form.
 
+### Simulations access
+holyhornet.com/simulations and every simulator under /projects/ are locked by `functions/_middleware.js`
+(a Cloudflare Pages Function; `_routes.json` lists the paths). Visitors sign in, ask for access on `access.html`,
+and you approve or block them in `admin.html` → **Simulations**. Needs `simulations_access.sql` run once in
+**SQL Editor**; until then nobody, admins included, gets through.
+
 ### Lesson videos and figures
 A lesson's text can also hold an animated, narrated Holy Hornet video and figures, drawn by `lms-figures.js`
 (no video files to host). In the lesson text, a block that starts with `::video` holds one scene per line,

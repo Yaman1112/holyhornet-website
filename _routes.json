@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "include": ["/simulations", "/simulations.html", "/simulations/*", "/projects/*"],
+  "exclude": []
+}

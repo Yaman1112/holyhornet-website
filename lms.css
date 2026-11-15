@@ -331,3 +331,18 @@
 .hhd-hbars .hhd-empty{padding:10px 0;text-align:left}
 @media (max-width:1100px){.hhd-about-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:620px){.lms-pair,.hhd-about,.hhd-about-grid{grid-template-columns:minmax(0,1fr)}.lms-about fieldset{padding:14px 16px 4px}}
+
+/* ---------- simulations access ---------- */
+.lms-access .lms-lead{margin-bottom:22px}
+.lms-wait{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;margin:0 0 22px;border:1px solid var(--line);border-left:4px solid var(--honey);border-radius:var(--r);background:var(--card)}
+.lms-wait b{display:block;font-size:18px;margin-bottom:4px}.lms-wait span{color:var(--soft)}
+.lms-wait-dot{flex:none;width:12px;height:12px;margin-top:7px;border-radius:50%;background:var(--honey);animation:waitpulse 1.6s ease-in-out infinite}
+@keyframes waitpulse{50%{opacity:.3;transform:scale(.7)}}
+.sim-table td b,.sim-table td span,.sim-table td small{display:block}
+.sim-pill{display:inline-block!important;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:700;background:var(--alt)}
+.sim-pill.pending{background:var(--honey-tint);color:var(--honey-ink)}
+.sim-pill.approved{background:color-mix(in srgb,#5fae6e 18%,transparent);color:var(--ink)}
+.sim-pill.blocked{background:color-mix(in srgb,#d9705a 18%,transparent);color:var(--ink)}
+.sim-actions{white-space:nowrap}.sim-actions .btn{min-height:38px;padding:0 14px;margin:2px 6px 2px 0}
+.sim-banner{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 18px;padding:14px 18px;border-radius:var(--r);border:1.5px solid var(--honey);background:var(--honey-tint);color:var(--ink);text-decoration:none}
+.sim-banner span{font-weight:700;color:var(--honey-ink)}
