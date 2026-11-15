@@ -217,6 +217,24 @@
 @keyframes fl-r{from{transform:rotate(26deg)}to{transform:rotate(-22deg)}}
 @keyframes fl-cur{from{transform:translateX(20px)}to{transform:translateX(300px)}}
 @media (prefers-reduced-motion:reduce){.fl .wl,.fl .wr,.fl .cur{animation:none}}
+.cu{background:#0b1017}
+.cu .gd{stroke:#35c6d8;stroke-opacity:.07;stroke-width:1;fill:none}
+.cu .fov{fill:#35c6d8;fill-opacity:.07;stroke:#35c6d8;stroke-opacity:.35;stroke-width:1}
+.cu .sen{fill:#35c6d8}
+.cu .box{fill:none;stroke:#35c6d8;stroke-width:1.3}
+.cu .dot{fill:#e4ebf3}
+.cu .bird .box{stroke:#a78bfa;stroke-dasharray:3 3}
+.cu .tr{fill:none;stroke:#35c6d8;stroke-width:1;stroke-opacity:.45;stroke-dasharray:2 4}
+.cu .id{fill:#35c6d8;font:600 8px/1 var(--sans);letter-spacing:.04em}
+.cu .bird .id{fill:#a78bfa}
+.cu .t1{animation:cu-a 7s linear infinite}
+.cu .t2{animation:cu-b 9s linear infinite}
+.cu .t3{animation:cu-c 6s linear infinite}
+.cu .lbl{fill:#8a9bb8;font:600 10px/1 var(--sans);letter-spacing:.08em}
+@keyframes cu-a{from{transform:translate(48px,70px)}to{transform:translate(272px,52px)}}
+@keyframes cu-b{from{transform:translate(268px,104px)}to{transform:translate(52px,92px)}}
+@keyframes cu-c{from{transform:translate(70px,128px)}to{transform:translate(250px,78px)}}
+@media (prefers-reduced-motion:reduce){.cu .t1,.cu .t2,.cu .t3{animation:none}.cu .t1{transform:translate(110px,64px)}.cu .t2{transform:translate(200px,100px)}.cu .t3{transform:translate(150px,104px)}}
 .ai{background:#12201b}
 .ai .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
 .ai .land{fill:#2f4a33}
@@ -546,6 +564,30 @@
       <ul class="facts"><li>Unsteady blade-element aero, flexible wings</li><li>Motor, gearbox and crank in the loop</li><li>58 automated checks, 9 design revisions</li></ul>
       <div class="actions">
         <a class="btn main" href="/projects/flapper/">Open the platform</a>
+      </div>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig cu" href="/projects/counter-uas/" aria-label="Open HolyHornet Counter-UAS Intelligence, the detection and tracking evaluation platform">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Animation: a sensor field of view with three moving aerial targets, each in a tracking box with its own track number; one is marked as a bird">
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M0 168H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <path class="fov" d="M160 186 L28 34 H292 Z"/>
+        <path class="tr" d="M48 70 L272 52M268 104 L52 92M70 128 L250 78"/>
+        <g class="t1"><rect class="box" x="-9" y="-9" width="18" height="18"/><circle class="dot" r="2.2"/><text class="id" x="12" y="-4">T1 MULTIROTOR</text></g>
+        <g class="t2"><rect class="box" x="-9" y="-9" width="18" height="18"/><circle class="dot" r="2.2"/><text class="id" x="12" y="-4">T2 FIXED-WING</text></g>
+        <g class="t3 bird"><rect class="box" x="-8" y="-8" width="16" height="16"/><circle class="dot" r="1.8"/><text class="id" x="11" y="-4">T3 BIRD</text></g>
+        <rect class="sen" x="154" y="182" width="12" height="8"/>
+        <text class="lbl" x="14" y="24">DETECT · IDENTIFY · TRACK · EVALUATE</text>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">Counter-UAS · AI detection · Multi-sensor tracking</span>
+      <h2>Counter-UAS Intelligence: measuring how well drones can be detected and tracked</h2>
+      <p>A research and evaluation platform for counter-drone detection and tracking. It simulates daylight, low-light and thermal cameras, radar and bearing sensors over eight test scenarios, runs real detection, classification and multi-object tracking on every frame, fuses the sensors into 3-D tracks, and scores the result against ground truth: precision, recall, false alarms, HOTA, MOTA, identity switches, occlusion recovery and processing time. Run a scenario live, replay it frame by frame, compare detectors and trackers, and read the validation report. It detects, tracks and evaluates only: there is no engagement or interception function. All results are simulated; nothing has been tested with real sensors.</p>
+      <ul class="facts"><li>Daylight, low-light, thermal, radar</li><li>CNN classifier and three trackers</li><li>14 measured studies, 60 automated checks</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/counter-uas/">Open the platform</a>
       </div>
     </div>
   </article>
