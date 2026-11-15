@@ -176,6 +176,18 @@
 @keyframes st-fly{0%{offset-distance:0%}100%{offset-distance:100%}}
 @keyframes st-wind{to{stroke-dashoffset:-24}}
 @media (prefers-reduced-motion:reduce){.st .glider,.st .wind{animation:none}}
+.am{background:#0b1220}
+.am .gd{stroke:#60a5fa;stroke-opacity:.07;stroke-width:1;fill:none}
+.am .b{fill:#60a5fa;fill-opacity:.55}
+.am .b.hi{fill:#f87171;fill-opacity:.8}
+.am .cap{stroke:#fbbf24;stroke-width:1.4;stroke-dasharray:5 4;fill:none}
+.am .fc{fill:none;stroke:#a78bfa;stroke-width:1.5;stroke-linecap:round;opacity:.8}
+.am .now{animation:am-now 12s linear infinite}
+.am .now path{stroke:#fff;stroke-width:1.2;opacity:.75}
+.am .now circle{fill:#fff}
+.am .lbl{fill:#8a9bb8;font:600 10px/1 var(--sans);letter-spacing:.08em}
+@keyframes am-now{from{transform:translateX(22px)}to{transform:translateX(298px)}}
+@media (prefers-reduced-motion:reduce){.am .now{animation:none;transform:translateX(160px)}}
 .ai{background:#12201b}
 .ai .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
 .ai .land{fill:#2f4a33}
@@ -443,6 +455,29 @@
         <a class="btn main" href="/projects/skytherm/">Open the simulator</a>
       </div>
       <p class="note">The full Python backend runs in your browser, nothing to install; the first start downloads about 30 MB. A research simulation: every result is simulated, nothing has flown yet, and simulated energy savings are not measured savings.</p>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig am" href="/projects/aom-dis/" aria-label="Open AOM-DIS, the Schiphol airport operations platform">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Animation: hourly flight demand bars at an airport over one day against a dashed capacity line; a replay clock sweeps across the day and the hours above capacity are highlighted">
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <rect class="b" x="22.0" y="172.5" width="8" height="13.5" rx="1.5"/><rect class="b" x="33.6" y="180.6" width="8" height="5.4" rx="1.5"/><rect class="b" x="45.2" y="181.9" width="8" height="4.1" rx="1.5"/><rect class="b" x="56.8" y="181.9" width="8" height="4.1" rx="1.5"/><rect class="b" x="68.4" y="179.2" width="8" height="6.8" rx="1.5"/><rect class="b" x="80.0" y="156.3" width="8" height="29.7" rx="1.5"/><rect class="b" x="91.6" y="107.7" width="8" height="78.3" rx="1.5"/><rect class="b hi" x="103.2" y="88.8" width="8" height="97.2" rx="1.5"/><rect class="b" x="114.8" y="96.9" width="8" height="89.1" rx="1.5"/><rect class="b" x="126.4" y="91.5" width="8" height="94.5" rx="1.5"/><rect class="b hi" x="138.0" y="86.1" width="8" height="99.9" rx="1.5"/><rect class="b" x="149.6" y="102.3" width="8" height="83.7" rx="1.5"/><rect class="b" x="161.2" y="107.7" width="8" height="78.3" rx="1.5"/><rect class="b" x="172.8" y="96.9" width="8" height="89.1" rx="1.5"/><rect class="b" x="184.4" y="91.5" width="8" height="94.5" rx="1.5"/><rect class="b" x="196.0" y="99.6" width="8" height="86.4" rx="1.5"/><rect class="b" x="207.6" y="105.0" width="8" height="81.0" rx="1.5"/><rect class="b hi" x="219.2" y="88.8" width="8" height="97.2" rx="1.5"/><rect class="b hi" x="230.8" y="83.4" width="8" height="102.6" rx="1.5"/><rect class="b" x="242.4" y="94.2" width="8" height="91.8" rx="1.5"/><rect class="b" x="254.0" y="115.8" width="8" height="70.2" rx="1.5"/><rect class="b" x="265.6" y="132.0" width="8" height="54.0" rx="1.5"/><rect class="b" x="277.2" y="145.5" width="8" height="40.5" rx="1.5"/><rect class="b" x="288.8" y="161.7" width="8" height="24.3" rx="1.5"/>
+        <path class="cap" d="M18 91.5H302"/>
+        <path class="fc" d="M26 174 C60 172 80 150 96 104 C110 82 140 90 160 96 C190 100 210 92 236 84 C260 96 280 150 296 166"/>
+        <g class="now"><path d="M0 40V190"/><circle cx="0" cy="40" r="3"/></g>
+        <text class="lbl" x="14" y="203">STRATEGIC · PRE-TACTICAL · TACTICAL · POST-OPS</text>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">Airport operations · Decision intelligence · Interactive platform</span>
+      <h2>AOM-DIS: Schiphol airport operations, from season plan to post-ops review</h2>
+      <p>A decision-support platform for Amsterdam Schiphol built on the real 2022 schedules and flown traffic. It follows the planning lifecycle: seasonal demand and growth scenarios, forecasts from seven days out to the day itself with nine models, a replay of any day hour by hour with alerts and an event log, demand against runway capacity, a flight-by-flight digital twin for what-if scenarios such as a runway outage, and a review after the day that splits every forecast miss into flights that were not flown and flights that were not planned. Each number carries its source: actual, scheduled, predicted, inferred or simulated. Sign in as an operations manager, a capacity planner, an analyst, a data scientist or an executive.</p>
+      <ul class="facts"><li>88,646 real flights, Jan to Apr 2022</li><li>9 forecast models, leakage-safe backtest</li><li>11 modules, 6 roles, every figure traceable</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/aom-dis/">Open the platform</a>
+      </div>
+      <p class="note">The full Python backend runs in your browser, nothing to install; the first start downloads about 70 MB and your changes reset on reload. Historical data only, nothing is live. Runway capacity figures are assumptions, cancellations are inferred from the data, and the platform supports decisions; it is not air traffic control.</p>
     </div>
   </article>
   <div class="next"><b>More simulations are on their way.</b><span>Tell us about the job you have in mind.</span><a class="more" href="contact.html">Start a project &rarr;</a></div>
