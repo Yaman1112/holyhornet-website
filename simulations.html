@@ -264,6 +264,21 @@
 @keyframes ql-cw{to{transform:rotate(360deg)}}
 @keyframes ql-ccw{to{transform:rotate(-360deg)}}
 @media (prefers-reduced-motion:reduce){.ql .cw,.ql .ccw{animation:none}}
+.ig{background:#07131f}
+.ig .gd{stroke:#38bdf8;stroke-opacity:.06;stroke-width:1;fill:none}
+.ig .ln{fill:none;stroke:#38bdf8;stroke-opacity:.45;stroke-width:1.3}
+.ig .bad{stroke:#f87171;stroke-opacity:.8;stroke-dasharray:4 3}
+.ig .nd{fill:#0b1f33;stroke:#7dd3fc;stroke-width:1.2}
+.ig .ndt{fill:#cfe3ff;font:600 8px/1 var(--sans);letter-spacing:.04em}
+.ig .pk{fill:#facc15}
+.ig .lbl{fill:#8a9bb8;font:600 10px/1 var(--sans);letter-spacing:.08em}
+.ig .k1{offset-path:path("M70 62 L160 105");animation:ig-go 2.4s linear infinite}
+.ig .k2{offset-path:path("M70 148 L160 105");animation:ig-go 3s linear infinite}
+.ig .k3{offset-path:path("M160 105 L250 62");animation:ig-go 2.7s linear infinite}
+.ig .ok{fill:#34d399;font:700 9px/1 var(--sans)}
+.ig .x{fill:#f87171;font:700 9px/1 var(--sans)}
+@keyframes ig-go{from{offset-distance:0%}to{offset-distance:100%}}
+@media (prefers-reduced-motion:reduce){.ig .k1,.ig .k2,.ig .k3{animation:none;offset-distance:50%}}
 .ai{background:#12201b}
 .ai .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
 .ai .land{fill:#2f4a33}
@@ -674,6 +689,33 @@
       <ul class="facts"><li>Real components with cited sources</li><li>PX4 and ArduPilot</li><li>Full version is a Windows desktop app</li></ul>
       <div class="actions">
         <a class="btn main" href="/projects/quadlab/">Open the workbench</a>
+      </div>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig ig" href="/projects/integra/" aria-label="Open INTEGRA SYSTEMS PRO, the integration engineering workbench">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Animation: data moving from sensors through a compute unit to a vehicle gateway, with one interface failing validation">
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M0 168H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <path class="ln" d="M70 62 L160 105M70 148 L160 105M160 105 L250 62"/>
+        <path class="ln bad" d="M160 105 L250 150"/>
+        <rect class="nd" x="34" y="50" width="72" height="24" rx="4"/><text class="ndt" x="44" y="65">CAMERA</text>
+        <rect class="nd" x="34" y="136" width="72" height="24" rx="4"/><text class="ndt" x="48" y="151">RADAR</text>
+        <rect class="nd" x="124" y="92" width="72" height="26" rx="4"/><text class="ndt" x="134" y="108">COMPUTE</text>
+        <rect class="nd" x="214" y="50" width="72" height="24" rx="4"/><text class="ndt" x="222" y="65">GATEWAY</text>
+        <rect class="nd" x="214" y="138" width="72" height="24" rx="4"/><text class="ndt" x="226" y="153">LOGGER</text>
+        <text class="ok" x="196" y="76">✓</text><text class="x" x="198" y="140">✕</text>
+        <circle class="pk k1" r="3"/><circle class="pk k2" r="3"/><circle class="pk k3" r="3"/>
+        <text class="lbl" x="14" y="24">REQUIRE · INTEGRATE · TEST · DELIVER</text>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">Systems integration · Test automation · Customer delivery</span>
+      <h2>INTEGRA SYSTEMS PRO: a software and hardware integration engineering workbench</h2>
+      <p>An engineering workbench that takes an integration project from customer requirements to delivery: requirements with traceability and a live coverage matrix; an interactive architecture designer whose interface validation explains every failure; hardware and software inventories; CAN, serial and Ethernet analysis; test rigs, test cases and SIL/HIL runs with engineer approval; log correlation and root-cause investigations; fault-injection scenarios for autonomous systems; releases with a computed release gate and two-person approval; customer sites, signed acceptance and fifteen engineering reports in PDF, Excel and CSV. The demo project integrates an autonomy compute unit and sensor suite into a fictional customer's truck. The complete Python backend runs in your browser on fictional demo data; device access, Git, automated test execution and the AI assistant need the desktop edition.</p>
+      <ul class="facts"><li>18 workspaces, 10 engineering roles</li><li>Record-based analyses with cited records</li><li>Also available as a Windows desktop app</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/integra/">Open the workbench</a>
       </div>
     </div>
   </article>

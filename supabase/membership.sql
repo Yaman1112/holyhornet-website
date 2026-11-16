@@ -35,7 +35,7 @@ insert into public.simulators (id, title, position) values
   ('perching-uav', 'Perching UAV', 1), ('skyshield', 'SkyShield', 2), ('uav-lab', 'Autonomous UAV Lab', 3),
   ('moving-ecosystem', 'Moving platforms', 4), ('aicn', 'AICN animal intelligence', 5), ('skygrid', 'SkyGrid', 6),
   ('falcon-intelligence', 'Falcon Intelligence', 7), ('skytherm', 'SkyTherm', 8), ('aom-dis', 'AOM-DIS Schiphol', 9),
-  ('deepflight', 'DeepFlight AI', 10), ('flapper', 'Flapper', 11), ('counter-uas', 'Counter-UAS Intelligence', 12), ('fms', 'HH-FMS Flight Management', 13), ('quadlab', 'QuadLab Pro', 14)
+  ('deepflight', 'DeepFlight AI', 10), ('flapper', 'Flapper', 11), ('counter-uas', 'Counter-UAS Intelligence', 12), ('fms', 'HH-FMS Flight Management', 13), ('quadlab', 'QuadLab Pro', 14), ('integra', 'INTEGRA Systems Pro', 15)
 on conflict (id) do update set title = excluded.title, position = excluded.position;
 
 create table if not exists public.sim_grants (
