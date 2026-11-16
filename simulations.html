@@ -279,6 +279,22 @@
 .ig .x{fill:#f87171;font:700 9px/1 var(--sans)}
 @keyframes ig-go{from{offset-distance:0%}to{offset-distance:100%}}
 @media (prefers-reduced-motion:reduce){.ig .k1,.ig .k2,.ig .k3{animation:none;offset-distance:50%}}
+.ao{background:#0d1014}
+.ao .gd{stroke:#4cc2ff;stroke-opacity:.06;stroke-width:1;fill:none}
+.ao .ln{stroke:#2a323d;stroke-width:3;fill:none}
+.ao .pg{stroke:#3ecf8e;stroke-width:3;fill:none;stroke-dasharray:232;stroke-dashoffset:232;animation:ao-run 7s ease-in-out infinite}
+.ao .gt{fill:#0d1014;stroke:#3a4553;stroke-width:2}
+.ao .g1,.ao .g2,.ao .g3,.ao .g4,.ao .g5{animation:ao-lit 7s linear infinite}
+.ao .g2{animation-delay:1.1s}.ao .g3{animation-delay:2.2s}.ao .g4{animation-delay:3.3s}.ao .g5{animation-delay:4.4s}
+.ao .gl{fill:#8a96a6;font:600 7.5px/1 var(--sans);letter-spacing:.04em;text-anchor:middle}
+.ao .lbl{fill:#8a9bb8;font:600 10px/1 var(--sans);letter-spacing:.08em}
+.ao .st{fill:#3ecf8e;font:700 9px/1 var(--sans);letter-spacing:.06em;opacity:0;animation:ao-ok 7s linear infinite}
+.ao .ac{fill:#4cc2ff}
+.ao .rot{fill:#4cc2ff;fill-opacity:.18;stroke:#4cc2ff;stroke-opacity:.5}
+@keyframes ao-run{0%,6%{stroke-dashoffset:232}70%,100%{stroke-dashoffset:0}}
+@keyframes ao-lit{0%,8%{stroke:#3a4553;fill:#0d1014}16%,92%{stroke:#3ecf8e;fill:#16382b}100%{stroke:#3a4553;fill:#0d1014}}
+@keyframes ao-ok{0%,74%{opacity:0}80%,94%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.ao .pg{animation:none;stroke-dashoffset:0}.ao .g1,.ao .g2,.ao .g3,.ao .g4,.ao .g5{animation:none;stroke:#3ecf8e;fill:#16382b}.ao .st{animation:none;opacity:1}}
 .ai{background:#12201b}
 .ai .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
 .ai .land{fill:#2f4a33}
@@ -716,6 +732,32 @@
       <ul class="facts"><li>18 workspaces, 10 engineering roles</li><li>Record-based analyses with cited records</li><li>Also available as a Windows desktop app</li></ul>
       <div class="actions">
         <a class="btn main" href="/projects/integra/">Open the workbench</a>
+      </div>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig ao" href="/projects/aeros-ops/" aria-label="Open AEROS OPS PRO, the flight operations engineering platform">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Animation: an aircraft passing five readiness gates, from configuration release to flight-test authorization">
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M0 168H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <g transform="translate(160 62)">
+          <ellipse class="rot" cx="-34" cy="-8" rx="17" ry="4"/><ellipse class="rot" cx="34" cy="-8" rx="17" ry="4"/>
+          <path class="ac" d="M-36-5h72v4H12l-4 9H-8l-4-9h-24z"/><path class="ac" d="M-14 8l-6 9h3l6-9zM14 8l6 9h-3l-6-9z"/>
+        </g>
+        <path class="ln" d="M44 132H276"/><path class="pg" d="M44 132H276"/>
+        <circle class="gt g1" cx="44" cy="132" r="9"/><circle class="gt g2" cx="102" cy="132" r="9"/><circle class="gt g3" cx="160" cy="132" r="9"/><circle class="gt g4" cx="218" cy="132" r="9"/><circle class="gt g5" cx="276" cy="132" r="9"/>
+        <text class="gl" x="44" y="156">CONFIG</text><text class="gl" x="102" y="156">INSPECT</text><text class="gl" x="160" y="156">GROUND</text><text class="gl" x="218" y="156">SIMULATE</text><text class="gl" x="276" y="156">AUTHORIZE</text>
+        <text class="st" x="160" y="186" text-anchor="middle">APPROVED FOR DESIGNATED TESTING</text>
+        <text class="lbl" x="14" y="24">INTEGRATE · TEST · VALIDATE · DEPLOY</text>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">Flight operations · Flight testing · Validation</span>
+      <h2>AEROS OPS PRO: from R&amp;D aircraft delivery to validated operational deployment</h2>
+      <p>A flight operations engineering platform for teams that develop UAVs. It takes an aircraft from registration and component-level hardware integration, through compatibility checks and configuration revisions, a fourteen-stage flight-test campaign with test cards and numeric acceptance criteria, mission planning inside a geofence with simulation, live telemetry, post-flight log analysis and engineering issues with retest, to operational release, field deployment, customer demonstrations and operator training. Aircraft readiness is never set by hand: each state is derived from recorded evidence and approvals, and a test cannot pass without its measurements. The complete Python backend runs in your browser on a fictional demonstration dataset with seven roles to sign in as. MAVLink links to PX4 and ArduPilot need the desktop application; here the flights come from the built-in simulator and are always labelled as simulation.</p>
+      <ul class="facts"><li>Readiness derived from evidence and independent approvals</li><li>Verified against PX4 SITL, ROS 2 and PostgreSQL</li><li>Also available as a Windows desktop app</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/aeros-ops/">Open the platform</a>
       </div>
     </div>
   </article>
