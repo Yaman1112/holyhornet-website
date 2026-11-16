@@ -248,6 +248,22 @@
 .fm .p3{offset-path:path("M70 120 Q60 70 110 40");animation:fm-go 5s linear infinite}
 @keyframes fm-go{from{offset-distance:0%}to{offset-distance:100%}}
 @media (prefers-reduced-motion:reduce){.fm .p1,.fm .p2,.fm .p3{animation:none;offset-distance:55%}}
+.ql{background:#0a0e13}
+.ql .gd{stroke:#4aa3ff;stroke-opacity:.07;stroke-width:1;fill:none}
+.ql .arm{stroke:#8b99aa;stroke-width:5;stroke-linecap:round}
+.ql .body{fill:#16202c;stroke:#4aa3ff;stroke-width:1.5}
+.ql .mot{fill:#dbe3ec}
+.ql .disc{fill:#4aa3ff;fill-opacity:.08;stroke:#4aa3ff;stroke-opacity:.45;stroke-width:1}
+.ql .bl{stroke:#dbe3ec;stroke-width:3;stroke-linecap:round;transform-box:fill-box;transform-origin:center}
+.ql .cw{animation:ql-cw 1.1s linear infinite}
+.ql .ccw{animation:ql-ccw 1.1s linear infinite}
+.ql .cg{fill:#ff5fb0}
+.ql .dim{stroke:#f5b547;stroke-width:1;stroke-dasharray:3 3;fill:none}
+.ql .dimt{fill:#f5b547;font:600 9px/1 var(--sans);letter-spacing:.04em}
+.ql .lbl{fill:#8b99aa;font:600 10px/1 var(--sans);letter-spacing:.08em}
+@keyframes ql-cw{to{transform:rotate(360deg)}}
+@keyframes ql-ccw{to{transform:rotate(-360deg)}}
+@media (prefers-reduced-motion:reduce){.ql .cw,.ql .ccw{animation:none}}
 .ai{background:#12201b}
 .ai .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
 .ai .land{fill:#2f4a33}
@@ -627,6 +643,37 @@
       <ul class="facts"><li>25 airports, 26 aircraft, about 80 flights a day</li><li>Machine-learning delay forecasts</li><li>Also available as a Windows desktop app</li></ul>
       <div class="actions">
         <a class="btn main" href="/projects/fms/">Open the system</a>
+      </div>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig ql" href="/projects/quadlab/" aria-label="Open QuadLab Pro, the quadcopter engineering workbench">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Animation: top view of a quadcopter with four spinning propellers, a wheelbase dimension and a centre-of-gravity marker">
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M0 168H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <g transform="translate(16 4) scale(.9)">
+        <path class="arm" d="M108 58L212 162M212 58L108 162"/>
+        <circle class="disc" cx="108" cy="58" r="40"/><circle class="disc" cx="212" cy="58" r="40"/>
+        <circle class="disc" cx="108" cy="162" r="40"/><circle class="disc" cx="212" cy="162" r="40"/>
+        <path class="bl cw" d="M70 58H146"/><path class="bl ccw" d="M174 58H250"/>
+        <path class="bl ccw" d="M70 162H146"/><path class="bl cw" d="M174 162H250"/>
+        <circle class="mot" cx="108" cy="58" r="6"/><circle class="mot" cx="212" cy="58" r="6"/>
+        <circle class="mot" cx="108" cy="162" r="6"/><circle class="mot" cx="212" cy="162" r="6"/>
+        <rect class="body" x="140" y="90" width="40" height="40" rx="5"/>
+        <circle class="cg" cx="162" cy="111" r="3.5"/>
+        <path class="dim" d="M108 58L212 162"/>
+        <text class="dimt" x="268" y="114">500 mm</text>
+        </g>
+        <text class="lbl" x="14" y="203">DESIGN · CHECK · SIMULATE · ANALYSE</text>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">UAV engineering · Design · Flight-test analysis</span>
+      <h2>QuadLab Pro: design, check, simulate and analyse a real quadcopter build</h2>
+      <p>An engineering workbench for multirotor builds. A library of real components where every specification is traced to its source and labelled as manufacturer data, measurement, estimate or user entry; a 3-D assembly with propeller clearances and centre of gravity; automatic hardware compatibility checks; a wiring and port map; hover power, flight time and thrust margin worked out from published bench tests; PX4 and ArduPilot parameter proposals exported as QGroundControl and Mission Planner files; a 6-DOF flight simulator; flight-test campaigns with test cards and a safety gate; and analysis of PX4 ULog, ArduPilot dataflash and MAVLink telemetry logs with printable reports. The complete Python backend runs in your browser and your projects stay in your browser. Performance figures are estimates, not guaranteed flight performance. Connecting to a flight controller, live telemetry and the AI assistant are part of the Windows desktop application and are switched off here.</p>
+      <ul class="facts"><li>Real components with cited sources</li><li>PX4 and ArduPilot</li><li>Full version is a Windows desktop app</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/quadlab/">Open the workbench</a>
       </div>
     </div>
   </article>
