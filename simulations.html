@@ -235,6 +235,19 @@
 @keyframes cu-b{from{transform:translate(268px,104px)}to{transform:translate(52px,92px)}}
 @keyframes cu-c{from{transform:translate(70px,128px)}to{transform:translate(250px,78px)}}
 @media (prefers-reduced-motion:reduce){.cu .t1,.cu .t2,.cu .t3{animation:none}.cu .t1{transform:translate(110px,64px)}.cu .t2{transform:translate(200px,100px)}.cu .t3{transform:translate(150px,104px)}}
+.fm{background:#081226}
+.fm .gd{stroke:#38bdf8;stroke-opacity:.06;stroke-width:1;fill:none}
+.fm .rt{fill:none;stroke:#38bdf8;stroke-opacity:.35;stroke-width:1.2;stroke-dasharray:3 4}
+.fm .ap{fill:#081226;stroke:#7dd3fc;stroke-width:1.4}
+.fm .hub{fill:#38bdf8}
+.fm .apl{fill:#7aa2d6;font:600 8px/1 var(--sans);letter-spacing:.06em}
+.fm .pl{fill:#facc15;offset-rotate:auto 90deg}
+.fm .lbl{fill:#8a9bb8;font:600 10px/1 var(--sans);letter-spacing:.08em}
+.fm .p1{offset-path:path("M70 120 Q150 50 250 70");animation:fm-go 6s linear infinite}
+.fm .p2{offset-path:path("M70 120 Q140 160 230 165");animation:fm-go 8s linear infinite}
+.fm .p3{offset-path:path("M70 120 Q60 70 110 40");animation:fm-go 5s linear infinite}
+@keyframes fm-go{from{offset-distance:0%}to{offset-distance:100%}}
+@media (prefers-reduced-motion:reduce){.fm .p1,.fm .p2,.fm .p3{animation:none;offset-distance:55%}}
 .ai{background:#12201b}
 .ai .gd{stroke:#ffffff;stroke-opacity:.05;stroke-width:1;fill:none}
 .ai .land{fill:#2f4a33}
@@ -588,6 +601,32 @@
       <ul class="facts"><li>Daylight, low-light, thermal, radar</li><li>CNN classifier and three trackers</li><li>14 measured studies, 60 automated checks</li></ul>
       <div class="actions">
         <a class="btn main" href="/projects/counter-uas/">Open the platform</a>
+      </div>
+    </div>
+  </article>
+  <article class="feature">
+    <a class="fig fm" href="/projects/fms/" aria-label="Open HH-FMS, the flight management system">
+      <span class="live-tag">Try it live</span>
+      <svg viewBox="0 0 320 210" role="img" aria-label="Animation: three aircraft flying from a hub airport along routes to other airports">
+        <path class="gd" d="M0 42H320M0 84H320M0 126H320M0 168H320M64 0V210M128 0V210M192 0V210M256 0V210"/>
+        <path class="rt" d="M70 120 Q150 50 250 70M70 120 Q140 160 230 165M70 120 Q60 70 110 40"/>
+        <circle class="ap hub" cx="70" cy="120" r="5"/><text class="apl" x="44" y="138">EHAM</text>
+        <circle class="ap" cx="250" cy="70" r="4"/><text class="apl" x="258" y="73">LTFM</text>
+        <circle class="ap" cx="230" cy="165" r="4"/><text class="apl" x="238" y="168">LEMD</text>
+        <circle class="ap" cx="110" cy="40" r="4"/><text class="apl" x="118" y="43">ENGM</text>
+        <path class="pl p1" d="M0 -6l2 5 6 3v2l-6-1-.5 4 2 2v1.5L0 15l-3.5 1.5V15l2-2-.5-4-6 1v-2l6-3z"/>
+        <path class="pl p2" d="M0 -6l2 5 6 3v2l-6-1-.5 4 2 2v1.5L0 15l-3.5 1.5V15l2-2-.5-4-6 1v-2l6-3z"/>
+        <path class="pl p3" d="M0 -6l2 5 6 3v2l-6-1-.5 4 2 2v1.5L0 15l-3.5 1.5V15l2-2-.5-4-6 1v-2l6-3z"/>
+        <text class="lbl" x="14" y="24">PLAN · DISPATCH · TRACK · ANALYSE</text>
+      </svg>
+    </a>
+    <div class="pbody">
+      <span class="tag">Flight operations · Dispatch · Predictive analytics</span>
+      <h2>HH-FMS: a complete flight management system for airline operations</h2>
+      <p>An airline operations control platform covering the whole flight lifecycle: schedules and aircraft rotations with automatic conflict checks for aircraft, maintenance, runways and crew duty limits; live flight tracking on a map; fleet, crew and airport management; dispatch with fuel planning, alternates, weather, NOTAMs and a release workflow with PDF briefings; METAR and TAF weather; operational alerts; analytics with Excel and PDF reports; delay and cancellation predictions that show their confidence and the reasons behind each forecast; what-if scenarios for storms, runway closures and grounded aircraft; and replay of past traffic. The complete Python backend runs in your browser on a simulated two-airline operation. Dispatch outputs are planning support only, not a certified release. All flights and positions are simulated.</p>
+      <ul class="facts"><li>25 airports, 26 aircraft, about 80 flights a day</li><li>Machine-learning delay forecasts</li><li>Also available as a Windows desktop app</li></ul>
+      <div class="actions">
+        <a class="btn main" href="/projects/fms/">Open the system</a>
       </div>
     </div>
   </article>
