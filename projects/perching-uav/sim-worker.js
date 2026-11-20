@@ -1,41 +1,117 @@
-/* In-browser simulation engine: runs the Python perch_uav package under Pyodide (WebAssembly).
+/* In-browser simulation engine: the Python perch_uav package under Pyodide (WebAssembly).
  * Messages to the page are JSON strings using the same protocol as the FastAPI WebSocket.
- * The page terminates this worker to stop a run (Python runs synchronously inside it). */
+ * The run is a perch_uav.webapi.Session advanced in short chunks, so the worker stays responsive to
+ * pause / resume / step / speed / stop commands (no need to terminate and reload Python). */
 const PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/";
 importScripts(PYODIDE + "pyodide.js");
 
 let ready = null;
-const status = (text) => postMessage(JSON.stringify({ type: "status", text }));
+let py = null;
+let session = null;          // Python Session proxy
+let paused = false;
+let speed = 1;               // x real time; null = as fast as possible
+let anchorWall = 0, anchorSim = 0, lastPerf = 0;
+let timer = null;
+const CHUNK = 0.1;           // simulated seconds per slice when running flat out
+const STEP = 0.5;            // simulated seconds per single step
+
+const send = (o) => postMessage(JSON.stringify(o));
+const status = (text) => send({ type: "status", text });
 
 async function init(base) {
   status("Loading Python runtime (first visit ≈ 10 MB, then cached)…");
-  const py = await loadPyodide({ indexURL: PYODIDE });
+  const p = await loadPyodide({ indexURL: PYODIDE });
   status("Loading NumPy…");
-  await py.loadPackage("numpy");
+  await p.loadPackage("numpy");
   status("Loading the perching simulation engine…");
   const r = await fetch(base + "/py/perch_uav.zip");
   if (!r.ok) throw new Error("engine bundle not found (" + r.status + ")");
-  py.unpackArchive(await r.arrayBuffer(), "zip");
-  py.runPython("import json\nimport perch_uav.webapi as W");
+  p.unpackArchive(await r.arrayBuffer(), "zip");
+  p.runPython("import json\nimport perch_uav.webapi as W");
   status("ready");
-  return py;
+  return p;
+}
+
+function fail(err) {
+  const msg = String((err && err.message) || err).split("\n").slice(-3).join(" ");
+  send({ type: "error", error: msg });
+  send({ type: "end", status: "error" });
+  dispose();
+}
+
+function dispose() {
+  if (timer) clearTimeout(timer);
+  timer = null;
+  if (session) { try { session.destroy(); } catch (e) { /* already gone */ } }
+  session = null;
+}
+
+function perf() {
+  const p = session.perf().toJs({ dict_converter: Object.fromEntries });
+  p.paused = paused;
+  p.speed = speed;
+  send(p);
+}
+
+function tick() {
+  timer = null;
+  if (!session || paused) return;
+  try {
+    const t = session.t;
+    let target;
+    if (speed === null) {
+      target = t + CHUNK;
+    } else {
+      const now = performance.now() / 1000;
+      target = anchorSim + (now - anchorWall) * speed;
+      if (target - t > 1.0) { anchorWall = now; anchorSim = t; target = t + CHUNK; }   // cannot keep up: re-anchor
+      target = Math.min(target, t + CHUNK);
+    }
+    const done = target > t ? session.advance(target) : false;
+    const now = performance.now();
+    if (now - lastPerf > 500) { lastPerf = now; perf(); }
+    if (done) { perf(); dispose(); return; }
+  } catch (err) { fail(err); return; }
+  timer = setTimeout(tick, speed === null ? 0 : 15);
+}
+
+function reanchor() {
+  anchorWall = performance.now() / 1000;
+  anchorSim = session ? session.t : 0;
 }
 
 onmessage = async (e) => {
-  const { cmd, base, req } = e.data;
+  const { cmd, base, req, value } = e.data;
   try {
     if (!ready) ready = init(base);
-    const py = await ready;
+    py = await ready;
     if (cmd === "catalog") {
-      postMessage(JSON.stringify({ type: "catalog", data: JSON.parse(py.runPython("json.dumps(W.catalog())")) }));
+      send({ type: "catalog", data: JSON.parse(py.runPython("json.dumps(W.catalog())")) });
     } else if (cmd === "run") {
+      dispose();
+      paused = !!(req && req.start_paused);
+      speed = req && "speed" in req ? req.speed : 1;
       py.globals.set("req_json", JSON.stringify(req));
       py.globals.set("post", (s) => postMessage(s));
-      py.runPython("W.run(json.loads(req_json), post)");
+      session = py.runPython("W.Session(json.loads(req_json), post)");
+      reanchor();
+      perf();
+      if (!paused) tick();
+    } else if (!session) {
+      return;
+    } else if (cmd === "pause") {
+      paused = true; perf();
+    } else if (cmd === "resume") {
+      paused = false; reanchor(); perf(); if (!timer) tick();
+    } else if (cmd === "step") {
+      paused = true;
+      if (session.advance(session.t + STEP)) { perf(); dispose(); } else perf();
+    } else if (cmd === "speed") {
+      speed = value === undefined ? null : value; reanchor(); perf();
+    } else if (cmd === "stop") {
+      session.stop(); dispose();
     }
   } catch (err) {
-    const msg = String((err && err.message) || err).split("\n").slice(-3).join(" ");
-    postMessage(JSON.stringify({ type: "error", error: msg }));
-    postMessage(JSON.stringify({ type: "end", status: "error" }));
+    fail(err);
   }
 };

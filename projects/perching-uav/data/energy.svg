@@ -2,40 +2,40 @@
 <text x="360.0" y="18" text-anchor="middle" font-size="13">Energy for a monitoring task (SIMULATED)</text>
 <line x1="60" y1="260" x2="660" y2="260" stroke="#888"/>
 <text x="120.0" y="276" text-anchor="middle">0.25 h</text>
-<rect x="75.0" y="257.91575597559057" width="27.0" height="2.084244024409435" fill="#2a6fdb"/>
-<text x="88.5" y="254.91575597559057" text-anchor="middle" font-size="9">59.6</text>
-<rect x="105.0" y="259.9636306411848" width="27.0" height="0.03636935881519819" fill="#e8833a"/>
-<text x="118.5" y="256.9636306411848" text-anchor="middle" font-size="9">1.04</text>
-<rect x="135.0" y="259.9769194453673" width="27.0" height="0.02308055463272193" fill="#3aa76d"/>
-<text x="148.5" y="256.9769194453673" text-anchor="middle" font-size="9">0.66</text>
+<rect x="75.0" y="257.91705342887906" width="27.0" height="2.0829465711209294" fill="#2a6fdb"/>
+<text x="88.5" y="254.91705342887906" text-anchor="middle" font-size="9">56.1</text>
+<rect x="105.0" y="259.9543311179594" width="27.0" height="0.045668882040619314" fill="#e8833a"/>
+<text x="118.5" y="256.9543311179594" text-anchor="middle" font-size="9">1.23</text>
+<rect x="135.0" y="259.96732632829617" width="27.0" height="0.032673671703857717" fill="#3aa76d"/>
+<text x="148.5" y="256.96732632829617" text-anchor="middle" font-size="9">0.88</text>
 <text x="240.0" y="276" text-anchor="middle">1 h</text>
-<rect x="195.0" y="251.6665209560945" width="27.0" height="8.333479043905509" fill="#2a6fdb"/>
-<text x="208.5" y="248.6665209560945" text-anchor="middle" font-size="9">238.3</text>
-<rect x="225.0" y="259.9346050952073" width="27.0" height="0.06539490479271214" fill="#e8833a"/>
-<text x="238.5" y="256.9346050952073" text-anchor="middle" font-size="9">1.87</text>
-<rect x="255.0" y="259.9478938993898" width="27.0" height="0.05210610061023587" fill="#3aa76d"/>
-<text x="268.5" y="256.9478938993898" text-anchor="middle" font-size="9">1.49</text>
+<rect x="195.0" y="251.6682137155163" width="27.0" height="8.331786284483718" fill="#2a6fdb"/>
+<text x="208.5" y="248.6682137155163" text-anchor="middle" font-size="9">224.4</text>
+<rect x="225.0" y="259.8960383173059" width="27.0" height="0.10396168269409274" fill="#e8833a"/>
+<text x="238.5" y="256.8960383173059" text-anchor="middle" font-size="9">2.8</text>
+<rect x="255.0" y="259.90940481936656" width="27.0" height="0.09059518063342367" fill="#3aa76d"/>
+<text x="268.5" y="256.90940481936656" text-anchor="middle" font-size="9">2.44</text>
 <text x="360.0" y="276" text-anchor="middle">4 h</text>
-<rect x="315.0" y="226.66608382437795" width="27.0" height="33.333916175622036" fill="#2a6fdb"/>
-<text x="328.5" y="223.66608382437795" text-anchor="middle" font-size="9">953.2</text>
-<rect x="345.0" y="259.81815320592403" width="27.0" height="0.18184679407599097" fill="#e8833a"/>
-<text x="358.5" y="256.81815320592403" text-anchor="middle" font-size="9">5.2</text>
-<rect x="375.0" y="259.83144201010646" width="27.0" height="0.1685579898935147" fill="#3aa76d"/>
-<text x="388.5" y="256.83144201010646" text-anchor="middle" font-size="9">4.82</text>
+<rect x="315.0" y="226.66542902758698" width="27.0" height="33.334570972413026" fill="#2a6fdb"/>
+<text x="328.5" y="223.66542902758698" text-anchor="middle" font-size="9">897.8</text>
+<rect x="345.0" y="259.66360969813985" width="27.0" height="0.3363903018601715" fill="#e8833a"/>
+<text x="358.5" y="256.66360969813985" text-anchor="middle" font-size="9">9.06</text>
+<rect x="375.0" y="259.6766049084766" width="27.0" height="0.32339509152340995" fill="#3aa76d"/>
+<text x="388.5" y="256.6766049084766" text-anchor="middle" font-size="9">8.71</text>
 <text x="480.0" y="276" text-anchor="middle">12 h</text>
-<rect x="435.0" y="159.9982514731339" width="27.0" height="100.00174852686611" fill="#2a6fdb"/>
-<text x="448.5" y="156.9982514731339" text-anchor="middle" font-size="9">2859.6</text>
-<rect x="465.0" y="259.50796453987516" width="27.0" height="0.4920354601248448" fill="#e8833a"/>
-<text x="478.5" y="256.50796453987516" text-anchor="middle" font-size="9">14.07</text>
-<rect x="495.0" y="259.52160304943084" width="27.0" height="0.47839695056914544" fill="#3aa76d"/>
-<text x="508.5" y="256.52160304943084" text-anchor="middle" font-size="9">13.68</text>
+<rect x="435.0" y="160.0" width="27.0" height="100.0" fill="#2a6fdb"/>
+<text x="448.5" y="157.0" text-anchor="middle" font-size="9">2693.3</text>
+<rect x="465.0" y="259.04355251921436" width="27.0" height="0.9564474807856532" fill="#e8833a"/>
+<text x="478.5" y="256.04355251921436" text-anchor="middle" font-size="9">25.76</text>
+<rect x="495.0" y="259.0565477295511" width="27.0" height="0.9434522704488917" fill="#3aa76d"/>
+<text x="508.5" y="256.0565477295511" text-anchor="middle" font-size="9">25.41</text>
 <text x="600.0" y="276" text-anchor="middle">24 h</text>
 <rect x="555.0" y="60.0" width="27.0" height="200.0" fill="#2a6fdb"/>
-<text x="568.5" y="57.0" text-anchor="middle" font-size="9">5719.1</text>
-<rect x="585.0" y="259.0428563934885" width="27.0" height="0.957143606511514" fill="#e8833a"/>
-<text x="598.5" y="256.0428563934885" text-anchor="middle" font-size="9">27.37</text>
-<rect x="615.0" y="259.05614519767096" width="27.0" height="0.9438548023290377" fill="#3aa76d"/>
-<text x="628.5" y="256.05614519767096" text-anchor="middle" font-size="9">26.99</text>
+<text x="568.5" y="57.0" text-anchor="middle" font-size="9">5386.6</text>
+<rect x="585.0" y="258.11346675082615" width="27.0" height="1.8865332491738758" fill="#e8833a"/>
+<text x="598.5" y="255.11346675082615" text-anchor="middle" font-size="9">50.81</text>
+<rect x="615.0" y="258.1264619611629" width="27.0" height="1.8735380388371141" fill="#3aa76d"/>
+<text x="628.5" y="255.12646196116287" text-anchor="middle" font-size="9">50.46</text>
 <rect x="60" y="28" width="10" height="10" fill="#2a6fdb"/><text x="74" y="37">continuous hover</text>
 <rect x="210" y="28" width="10" height="10" fill="#e8833a"/><text x="224" y="37">perching</text>
 <rect x="360" y="28" width="10" height="10" fill="#3aa76d"/><text x="374" y="37">conventional landing</text>
