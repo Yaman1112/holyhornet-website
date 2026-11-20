@@ -1,4 +1,4 @@
-:HL["/projects/perching-uav/_next/static/chunks/1wwg1w7zle3n3.css","style"]
+:HL["/projects/perching-uav/_next/static/chunks/1wqt6t79xxtxj.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
-0:{"b":"qs4gw_9JlZuBFzrDuWqr4","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"0qu2T6UlFQjkWrafb1jIu","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

@@ -87,6 +87,14 @@ onmessage = async (e) => {
     py = await ready;
     if (cmd === "catalog") {
       send({ type: "catalog", data: JSON.parse(py.runPython("json.dumps(W.catalog())")) });
+    } else if (cmd === "parameters") {
+      send({ type: "parameters", data: JSON.parse(py.runPython("json.dumps(W.parameter_catalog())")) });
+    } else if (cmd === "plan" || cmd === "metrics" || cmd === "summarize") {
+      // study commands for the research-lab worker pool; the reply carries the caller's id
+      py.globals.set("arg_json", JSON.stringify(e.data.arg));
+      const fn = { plan: "ST.plan(a)", metrics: "ST.run_metrics(a)", summarize: "ST.summarize(a['spec'], a['rows'])" }[cmd];
+      const out = py.runPython("import perch_uav.studies as ST\na = json.loads(arg_json)\njson.dumps(W.finite(" + fn + "), allow_nan=False)");
+      send({ type: "reply", id: e.data.id, data: JSON.parse(out) });
     } else if (cmd === "run") {
       dispose();
       paused = !!(req && req.start_paused);
@@ -112,6 +120,10 @@ onmessage = async (e) => {
       session.stop(); dispose();
     }
   } catch (err) {
-    fail(err);
+    if (e.data && e.data.id !== undefined) {
+      send({ type: "reply", id: e.data.id, error: String((err && err.message) || err).split("\n").slice(-3).join(" ") });
+    } else {
+      fail(err);
+    }
   }
 };
